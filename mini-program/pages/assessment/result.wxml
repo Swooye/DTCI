@@ -1,0 +1,40 @@
+<view class="container">
+  <view class="result-header">
+    <view class="type-badge">{{resultType || 'DTCI'}}</view>
+    <view class="type-name">{{profileName}}</view>
+  </view>
+
+  <view class="report-card">
+    <view class="card-title">8大社交基因雷达图</view>
+    
+    <view class="dimension-list">
+      <view class="dim-item" wx:for="{{radarData}}" wx:key="label">
+        <view class="dim-label">{{item.label}}</view>
+        <view class="dim-bar-wrap">
+          <view class="dim-bar" style="width: {{item.percent}}%;"></view>
+        </view>
+        <view class="dim-value">{{item.percent}}</view>
+      </view>
+    </view>
+    
+    <view class="divider"></view>
+    
+    <view class="card-title">特质概述</view>
+    <view class="card-desc">{{description}}</view>
+  </view>
+
+  <view class="action-wrap">
+    <view class="lock-tips">
+      <text class="icon">🔒</text>
+      临时简版报告将在 <text class="highlight">{{countdown}}</text> 后失效
+    </view>
+    <button class="btn btn-primary" bindtap="onUnlockTap">📄 查看完整深度专属报告</button>
+  </view>
+
+  <!-- 支付弹窗 -->
+  <payment-panel 
+    show="{{showPayment}}" 
+    bind:close="onPaymentClose"
+    bind:success="onPaymentSuccess"
+  />
+</view>

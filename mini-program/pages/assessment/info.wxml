@@ -1,0 +1,100 @@
+<view class="container">
+  <view class="header">
+    <view class="title">DTCI 人格测评</view>
+  </view>
+
+  <view class="notice-bar">
+    为确保本测评的真实有效，请完善以下信息
+  </view>
+
+  <scroll-view scroll-y class="form-scroll" show-scrollbar="{{false}}">
+    <view class="form-card">
+      <!-- 性别 -->
+      <view class="form-item">
+        <view class="label">性别</view>
+        <radio-group class="radio-group" bindchange="onGenderChange">
+          <label class="radio-label">
+            <radio value="male" checked="{{formData.gender === 'male'}}" color="#FF672D"/> 男
+          </label>
+          <label class="radio-label">
+            <radio value="female" checked="{{formData.gender === 'female'}}" color="#FF672D"/> 女
+          </label>
+        </radio-group>
+      </view>
+
+      <!-- 年龄 -->
+      <picker mode="date" fields="month" bindchange="onAgeChange">
+        <view class="form-item">
+          <view class="label">年龄</view>
+          <view class="picker-val {{formData.age ? '' : 'placeholder'}}">
+            {{formData.age || '请选择出生年月'}}
+            <text class="arrow">›</text>
+          </view>
+        </view>
+      </picker>
+
+      <!-- 学历 -->
+      <picker range="{{eduOptions}}" bindchange="onEduChange">
+        <view class="form-item">
+          <view class="label">学历</view>
+          <view class="picker-val {{formData.education ? '' : 'placeholder'}}">
+            {{formData.education || '请选择学历'}}
+            <text class="arrow">›</text>
+          </view>
+        </view>
+      </picker>
+
+      <!-- 职业 -->
+      <view class="form-item">
+        <view class="label">职业</view>
+        <input 
+          class="input-box" 
+          placeholder="请输入职业" 
+          value="{{formData.profession}}" 
+          bindinput="onProfessionInput"
+        />
+      </view>
+
+      <!-- 婚姻 -->
+      <picker range="{{marriageOptions}}" bindchange="onMarriageChange">
+        <view class="form-item">
+          <view class="label">婚姻</view>
+          <view class="picker-val {{formData.marriage ? '' : 'placeholder'}}">
+            {{formData.marriage || '请选择婚姻状况'}}
+            <text class="arrow">›</text>
+          </view>
+        </view>
+      </picker>
+
+      <!-- 动作按钮 -->
+      <view class="nav-links">
+        <view class="nav-btn prev" bindtap="onPrev">
+          <text class="arrow">←</text> 上一题
+        </view>
+        <view class="nav-btn disabled">
+          最后 <text class="arrow">→</text>
+        </view>
+      </view>
+
+      <view 
+        class="submit-btn {{isFormValid ? 'active' : ''}}" 
+        bindtap="onSubmit"
+      >
+        提交
+      </view>
+    </view>
+
+    <!-- 底部权益 -->
+    <view class="benefits-section">
+      <view class="section-divider">测试完成后，您会获得</view>
+      <view class="benefits-grid">
+        <view class="benefit-item" wx:for="{{benefitList}}" wx:key="*this">
+          <text class="dot">•</text>
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+</view>

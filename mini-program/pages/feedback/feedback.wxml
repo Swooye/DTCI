@@ -1,0 +1,86 @@
+<view class="feedback-container">
+  <!-- 标题 -->
+  <view class="page-header">
+    <text class="page-title">意见反馈</text>
+  </view>
+
+  <!-- 反馈类型选择 -->
+  <view class="feedback-type-section">
+    <text class="section-label">反馈类型</text>
+    <view class="type-grid">
+      <view 
+        class="type-item {{selectedType === item.value ? 'active' : ''}}" 
+        wx:for="{{feedbackTypes}}" 
+        wx:key="value"
+        bindtap="onTypeSelect"
+        data-value="{{item.value}}">
+        {{item.label}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 问题描述 -->
+  <view class="feedback-content-section">
+    <text class="section-label">问题描述</text>
+    <textarea 
+      class="feedback-textarea" 
+      placeholder="请详细描述您的问题或建议..." 
+      maxlength="500"
+      bindinput="onContentInput"
+      value="{{content}}">
+    </textarea>
+    <text class="word-count">{{content.length}}/500</text>
+  </view>
+
+  <!-- 图片上传 -->
+  <view class="upload-section">
+    <text class="section-label">上传图片（选填）</text>
+    <view class="upload-list">
+      <view class="upload-item" wx:for="{{images}}" wx:key="index">
+        <image src="{{item}}" mode="aspectFill"></image>
+        <view class="delete-btn" bindtap="onDeleteImage" data-index="{{index}}">×</view>
+      </view>
+      <view class="upload-btn" wx:if="{{images.length < 3}}" bindtap="onUploadImage">
+        <image src="/assets/images/camera.png" mode="aspectFit"></image>
+        <text>添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="contact-section">
+    <text class="section-label">联系方式（选填）</text>
+    <input 
+      class="contact-input" 
+      type="text" 
+      placeholder="请输入手机号或邮箱" 
+      bindinput="onContactInput"
+      value="{{contact}}"/>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-section">
+    <button class="submit-btn" bindtap="onSubmit" disabled="{{!content}}">提交反馈</button>
+  </view>
+
+  <!-- 反馈历史 -->
+  <view class="feedback-history">
+    <view class="history-header">
+      <text class="history-title">我的反馈</text>
+    </view>
+    <view class="history-list" wx:if="{{historyList.length > 0}}">
+      <view class="history-item" wx:for="{{historyList}}" wx:key="id" bindtap="onHistoryTap" data-id="{{item.id}}">
+        <view class="history-content">
+          <view class="history-type">{{item.type}}</view>
+          <view class="history-text">{{item.content}}</view>
+          <view class="history-time">{{item.time}}</view>
+        </view>
+        <view class="history-status {{item.status}}">{{item.statusText}}</view>
+      </view>
+    </view>
+    <view class="empty-state" wx:else>
+      <image src="/assets/images/empty-feedback.png" mode="aspectFit"></image>
+      <text>暂无反馈记录</text>
+    </view>
+  </view>
+</view>

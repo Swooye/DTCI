@@ -1,0 +1,113 @@
+<view class="container">
+  <!-- 自定义白底顶栏（包含标题与占位） -->
+  <view class="nav-header">
+    <text class="nav-title">客户案例</text>
+  </view>
+
+  <!-- 顶部横向滚动 Tag -->
+  <scroll-view scroll-x="true" class="tag-scroll" show-scrollbar="false">
+    <view class="tag-list">
+      <view 
+        wx:for="{{tags}}" 
+        wx:key="*this" 
+        class="tag-item {{currentTag === index ? 'active' : ''}}"
+        data-idx="{{index}}"
+        bindtap="onTagTap"
+      >
+        {{item}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 案例信息流 -->
+  <view class="feed-list">
+    <view class="card" wx:for="{{caseList}}" wx:key="id" data-id="{{item.id}}" bindtap="onCardTap">
+      
+      <!-- 卡片头部头部: 头像 昵称 日期 -->
+      <view class="card-header">
+        <view class="author-info">
+          <!-- 默认占位底图 -->
+          <view class="avatar-ph"></view>
+          <text class="author-name">{{item.author}}</text>
+        </view>
+        <text class="post-date">{{item.date}}</text>
+      </view>
+
+      <!-- 卡片文字内容区 -->
+      <view class="card-body">
+        <view class="card-title">{{item.title}}</view>
+        <view class="card-text">
+          {{item.content}} 
+          <text class="expand-text">全文</text>
+        </view>
+      </view>
+
+      <!-- 多图网格区 -->
+      <view class="card-images" wx:if="{{item.images.length > 0}}">
+        <view class="img-grid">
+          <block wx:for="{{item.images}}" wx:key="*this" wx:for-item="img" wx:for-index="imgIdx" wx:if="{{imgIdx < 3}}">
+             <view class="img-wrap">
+               <view class="img-ph"></view> 
+               <!-- 超过3张图的叠加蒙版 -->
+               <view class="more-overlay" wx:if="{{imgIdx === 2 && item.images.length > 3}}">
+                 +{{item.images.length - 3}}
+               </view>
+             </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 底部行为区 -->
+      <view class="card-footer">
+        <view class="theme-tag" style="color: {{item.tagColor}};">{{item.tag}}</view>
+        <view class="action-group">
+          <!-- 喜欢 -->
+          <view class="action-item {{item.isLiked ? 'liked' : ''}}">
+            <text class="icon">♡</text> 
+            <text>{{item.likes > 0 ? item.likes : ''}}</text>
+          </view>
+          <!-- 收藏 -->
+          <view class="action-item {{item.isLiked ? 'liked' : ''}}">
+            <text class="icon">☆</text>
+            <text>{{item.stars > 0 ? (item.stars===999?'999+':item.stars) : ''}}</text>
+          </view>
+          <!-- 转发 -->
+          <view class="action-item">
+            <text class="icon">➦</text>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+
+  <!-- 底部防挡边距 -->
+  <view class="safe-area-bottom"></view>
+
+  <!-- 统一全局底部 TabBar (内嵌形式) -->
+  <view class="tab-bar">
+    <view class="tab-item" bindtap="onHomeTap">
+      <view class="tab-icon home-icon"></view>
+      <text>首页</text>
+    </view>
+    <view class="tab-item active">
+      <view class="tab-icon case-icon"></view>
+      <text>案例</text>
+    </view>
+    <view class="tab-item tab-center" bindtap="onTestTap">
+      <view class="test-btn-wrapper">
+        <view class="test-btn-inner">
+          <text>测</text>
+        </view>
+      </view>
+    </view>
+    <view class="tab-item" bindtap="onServiceTap">
+      <view class="tab-icon service-icon"></view>
+      <text>服务</text>
+    </view>
+    <view class="tab-item" bindtap="onMyTap">
+      <view class="tab-icon my-icon"></view>
+      <text>我的</text>
+    </view>
+  </view>
+</view>

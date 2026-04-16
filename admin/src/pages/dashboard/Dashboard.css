@@ -1,0 +1,87 @@
+.dashboard-container {
+  padding: 12px;
+}
+
+.overview-card {
+  height: 220px;
+  border-radius: 12px;
+  border: none;
+  color: #fff;
+  overflow: hidden;
+}
+
+.overview-card .card-header {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.overview-card .ant-statistic-title {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 14px;
+}
+
+.overview-card .ant-statistic-content {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.overview-card .ant-statistic-content-prefix {
+  margin-right: 8px;
+}
+
+/* 用户概览 - 橙红色 */
+.user-overview {
+  background: linear-gradient(135deg, #FF9B6D 0%, #FF672D 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 营收概括 - 金黄色 */
+.revenue-overview {
+  background: linear-gradient(135deg, #FFCB52 0%, #FFAD14 100%);
+}
+
+.revenue-overview .sub-stat {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 分销员概况 - 蓝色 */
+.distributor-overview {
+  background: linear-gradient(135deg, #6294FB 0%, #447EF2 100%);
+}
+
+/* 测评概况 - 绿色 */
+.assessment-overview {
+  background: linear-gradient(135deg, #57C785 0%, #3BA38E 100%);
+}
+
+/* 图表卡片 */
+.chart-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.chart-info {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.trend-label {
+  font-size: 14px;
+  color: #999;
+}
+
+.trend-label .up {
+  color: #52c41a;
+  font-weight: bold;
+}
+
+.ant-progress-text {
+  color: #fff !important;
+}

@@ -1,0 +1,22 @@
+<view class="container">
+  <!-- 顶部沉浸式大图 -->
+  <view class="hero-section">
+    <image class="hero-img" src="{{detail.heroImage}}" mode="aspectFill"></image>
+  </view>
+
+  <!-- 文章正文区 -->
+  <view class="main-content">
+    <view class="detail-title">{{detail.title}}</view>
+    <view class="rich-text-content">
+      <text user-select="true">{{detail.content}}</text>
+    </view>
+  </view>
+
+  <!-- 底部固定交互栏 -->
+  <view class="footer-bar">
+    <view class="btn-share" bindtap="onShare">分享</view>
+    <view class="btn-primary-wrap" bindtap="onContact">
+      <view class="btn-primary">联系我们</view>
+    </view>
+  </view>
+</view>

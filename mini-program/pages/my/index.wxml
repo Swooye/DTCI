@@ -1,0 +1,97 @@
+<view class="container">
+  <!-- 头部：头像 + 点击登录 + 设置图标 -->
+  <view class="profile-header">
+    <view class="header-main" bindtap="onLoginTap">
+      <view class="avatar-wrapper">
+        <image class="avatar" src="{{userInfo.avatar}}" mode="aspectFill" wx:if="{{userInfo.avatar && userInfo.avatar !== '/assets/images/default-avatar.png'}}"></image>
+        <view class="avatar-default" wx:else></view>
+      </view>
+      <text class="nickname">{{userInfo.nickName}}</text>
+    </view>
+    <view class="settings-entry" bindtap="onSettingsTap">
+      <view class="icon-gear"></view>
+    </view>
+  </view>
+
+  <view class="content-body">
+    <!-- 分销卡片 (深色) -->
+    <view class="distributor-card">
+      <view class="card-left">
+        <text class="icon-user-plus">👤+</text>
+        <text class="card-text">成为了庸分销商</text>
+      </view>
+      <view class="card-right">
+        <text class="promo-text">可享额外提成</text>
+        <text class="arrow-gold">›</text>
+      </view>
+    </view>
+
+    <!-- 统计区块 -->
+    <view class="stats-card">
+      <view class="stat-item" wx:for="{{stats}}" wx:key="label">
+        <view class="stat-main">
+          <text wx:if="{{item.icon}}" class="folder-icon">{{item.icon}}</text>
+          <text class="count-value">{{item.count}}</text>
+        </view>
+        <view class="stat-label">{{item.label}}</view>
+      </view>
+    </view>
+
+    <!-- 菜单列表 -->
+    <view class="menu-group">
+      <view class="menu-item" bindtap="onProfileTap">
+        <view class="menu-item-left">
+          <text class="menu-icon-img">👤</text>
+          <text class="menu-title">编辑个人信息</text>
+        </view>
+        <view class="menu-item-right">
+          <text class="arrow-grey">›</text>
+        </view>
+      </view>
+      <view class="menu-item" wx:for="{{menus}}" wx:key="id" bindtap="onMenuClick" data-id="{{item.id}}">
+        <view class="menu-item-left">
+          <text class="menu-icon-img">{{item.icon}}</text>
+          <text class="menu-title">{{item.name}}</text>
+        </view>
+        <view class="menu-item-right">
+          <text class="arrow-grey">›</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 营销 Banner -->
+    <view class="promo-banner">
+      <view class="promo-content">
+        <view class="promo-title">限时推广，拿高额佣金</view>
+      </view>
+      <view class="get-btn">去领取</view>
+    </view>
+  </view>
+
+  <!-- 底部 TabBar -->
+  <view class="tab-bar">
+    <view class="tab-item-nav" bindtap="onHomeTap">
+      <view class="tab-icon home-icon"></view>
+      <text>首页</text>
+    </view>
+    <view class="tab-item-nav" bindtap="onCaseTap">
+      <view class="tab-icon case-icon"></view>
+      <text>案例</text>
+    </view>
+    <view class="tab-item-nav tab-center" bindtap="onTestTap">
+      <view class="test-btn-wrapper">
+        <view class="test-btn-inner">
+          <text>测</text>
+        </view>
+      </view>
+    </view>
+    <view class="tab-item-nav" bindtap="onServiceTap">
+      <view class="tab-icon service-icon"></view>
+      <text>服务</text>
+    </view>
+    <view class="tab-item-nav active">
+      <view class="tab-icon my-icon"></view>
+      <text>我的</text>
+    </view>
+  </view>
+</view>

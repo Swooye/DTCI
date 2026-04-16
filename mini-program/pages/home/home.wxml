@@ -1,0 +1,105 @@
+<view class="home-container">
+  <!-- 顶部标题 -->
+  <view class="header-section">
+    <text class="header-title">了庸文化</text>
+  </view>
+
+  <!-- 使命愿景理念卡片 -->
+  <view class="mvv-card">
+    <view class="mvv-item">
+      <view class="mvv-label-wrap">
+        <view class="mvv-bar"></view>
+        <text class="mvv-label">使 命</text>
+      </view>
+      <text class="mvv-content">通过DTCI赋能个人、家庭和组织，成就个人、家庭和组织幸福，推动社会更加幸福、美好</text>
+    </view>
+    <view class="mvv-line"></view>
+    
+    <view class="mvv-item">
+      <view class="mvv-label-wrap">
+        <view class="mvv-bar"></view>
+        <text class="mvv-label">愿 景</text>
+      </view>
+      <text class="mvv-content">助力2亿人更好地认识自己、进化自己、成就自己</text>
+    </view>
+    <view class="mvv-line"></view>
+    
+    <view class="mvv-item">
+      <view class="mvv-label-wrap">
+        <view class="mvv-bar"></view>
+        <text class="mvv-label">理 念</text>
+      </view>
+      <text class="mvv-content">活好自己、照亮家人、照亮更多人</text>
+    </view>
+  </view>
+
+  <!-- 创始人故事 -->
+  <view class="section">
+    <view class="section-title">
+      <text class="dot">·</text>
+      <text>创始人故事</text>
+      <text class="dot">·</text>
+    </view>
+    <view class="founder-video" bindtap="onPlayVideo">
+      <!-- 若没有真实封面，可暂留空白灰底 -->
+      <image class="founder-image" src="/assets/images/founder.jpg" mode="aspectFill"></image>
+      <view class="play-btn">
+        <view class="play-icon"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 服务对比 -->
+  <view class="section">
+    <view class="section-title">
+      <text class="dot">·</text>
+      <text>服务对比</text>
+      <text class="dot">·</text>
+    </view>
+    <view class="compare-table">
+      <!-- 表头 -->
+      <view class="compare-header-row">
+        <view class="compare-col-left-header"></view>
+        <view class="compare-col-dtci-header">DTCI自我认知工具</view>
+        <view class="compare-col-other-header">其他自我认知工具</view>
+      </view>
+      <!-- 对比行 -->
+      <view class="compare-row" wx:for="{{compareList}}" wx:key="index">
+        <view class="compare-col-left">{{item.label}}</view>
+        <view class="compare-col-dtci">{{item.dtci}}</view>
+        <view class="compare-col-other">{{item.other}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部安全区域 -->
+  <view class="safe-area-bottom"></view>
+
+  <!-- 底部导航 -->
+  <view class="tab-bar">
+    <view class="tab-item active">
+      <view class="tab-icon home-icon"></view>
+      <text>首页</text>
+    </view>
+    <view class="tab-item" bindtap="onCaseTap">
+      <view class="tab-icon case-icon"></view>
+      <text>案例</text>
+    </view>
+    <view class="tab-item tab-center" bindtap="onTestTap">
+      <!-- 修改为包含外侧白边的独立容器结构 -->
+      <view class="test-btn-wrapper">
+        <view class="test-btn-inner">
+          <text>测</text>
+        </view>
+      </view>
+    </view>
+    <view class="tab-item" bindtap="onServiceTap">
+      <view class="tab-icon service-icon"></view>
+      <text>服务</text>
+    </view>
+    <view class="tab-item" bindtap="onMyTap">
+      <view class="tab-icon my-icon"></view>
+      <text>我的</text>
+    </view>
+  </view>
+</view>

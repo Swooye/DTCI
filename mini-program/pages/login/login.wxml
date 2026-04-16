@@ -1,0 +1,33 @@
+<view class="login-container">
+  <!-- Logo区域 -->
+  <view class="logo-section">
+    <view class="logo-box">
+      <image class="logo" src="/assets/images/logo.png" mode="aspectFit"></image>
+    </view>
+    <text class="app-name">DTCI人格测评</text>
+  </view>
+
+  <!-- 底部固定区域 -->
+  <view class="bottom-section">
+    <!-- 协议勾选 -->
+    <view class="agreement-row">
+      <checkbox-group bindchange="onAgreementChange">
+        <label class="checkbox-label">
+          <checkbox class="agreement-checkbox" value="agree" checked="{{isAgreed}}" color="#FF6B35"/>
+          <text class="agreement-text">阅读并同意</text>
+        </label>
+      </checkbox-group>
+      <text class="link-text" bindtap="showAgreement">《了庸文化用户协议》</text>
+      <text class="and-text">及</text>
+      <text class="link-text" bindtap="showPrivacy">《隐私政策》</text>
+    </view>
+
+    <!-- 微信登录按钮 -->
+    <button class="wx-login-btn {{isAgreed ? 'active' : ''}}" bindtap="onWechatLogin">
+      <text>微信授权登录</text>
+    </button>
+
+    <!-- 获取手机号按钮（隐藏，点击登录后显示引导） -->
+    <button class="phone-login-btn" id="phoneBtn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber" hidden="{{true}}"></button>
+  </view>
+</view>

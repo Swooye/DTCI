@@ -1,0 +1,101 @@
+.login-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200rpx;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 8rpx 32rpx rgba(255, 107, 53, 0.3);
+}
+
+.app-name {
+  margin-top: 40rpx;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333;
+  letter-spacing: 4rpx;
+}
+
+.bottom-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40rpx 60rpx;
+  padding-bottom: calc(60rpx + env(safe-area-inset-bottom));
+  background-color: #fff;
+}
+
+.agreement-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+}
+
+.agreement-checkbox {
+  transform: scale(0.8);
+}
+
+.agreement-text {
+  color: #666;
+  margin-left: 4rpx;
+}
+
+.link-text {
+  color: #FF6B35;
+  margin: 0 4rpx;
+}
+
+.and-text {
+  color: #666;
+  margin: 0 4rpx;
+}
+
+.wx-login-btn {
+  width: 100%;
+  height: 96rpx;
+  background-color: #e6e6e6;
+  color: #999;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.wx-login-btn::after {
+  border: none;
+}
+
+.wx-login-btn.active {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8F5E 100%);
+  color: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(255, 107, 53, 0.4);
+}

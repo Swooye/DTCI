@@ -1,0 +1,53 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #001529;
+  z-index: 100;
+}
+
+.logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  background: #3BA38E; /* 对齐 Header */
+}
+
+.logo .anticon {
+  margin-right: 8px;
+  font-size: 24px;
+}
+
+.sidebar-menu {
+  background: transparent;
+  border-right: none;
+  margin-top: 16px;
+}
+
+.sidebar-menu .ant-menu-item,
+.sidebar-menu .ant-menu-submenu-title {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.sidebar-menu .ant-menu-item:hover,
+.sidebar-menu .ant-menu-submenu-title:hover {
+  color: #fff;
+}
+
+.sidebar-menu .ant-menu-item-selected {
+  background-color: #3BA38E !important; /* 青绿主题选中色 */
+  color: #fff !important;
+}
+
+.sidebar-menu .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  color: #fff;
+}
+
+.sidebar-menu .ant-menu-item-group-title {
+  color: rgba(255, 255, 255, 0.45);
+}

@@ -1,0 +1,78 @@
+<view class="container">
+  <!-- 侧边悬浮：我的报告 -->
+  <view class="side-float-tab" bindtap="onMyReportTap">
+    <text>我的报告</text>
+  </view>
+
+  <!-- 头部文案 -->
+  <view class="hero-section">
+    <view class="main-title">DTCI 135型人格测评</view>
+    <view class="subtitle-badge">135 Personalities</view>
+    <view class="intro-card">
+      我是谁？优势与短板何在？职业天赋与潜能是什么？怎样的伴侣与我契合？DTCI助你解码未知自我，开启探索之旅！
+    </view>
+  </view>
+
+  <!-- 版本选择区 -->
+  <view class="version-selection">
+    <!-- 男生版 -->
+    <view 
+      class="version-card {{selectedGender === 'male' ? 'active' : ''}}" 
+      bindtap="onSelectGender" 
+      data-gender="male"
+    >
+      <view class="card-badge">近30天{{participants.male}}人参与</view>
+      <view class="card-title">男生版</view>
+      <view class="card-desc">适合男性</view>
+      <view class="card-time">预计 · 3-5分钟</view>
+    </view>
+
+    <!-- 女生版 -->
+    <view 
+      class="version-card {{selectedGender === 'female' ? 'active' : ''}}" 
+      bindtap="onSelectGender" 
+      data-gender="female"
+    >
+      <view class="card-badge">近30天{{participants.female}}人参与</view>
+      <view class="card-title">女生版</view>
+      <view class="card-desc">适合女性</view>
+      <view class="card-time">预计 · 3-5分钟</view>
+    </view>
+  </view>
+
+  <!-- 引导语 -->
+  <view class="guide-text">
+    <view class="guide-title">您知道自己的天命人格吗？</view>
+    <view class="guide-subtitle">点击 <text class="highlight">「开始测试」</text> 探索你的DTCI人格吧！</view>
+  </view>
+
+  <!-- 底部操作按钮 -->
+  <view class="action-footer">
+    <view class="btn-share" bindtap="onShare">分享</view>
+    <view class="btn-primary" bindtap="onStart">开始测评 ▶</view>
+  </view>
+
+  <!-- 测试获益展示 -->
+  <view class="benefits-section">
+    <view class="section-divider">测试完成后，您会获得</view>
+    <view class="benefits-grid">
+      <view class="benefit-item" wx:for="{{benefits}}" wx:key="*this">
+        <text class="dot">•</text>
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 付费声明 -->
+  <view class="notice-section">
+    <view class="section-divider">付费测评，测试结果仅供参考</view>
+    <view class="notice-list">
+      <view class="notice-item" wx:for="{{notes}}" wx:key="*this">
+        <view class="index">{{index + 1}}</view>
+        <view class="text">{{item}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-spacer"></view>
+</view>

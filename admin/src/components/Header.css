@@ -1,0 +1,89 @@
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 200px;
+  background: #3BA38E; /* 原型青绿主题色 */
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 99;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-notification {
+  position: relative;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.header-notification:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.notification-icon {
+  font-size: 20px;
+  color: #fff !important;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: #ff4d4f;
+  color: #fff;
+  font-size: 10px;
+  height: 16px;
+  line-height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  min-width: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(30%, -30%); /* 精确微调：向右上角偏移图标宽度的30% */
+  border: 1px solid #3BA38E; /* 添加与背景一致的描边，增加立体感 */
+}
+
+.header-user {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.header-user:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.username {
+  font-size: 14px;
+  color: #fff;
+}

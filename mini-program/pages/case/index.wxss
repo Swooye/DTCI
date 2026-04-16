@@ -1,0 +1,214 @@
+.container {
+  min-height: 100vh;
+  background-color: #f7f7f9;
+  padding-bottom: 140rpx;
+}
+
+.nav-header {
+  background-color: #fff;
+  padding: 80rpx 32rpx 20rpx;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 顶部可滑动分类 Tag */
+.tag-scroll {
+  background-color: #fff;
+  white-space: nowrap;
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.tag-list {
+  display: inline-flex;
+  padding: 0 32rpx;
+}
+
+.tag-item {
+  padding: 12rpx 30rpx;
+  font-size: 28rpx;
+  color: #666;
+  border-radius: 30rpx;
+  margin-right: 20rpx;
+}
+
+.tag-item.active {
+  color: #FF6B35;
+  background-color: #FFF2ed; /* 淡橙色背景 */
+  font-weight: bold;
+}
+
+/* 卡片流 */
+.feed-list {
+  padding: 24rpx;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.03);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-ph {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 16rpx;
+}
+
+.author-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.post-date {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+  line-height: 1.4;
+}
+
+.card-text {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* 最大行数截断 */
+  overflow: hidden;
+}
+
+.expand-text {
+  color: #5A86D3;
+  margin-left: 8rpx;
+}
+
+/* 图片九宫格 */
+.card-images {
+  margin-top: 24rpx;
+}
+
+.img-grid {
+  display: flex;
+  gap: 16rpx;
+}
+
+.img-wrap {
+  flex: 1;
+  aspect-ratio: 1;
+  position: relative;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.img-ph {
+  width: 100%;
+  height: 100%;
+  background-color: #d1d5db; /* 灰阶图占位 */
+}
+
+.more-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 40rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 底部交互组 */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+}
+
+.theme-tag {
+  font-size: 24rpx;
+  background: #FFF2ED;
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 32rpx;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.action-item.liked {
+  color: #FF6B35;
+}
+
+.action-item .icon {
+  font-size: 32rpx;
+  margin-right: 8rpx;
+}
+
+/* 底部 TabBar */
+.safe-area-bottom { height: env(safe-area-inset-bottom); }
+.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 120rpx; background-color: #fff; display: flex; justify-content: space-around; align-items: flex-end; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05); z-index: 100; }
+.tab-item { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; width: 120rpx; height: 100rpx; padding-bottom: 12rpx; color:#999; font-size:22rpx; }
+.tab-icon { width: 48rpx; height: 48rpx; margin-bottom: 4rpx; background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.4; }
+.tab-item.active .tab-icon { opacity: 1; }
+.tab-item.active { color: #FF6B35; font-weight: 500;}
+
+/* TabBar 中间的测 */
+.tab-center { position: relative; }
+.test-btn-wrapper { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140rpx; height: 140rpx; background-color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 -4rpx 10rpx rgba(0, 0, 0, 0.03); z-index: 101; }
+.test-btn-inner { width: 114rpx; height: 114rpx; background: linear-gradient(135deg, #FF8F5E 0%, #FF6B35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6rpx 16rpx rgba(255, 107, 53, 0.3); }
+.test-btn-inner text { font-size: 42rpx; font-weight: bold; color: #fff; line-height: 1; }
+
+.home-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+.tab-item.active .home-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B35'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+.case-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM13.5 8l-2 2.5L9 8H7l4 5-4 5h2.5l2.5-3.5L15.5 18H17l-4-5 4-5h-2.5z'/%3E%3C/svg%3E"); }
+.tab-item.active .case-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B35'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM13.5 8l-2 2.5L9 8H7l4 5-4 5h2.5l2.5-3.5L15.5 18H17l-4-5 4-5h-2.5z'/%3E%3C/svg%3E"); }
+.service-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M21 6h-2v9H5v2c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h4v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h1c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zm-1 0H5v6h15V6z'/%3E%3C/svg%3E"); }
+.tab-item.active .service-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B35'%3E%3Cpath d='M21 6h-2v9H5v2c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h4v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h1c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zm-1 0H5v6h15V6z'/%3E%3C/svg%3E"); }
+.my-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+.tab-item.active .my-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B35'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }

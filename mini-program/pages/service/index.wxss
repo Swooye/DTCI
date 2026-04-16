@@ -1,0 +1,125 @@
+.container {
+  min-height: 100vh;
+  background-color: #f7f7f9;
+}
+
+.header {
+  padding: 80rpx 40rpx 20rpx;
+  background-color: #f7f7f9;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 胶囊 Tabs */
+.capsule-tab-container {
+  padding: 20rpx 40rpx 40rpx;
+}
+
+.capsule-tab {
+  display: flex;
+  background-color: #EAECF1;
+  height: 88rpx;
+  border-radius: 44rpx;
+  padding: 8rpx;
+  box-sizing: border-box;
+}
+
+.capsule-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #8E96A4;
+  height: 100%;
+  border-radius: 36rpx;
+  transition: all 0.2s;
+}
+
+.capsule-item.active {
+  background-color: #fff;
+  color: #FF7043; /* 亮橙色项 */
+  font-weight: bold;
+}
+
+/* 服务卡片 */
+.white-card {
+  margin: 0 40rpx;
+  background-color: #fff;
+  border-radius: 32rpx;
+  padding: 10rpx 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.02);
+}
+
+.service-item {
+  display: flex;
+  padding: 40rpx 10rpx;
+  border-bottom: 2rpx solid #f9fafc;
+}
+
+.service-item:last-child {
+  border-bottom: none;
+}
+
+.service-img {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 20rpx;
+  background-color: #f0f0f5;
+  flex-shrink: 0;
+}
+
+.service-info {
+  flex: 1;
+  padding-left: 32rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-tag {
+  display: inline-block;
+  background-color: #FFF3EC; /* 浅橘粉色背景 */
+  color: #FF7043;
+  font-size: 26rpx;
+  font-weight: bold;
+  padding: 8rpx 20rpx;
+  border-radius: 12rpx;
+  align-self: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.description {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.footer-spacer {
+  height: 200rpx;
+}
+
+/* 底部功能按钮 - 样式同步 */
+.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 120rpx; background-color: #fff; display: flex; justify-content: space-around; align-items: flex-end; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05); z-index: 100; }
+.tab-item-nav { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; width: 120rpx; height: 100rpx; padding-bottom: 12rpx; color:#999; font-size:22rpx; }
+.tab-icon { width: 48rpx; height: 48rpx; margin-bottom: 4rpx; background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.4; }
+.tab-item-nav.active { color: #FF7D49; font-weight: 500; }
+.tab-item-nav.active .tab-icon { opacity: 1; }
+
+.tab-center { position: relative; }
+.test-btn-wrapper { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140rpx; height: 140rpx; background-color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 101; }
+.test-btn-inner { width: 114rpx; height: 114rpx; background: linear-gradient(135deg, #FF8F5E 0%, #FF6B35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6rpx 16rpx rgba(255, 107, 53, 0.3); }
+.test-btn-inner text { font-size: 42rpx; font-weight: bold; color: #fff; }
+
+.home-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+.tab-item-nav.active .home-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7D49'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+.case-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM13.5 8l-2 2.5L9 8H7l4 5-4 5h2.5l2.5-3.5L15.5 18H17l-4-5 4-5h-2.5z'/%3E%3C/svg%3E"); }
+.tab-item-nav.active .case-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7D49'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM13.5 8l-2 2.5L9 8H7l4 5-4 5h2.5l2.5-3.5L15.5 18H17l-4-5 4-5h-2.5z'/%3E%3C/svg%3E"); }
+.service-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M21 6h-2v9H5v2c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h4v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h1c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zm-1 0H5v6h15V6z'/%3E%3C/svg%3E"); }
+.tab-item-nav.active .service-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7D49'%3E%3Cpath d='M21 6h-2v9H5v2c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h4v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h1c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zm-1 0H5v6h15V6z'/%3E%3C/svg%3E"); }
+.my-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+.tab-item-nav.active .my-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7D49'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }

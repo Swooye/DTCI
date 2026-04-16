@@ -1,0 +1,83 @@
+<view class="detail-container">
+  <!-- 服务图片轮播 -->
+  <swiper class="detail-swiper" indicator-dots circular>
+    <swiper-item wx:for="{{service.images}}" wx:key="index">
+      <image class="detail-image" src="{{item}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 服务基本信息 -->
+  <view class="service-baseinfo">
+    <view class="price-row">
+      <text class="price">¥{{service.price}}</text>
+      <text class="original-price">¥{{service.originalPrice}}</text>
+    </view>
+    <text class="service-name">{{service.name}}</text>
+    <view class="service-tags">
+      <text class="tag" wx:for="{{service.tags}}" wx:key="index">{{item}}</text>
+    </view>
+    <view class="service-stats">
+      <text>{{service.sales}}人已预约</text>
+      <text>{{service.views}}次浏览</text>
+    </view>
+  </view>
+
+  <!-- 服务详情 -->
+  <view class="service-detail">
+    <view class="detail-header">
+      <text class="detail-title">服务详情</text>
+    </view>
+    <rich-text class="detail-content" nodes="{{service.description}}"></rich-text>
+  </view>
+
+  <!-- 注意事项 -->
+  <view class="notice-section">
+    <view class="notice-header">
+      <text class="notice-title">注意事项</text>
+    </view>
+    <view class="notice-list">
+      <view class="notice-item" wx:for="{{service.notices}}" wx:key="index">
+        <text class="notice-index">{{index + 1}}.</text>
+        <text class="notice-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="action-bar">
+    <view class="action-icons">
+      <view class="action-icon-item" bindtap="onCollectTap">
+        <image src="{{isCollected ? '/assets/images/collected.png' : '/assets/images/collect.png'}}" mode="aspectFit"></image>
+        <text>收藏</text>
+      </view>
+      <view class="action-icon-item" bindtap="onShareTap">
+        <image src="/assets/images/share.png" mode="aspectFit"></image>
+        <text>分享</text>
+      </view>
+    </view>
+    <view class="action-buttons">
+      <view class="btn-consult" bindtap="onConsultTap">咨询</view>
+      <view class="btn-book" bindtap="onBookTap">立即预约</view>
+    </view>
+  </view>
+
+  <!-- 预约成功弹窗 -->
+  <view class="modal" wx:if="{{showBookModal}}">
+    <view class="modal-mask" bindtap="closeModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">预约成功</text>
+        <image class="modal-close" src="/assets/images/close.png" bindtap="closeModal"></image>
+      </view>
+      <view class="modal-body">
+        <image class="success-icon" src="/assets/images/success.png" mode="aspectFit"></image>
+        <text class="success-text">您已预约成功</text>
+        <text class="appointment-info">预约时间：{{appointmentTime}}</text>
+        <text class="appointment-info">预约码：{{appointmentCode}}</text>
+      </view>
+      <view class="modal-footer">
+        <button class="btn-primary" bindtap="viewAppointment">查看预约</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,322 @@
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E2F0FE 0%, #f7f7f7 30%);
+  padding-bottom: 140rpx;
+}
+
+/* 顶部标题 */
+.header-section {
+  padding: 80rpx 32rpx 40rpx; /* 增加顶部留白形成渐变空间 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 52rpx;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: 6rpx;
+}
+
+/* 使命愿景理念卡片 */
+.mvv-card {
+  margin: 24rpx 40rpx;
+  padding: 40rpx 32rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.03);
+}
+
+.mvv-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.mvv-line {
+  height: 2rpx;
+  background-color: #f5f5f5;
+  margin: 30rpx 0;
+}
+
+.mvv-label-wrap {
+  width: 140rpx;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.mvv-bar {
+  width: 6rpx;
+  height: 26rpx;
+  background: #FABD39; /* 黄橙色竖条 */
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+}
+
+.mvv-label {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  letter-spacing: 4rpx;
+}
+
+.mvv-content {
+  flex: 1;
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* 区块通用样式 */
+.section {
+  margin: 60rpx 40rpx 40rpx;
+}
+
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.dot {
+  color: #555;
+  margin: 0 16rpx;
+  font-weight: bold;
+}
+
+/* 创始人故事 */
+.founder-video {
+  position: relative;
+  width: 100%;
+  height: 380rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background-color: #333;
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.1);
+}
+
+.founder-image {
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+}
+
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100rpx;
+  height: 100rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 4rpx solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-icon {
+  width: 0;
+  height: 0;
+  border-left: 28rpx solid #fff;
+  border-top: 18rpx solid transparent;
+  border-bottom: 18rpx solid transparent;
+  margin-left: 8rpx;
+}
+
+/* 服务对比表格 */
+.compare-table {
+  width: 100%;
+}
+
+.compare-header-row {
+  display: flex;
+  align-items: flex-end; /* 让中间列向上凸出 */
+}
+
+.compare-col-left-header, .compare-col-left {
+  width: 22%;
+  background-color: #E2E8F0;
+}
+.compare-col-left-header {
+  height: 70rpx;
+  border-top-left-radius: 16rpx;
+}
+
+.compare-col-dtci-header, .compare-col-dtci {
+  width: 44%;
+  background-color: #fff;
+}
+.compare-col-dtci-header {
+  background: linear-gradient(135deg, #FF8F5E 0%, #FF6B35 100%);
+  color: #fff;
+  height: 86rpx; /* 高于两侧 */
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 28rpx;
+  box-shadow: 0 -4rpx 12rpx rgba(255, 107, 53, 0.2);
+}
+
+.compare-col-other-header, .compare-col-other {
+  width: 34%;
+  background-color: #D2DEED;
+}
+.compare-col-other-header {
+  background-color: #5A86D3;
+  color: #fff;
+  height: 70rpx;
+  border-top-right-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.compare-row {
+  display: flex;
+}
+.compare-row:last-child .compare-col-left { border-bottom-left-radius: 16rpx; }
+.compare-row:last-child .compare-col-other { border-bottom-right-radius: 16rpx; }
+
+.compare-col-left, .compare-col-dtci, .compare-col-other {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  text-align: center;
+  padding: 30rpx 16rpx;
+  box-sizing: border-box;
+}
+
+.compare-col-left {
+  color: #1a1a1a;
+  font-weight: bold;
+  border-bottom: 2rpx solid rgba(255,255,255,0.5);
+}
+.compare-col-dtci {
+  color: #1a1a1a;
+  font-weight: 500;
+  border-left: 2rpx solid #fff;
+  border-right: 2rpx solid #fff;
+}
+.compare-col-other {
+  color: #666;
+  border-bottom: 2rpx solid rgba(255,255,255,0.5);
+}
+
+/* 安全区域 */
+.safe-area-bottom {
+  height: env(safe-area-inset-bottom);
+}
+
+/* 底部导航 */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120rpx;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 120rpx;
+  height: 100rpx;
+  padding-bottom: 12rpx;
+}
+
+.tab-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 4rpx;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.4;
+}
+
+.tab-item.active .tab-icon {
+  opacity: 1;
+}
+
+.home-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+.tab-item.active .home-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B35'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+
+.case-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM13.5 8l-2 2.5L9 8H7l4 5-4 5h2.5l2.5-3.5L15.5 18H17l-4-5 4-5h-2.5z'/%3E%3C/svg%3E"); }
+.tab-item.active .case-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B35'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM13.5 8l-2 2.5L9 8H7l4 5-4 5h2.5l2.5-3.5L15.5 18H17l-4-5 4-5h-2.5z'/%3E%3C/svg%3E"); }
+
+.service-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M21 6h-2v9H5v2c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h4v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h1c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zm-1 0H5v6h15V6z'/%3E%3C/svg%3E"); }
+.tab-item.active .service-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B35'%3E%3Cpath d='M21 6h-2v9H5v2c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h4v3.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V16h1c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zm-1 0H5v6h15V6z'/%3E%3C/svg%3E"); }
+
+.my-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+.tab-item.active .my-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B35'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+
+.tab-item text {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.tab-item.active text {
+  color: #FF6B35;
+  font-weight: 500;
+}
+
+/* 底部中央悬浮“测”按钮 */
+.tab-center {
+  position: relative;
+}
+
+.test-btn-wrapper {
+  position: absolute;
+  bottom: 0; /* 贴紧底部排列 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140rpx;
+  height: 140rpx;
+  background-color: #fff; /* 形成白色圆角背景，对 tab bar 产生“裁切”效果 */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 -4rpx 10rpx rgba(0, 0, 0, 0.03); /* 为了边缘轮廓过渡更自然 */
+  z-index: 101;
+}
+
+.test-btn-inner {
+  width: 114rpx;
+  height: 114rpx;
+  background: linear-gradient(135deg, #FF8F5E 0%, #FF6B35 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 16rpx rgba(255, 107, 53, 0.3);
+}
+
+.test-btn-inner text {
+  font-size: 42rpx;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1;
+}

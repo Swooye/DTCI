@@ -1,0 +1,140 @@
+.container {
+  min-height: 100vh;
+  background-color: #f7f8fa;
+  padding-bottom: 60rpx;
+}
+
+.result-header {
+  background: linear-gradient(135deg, #6a52fc 0%, #8c76f7 100%);
+  padding: 80rpx 40rpx 100rpx;
+  color: #fff;
+  text-align: center;
+}
+
+.type-badge {
+  font-size: 64rpx;
+  font-weight: 800;
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
+}
+
+.type-name {
+  font-size: 36rpx;
+  opacity: 0.9;
+  font-weight: bold;
+}
+
+.report-card {
+  margin: -60rpx 40rpx 40rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 50rpx 40rpx;
+  box-shadow: 0 8rpx 32rpx rgba(106, 82, 252, 0.1);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.card-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8rpx;
+  height: 28rpx;
+  background-color: #6a52fc;
+  border-radius: 4rpx;
+}
+
+.card-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.divider {
+  height: 2rpx;
+  background-color: #f0f0f0;
+  margin: 40rpx 0;
+}
+
+.dimension-list {
+  margin-top: 20rpx;
+}
+
+.dim-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.dim-label {
+  font-size: 24rpx;
+  color: #555;
+  width: 100rpx;
+  flex-shrink: 0;
+}
+
+.dim-bar-wrap {
+  flex: 1;
+  height: 16rpx;
+  background-color: #f0f0f0;
+  border-radius: 8rpx;
+  margin: 0 20rpx;
+  overflow: hidden;
+}
+
+.dim-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6a52fc, #a08cff);
+  border-radius: 8rpx;
+  transition: width 1s ease-out;
+}
+
+.dim-value {
+  font-size: 24rpx;
+  color: #6a52fc;
+  font-weight: bold;
+  width: 60rpx;
+  text-align: right;
+}
+
+.action-wrap {
+  padding: 0 40rpx;
+  text-align: center;
+}
+
+.lock-tips {
+  font-size: 24rpx;
+  color: #888;
+  margin-bottom: 24rpx;
+}
+
+.lock-tips .highlight {
+  color: #fb3950;
+  font-weight: bold;
+}
+
+.btn {
+  width: 100% !important;
+  height: 96rpx;
+  line-height: 96rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+  padding: 0;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #6a52fc;
+  color: #fff;
+  box-shadow: 0 10rpx 20rpx rgba(106, 82, 252, 0.3);
+}

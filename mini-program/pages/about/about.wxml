@@ -1,0 +1,56 @@
+<view class="about-container">
+  <!-- Logo区域 -->
+  <view class="logo-section">
+    <image class="app-logo" src="/assets/images/logo.png" mode="aspectFit"></image>
+    <text class="app-name">DTCI</text>
+    <text class="app-version">版本 1.0.0</text>
+  </view>
+
+  <!-- 公司介绍 -->
+  <view class="intro-section">
+    <text class="section-title">关于我们</text>
+    <view class="intro-content">
+      <text class="intro-text">
+        DTCI（了庸文化）是一家专注于基因健康领域的创新型科技公司。我们致力于通过前沿的基因检测技术，为用户提供个性化的健康管理方案。
+      </text>
+      <text class="intro-text">
+        我们的团队由来自国内外顶尖医学院校和科研机构的专家组成，拥有丰富的基因研究和健康管理经验。我们秉承"科技守护健康"的理念，为用户提供专业、可靠的基因检测服务。
+      </text>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="contact-section">
+    <text class="section-title">联系我们</text>
+    <view class="contact-list">
+      <view class="contact-item">
+        <image src="/assets/images/phone.png" mode="aspectFit"></image>
+        <text>联系电话：400-888-8888</text>
+      </view>
+      <view class="contact-item" bindtap="onEmailTap">
+        <image src="/assets/images/email.png" mode="aspectFit"></image>
+        <text>电子邮箱：contact@dtci.com</text>
+      </view>
+      <view class="contact-item" bindtap="onAddressTap">
+        <image src="/assets/images/address.png" mode="aspectFit"></image>
+        <text>公司地址：北京市朝阳区XXX大厦</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 公众号 -->
+  <view class="wechat-section">
+    <text class="section-title">关注我们</text>
+    <view class="wechat-content">
+      <image class="qr-code" src="/assets/images/qrcode.png" mode="aspectFit"></image>
+      <text class="wechat-tip">扫描二维码关注公众号</text>
+    </view>
+  </view>
+
+  <!-- 底部协议链接 -->
+  <view class="footer-links">
+    <text class="link-item" bindtap="onAgreementTap">服务协议</text>
+    <text class="divider">|</text>
+    <text class="link-item" bindtap="onPrivacyTap">隐私政策</text>
+  </view>
+</view>

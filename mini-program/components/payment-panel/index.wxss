@@ -1,0 +1,120 @@
+.mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.mask.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.panel {
+  width: 100%;
+  background-color: #f7f7f7;
+  border-radius: 24rpx 24rpx 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  transform: translateY(100%);
+  transition: transform 0.3s;
+}
+
+.mask.show .panel {
+  transform: translateY(0);
+}
+
+/* 头部 */
+.panel-header {
+  height: 110rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30rpx;
+  border-bottom: 2rpx solid #eee;
+  background-color: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+}
+
+.close-btn { font-size: 40rpx; color: #999; padding: 20rpx; }
+.header-title { font-size: 32rpx; font-weight: bold; color: #333; }
+.help-btn { font-size: 36rpx; color: #576b95; padding: 20rpx; }
+
+/* 订单信息 */
+.order-info {
+  text-align: center;
+  padding: 60rpx 0;
+  background-color: #fff;
+}
+.item-name { font-size: 28rpx; color: #1a1a1a; margin-bottom: 20rpx; }
+.item-price { font-size: 40rpx; color: #1a1a1a; font-weight: bold; }
+.price-num { font-size: 70rpx; }
+
+/* 支付方式 */
+.payment-method {
+  display: flex;
+  justify-content: space-between;
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+  border-top: 2rpx solid #eee;
+  border-bottom: 2rpx solid #eee;
+}
+.method-label { font-size: 28rpx; color: #888; }
+.method-value { display: flex; align-items: center; font-size: 28rpx; color: #333; }
+.icon-bank { margin-right: 12rpx; }
+.arrow-down { margin-left: 12rpx; color: #ccc; }
+
+/* 密码格 */
+.pin-container {
+  display: flex;
+  justify-content: center;
+  padding: 40rpx 0 60rpx;
+  background-color: #fff;
+}
+.pin-cell {
+  width: 90rpx;
+  height: 90rpx;
+  border: 2rpx solid #ddd;
+  border-right: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+.pin-cell:last-child {
+  border-right: 2rpx solid #ddd;
+}
+.pin-dot {
+  width: 20rpx;
+  height: 20rpx;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+/* 键盘 */
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: #fff;
+  gap: 2rpx;
+  border-top: 1rpx solid #eee;
+}
+.key {
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  color: #1a1a1a;
+  background-color: #fff;
+  border-bottom: 1rpx solid #eee;
+  border-right: 1rpx solid #eee;
+}
+.key:active { background-color: #eee; }
+.key-empty { background-color: #f7f7f7; }
+.key-del { background-color: #f7f7f7; font-size: 36rpx; }
+.icon-del { font-size: 48rpx; }

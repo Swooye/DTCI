@@ -1,0 +1,50 @@
+.privacy-container {
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.page-header {
+  background-color: #fff;
+  padding: 32rpx;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.page-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  text-align: center;
+  margin-bottom: 12rpx;
+}
+
+.update-time {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  text-align: center;
+}
+
+.privacy-content {
+  padding: 32rpx;
+}
+
+.chapter-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-top: 40rpx;
+  margin-bottom: 20rpx;
+}
+
+.chapter-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 2;
+  display: block;
+  margin-bottom: 16rpx;
+}

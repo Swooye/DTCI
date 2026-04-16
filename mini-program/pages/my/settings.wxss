@@ -1,0 +1,22 @@
+.container {
+  min-height: 100vh;
+  background-color: #f8f9fc;
+  padding-top: 60rpx;
+}
+
+.settings-list {
+  padding: 0 40rpx;
+}
+
+.logout-btn {
+  height: 100rpx;
+  background: linear-gradient(90deg, #FF8F5E, #FF6B35);
+  color: #fff;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  box-shadow: 0 8rpx 20rpx rgba(255, 107, 53, 0.3);
+}

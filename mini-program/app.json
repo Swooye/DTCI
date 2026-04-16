@@ -1,0 +1,32 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/home/home",
+    "pages/detail/detail",
+    "pages/feedback/feedback",
+    "pages/about/about",
+    "pages/agreement/agreement",
+    "pages/privacy/privacy",
+    "pages/assessment/index",
+    "pages/assessment/question",
+    "pages/assessment/info",
+    "pages/assessment/result",
+    "pages/case/index",
+    "pages/case/detail",
+    "pages/service/index",
+    "pages/service/detail",
+    "pages/my/index",
+    "pages/my/profile",
+    "pages/my/settings",
+    "pages/report/full"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "首页",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

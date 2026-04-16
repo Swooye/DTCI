@@ -1,0 +1,12 @@
+{
+  "name": "dtci-mini-program",
+  "version": "1.0.0",
+  "description": "DTCI小程序端用户端",
+  "main": "app.json",
+  "scripts": {
+    "dev": "echo '请使用微信开发者工具打开项目'",
+    "build": "echo '请使用微信开发者工具构建项目'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

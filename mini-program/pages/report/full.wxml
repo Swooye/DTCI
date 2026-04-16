@@ -1,0 +1,32 @@
+<view class="container">
+  <view class="header">
+    <text class="title">DTCI 深度解读报告</text>
+    <view class="badge">已解锁</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">核心特质深度解析</view>
+    <view class="card">
+       <view class="analysis-item">
+         <view class="label">维度一：社交直觉</view>
+         <view class="desc">您在社交场合具有极强的敏锐度，能够快速捕捉他人的情绪微变化...</view>
+       </view>
+       <view class="analysis-item">
+         <view class="label">维度二：压力韧性</view>
+         <view class="desc">面对突发状况，您倾向于保持冷静，通过逻辑分析来拆解压力...</view>
+       </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">成长建议</view>
+    <view class="card suggestion-card">
+      <view class="suggestion-item">1. 尝试在非正式场合更多地通过情感驱动而非纯逻辑驱动进行沟通。</view>
+      <view class="suggestion-item">2. 定期进行复盘，将直觉转化为可复制的行为模式。</view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <button class="btn-save" bindtap="onSaveReport">保存报告到相册</button>
+  </view>
+</view>

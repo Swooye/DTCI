@@ -1,0 +1,76 @@
+<view class="container">
+  <view class="header">
+    <text class="page-title">服务</text>
+  </view>
+
+  <!-- 胶囊式分类切换 -->
+  <view class="capsule-tab-container">
+    <view class="capsule-tab">
+      <view 
+        class="capsule-item {{currentCategory === 'personal' ? 'active' : ''}}" 
+        bindtap="onSwitchCategory" 
+        data-cat="personal"
+      >
+        个人服务
+      </view>
+      <view 
+        class="capsule-item {{currentCategory === 'corporate' ? 'active' : ''}}" 
+        bindtap="onSwitchCategory" 
+        data-cat="corporate"
+      >
+        企业服务
+      </view>
+    </view>
+  </view>
+
+  <!-- 服务列表内容区 -->
+  <scroll-view scroll-y class="service-scroll" show-scrollbar="{{false}}">
+    <view class="white-card">
+      <view 
+        class="service-item" 
+        wx:for="{{services[currentCategory]}}" 
+        wx:key="id"
+        bindtap="onServiceDetail"
+        data-id="{{item.id}}"
+      >
+        <!-- 左侧大图 -->
+        <image class="service-img" src="/assets/images/founder.jpg" mode="aspectFill"></image>
+        
+        <!-- 右侧内容 -->
+        <view class="service-info">
+          <view class="title-tag">{{item.title}}</view>
+          <view class="description">{{item.description}}</view>
+        </view>
+      </view>
+    </view>
+    
+    <view class="footer-spacer"></view>
+  </scroll-view>
+
+  <!-- 统一底部 TabBar -->
+  <view class="tab-bar">
+    <view class="tab-item-nav" bindtap="onHomeTap">
+      <view class="tab-icon home-icon"></view>
+      <text>首页</text>
+    </view>
+    <view class="tab-item-nav" bindtap="onCaseTap">
+      <view class="tab-icon case-icon"></view>
+      <text>案例</text>
+    </view>
+    <view class="tab-item-nav tab-center" bindtap="onTestTap">
+      <view class="test-btn-wrapper">
+        <view class="test-btn-inner">
+          <text>测</text>
+        </view>
+      </view>
+    </view>
+    <view class="tab-item-nav active">
+      <view class="tab-icon service-icon"></view>
+      <text>服务</text>
+    </view>
+    <view class="tab-item-nav" bindtap="onMyTap">
+      <view class="tab-icon my-icon"></view>
+      <text>我的</text>
+    </view>
+  </view>
+</view>

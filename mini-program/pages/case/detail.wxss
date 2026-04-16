@@ -1,0 +1,102 @@
+.container {
+  min-height: 100vh;
+  background-color: #fff;
+  padding-bottom: 200rpx; /* 留给吸底部空间 */
+}
+
+.detail-body {
+  padding: 40rpx;
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.avatar-ph {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 20rpx;
+}
+
+.author-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 6rpx;
+}
+
+.post-date {
+  font-size: 24rpx;
+  color: #c0c0c0;
+}
+
+.detail-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 40rpx;
+}
+
+.detail-content {
+  font-size: 32rpx;
+  color: #444;
+  line-height: 1.8;
+  white-space: pre-wrap; /* 允许换行符生效 */
+  word-break: break-all;
+}
+
+/* 底部操作栏 */
+.bottom-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 24rpx 40rpx 40rpx;
+  padding-bottom: max(40rpx, env(safe-area-inset-bottom));
+  border-top: 2rpx solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.03);
+}
+
+.theme-tag {
+  font-size: 24rpx;
+  background: #FFF2ED;
+  padding: 8rpx 20rpx;
+  border-radius: 8rpx;
+  font-weight: bold;
+}
+
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 40rpx;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  color: #999;
+  font-size: 26rpx;
+}
+
+.action-item.liked {
+  color: #FF6B35;
+}
+
+.action-item .icon {
+  font-size: 40rpx;
+  margin-right: 12rpx;
+}

@@ -1,0 +1,6 @@
+<view class="container">
+  <view class="settings-list">
+    <!-- 设计稿目前只有退出登录一个项 -->
+    <view class="logout-btn" bindtap="onLogout">退出登录</view>
+  </view>
+</view>

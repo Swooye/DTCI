@@ -1,0 +1,47 @@
+<view class="mask {{show ? 'show' : ''}}" bindtap="onClose">
+  <view class="panel" catchtap="return">
+    <!-- 头部 -->
+    <view class="panel-header">
+      <view class="close-btn" bindtap="onClose">✕</view>
+      <view class="header-title">请输入支付密码</view>
+      <view class="help-btn">?</view>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="order-info">
+      <view class="item-name">{{itemName}}</view>
+      <view class="item-price">¥<text class="price-num">{{price}}</text></view>
+    </view>
+
+    <!-- 支付方式 -->
+    <view class="payment-method">
+      <view class="method-label">支付方式</view>
+      <view class="method-value">
+        <text class="icon-bank">💳</text>
+        <text>借记卡 (1234)</text>
+        <text class="arrow-down">⌄</text>
+      </view>
+    </view>
+
+    <!-- 密码输入框 -->
+    <view class="pin-container">
+      <view class="pin-cell" wx:for="{{[0,1,2,3,4,5]}}" wx:key="index">
+        <view class="pin-dot" wx:if="{{pin.length > index}}"></view>
+      </view>
+    </view>
+
+    <!-- 数字键盘 -->
+    <view class="keyboard">
+      <view 
+        class="key {{item === 'DEL' ? 'key-del' : ''}} {{item === '' ? 'key-empty' : ''}}" 
+        wx:for="{{keys}}" 
+        wx:key="index"
+        bindtap="onTapKey"
+        data-key="{{item}}"
+      >
+        <text wx:if="{{item !== 'DEL'}}">{{item}}</text>
+        <view wx:else class="icon-del">⌫</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,138 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E6F3FF 0%, #FFFFFF 400rpx);
+}
+
+.header {
+  padding: 60rpx 40rpx 40rpx;
+  text-align: center;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: 900;
+  color: #1A2751;
+}
+
+.notice-bar {
+  background-color: #FFF2F2;
+  color: #FF7D49;
+  font-size: 26rpx;
+  padding: 20rpx 0;
+  text-align: center;
+}
+
+.form-scroll {
+  height: calc(100vh - 200rpx);
+}
+
+.form-card {
+  background-color: #fff;
+  margin: 32rpx;
+  padding: 20rpx 40rpx 60rpx;
+  border-radius: 32rpx;
+  box-shadow: 0 10rpx 40rpx rgba(0,0,0,0.05);
+}
+
+.form-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40rpx 0;
+  border-bottom: 2rpx solid #f9fafc;
+}
+
+.label {
+  font-size: 30rpx;
+  color: #333;
+  width: 160rpx;
+}
+
+.radio-group {
+  display: flex;
+  gap: 40rpx;
+}
+
+.radio-label {
+  font-size: 28rpx;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.picker-val {
+  flex: 1;
+  text-align: right;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.picker-val.placeholder {
+  color: #ccc;
+}
+
+.arrow {
+  margin-left: 10rpx;
+  color: #ccc;
+  font-size: 36rpx;
+}
+
+.input-box {
+  flex: 1;
+  text-align: right;
+  font-size: 28rpx;
+}
+
+/* 导航链接 */
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40rpx;
+  margin-bottom: 60rpx;
+}
+
+.nav-btn {
+  font-size: 28rpx;
+  color: #FF672D;
+  display: flex;
+  align-items: center;
+}
+
+.nav-btn.disabled {
+  color: #ccc;
+}
+
+.nav-btn .arrow {
+  margin: 0 10rpx;
+  font-weight: bold;
+}
+
+/* 提交按钮 */
+.submit-btn {
+  height: 100rpx;
+  background-color: #E2E4E9;
+  color: #999;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.submit-btn.active {
+  background: linear-gradient(135deg, #FF9B6D 0%, #FF672D 100%);
+  color: #fff;
+  box-shadow: 0 10rpx 25rpx rgba(255, 103, 45, 0.35);
+}
+
+/* 权益展示板块复制 index */
+.benefits-section { margin: 40rpx 0 0; background-color: #fff; border-radius: 24rpx; padding: 40rpx 0rpx; }
+.section-divider { display: flex; align-items: center; justify-content: center; font-size: 28rpx; font-weight: bold; color: #333; margin-bottom: 40rpx; }
+.section-divider::before, .section-divider::after { content: ""; flex: 1; height: 2rpx; background-color: #eee; margin: 0 30rpx; }
+.benefits-grid { display: flex; flex-wrap: wrap; }
+.benefit-item { width: 33.33%; display: flex; align-items: center; padding: 16rpx 0; font-size: 22rpx; color: #666; }
+.benefit-item .dot { margin-right: 12rpx; color: #000; font-weight: bold; }
+
+.bottom-spacer { height: 100rpx; }

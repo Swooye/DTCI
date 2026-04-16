@@ -1,0 +1,256 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E6F3FF 0%, #FFFFFF 300rpx);
+  padding: 40rpx 32rpx;
+  position: relative;
+}
+
+/* 侧边悬浮 */
+.side-float-tab {
+  position: fixed;
+  right: 0;
+  top: 15vh;
+  width: 54rpx; /* 缩窄宽度以强制竖排 */
+  background-color: #333;
+  color: #fff;
+  font-size: 24rpx;
+  padding: 20rpx 10rpx;
+  border-radius: 20rpx 0 0 20rpx;
+  line-height: 1.2;
+  text-align: center;
+  z-index: 100;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  word-break: break-all;
+}
+
+/* 头部 */
+.hero-section {
+  text-align: center;
+  margin-top: 40rpx;
+  margin-bottom: 60rpx;
+}
+
+.main-title {
+  font-size: 52rpx;
+  font-weight: 900;
+  color: #1A2751;
+  margin-bottom: 24rpx;
+}
+
+.subtitle-badge {
+  display: inline-block;
+  background-color: #fff;
+  color: #8E96A4;
+  font-size: 24rpx;
+  padding: 10rpx 30rpx;
+  border-radius: 12rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.intro-card {
+  background-color: #fff;
+  padding: 32rpx 40rpx;
+  border-radius: 24rpx;
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  text-align: left;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.02);
+}
+
+/* 版本选择 */
+.version-selection {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 60rpx;
+}
+
+.version-card {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 32rpx;
+  padding: 40rpx 20rpx;
+  text-align: center;
+  position: relative;
+  border: 4rpx solid transparent;
+  transition: all 0.3s;
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.03);
+}
+
+.version-card.active {
+  border-color: #FFB18E;
+  background-color: #FFF9F6;
+  box-shadow: 0 16rpx 40rpx rgba(255, 125, 73, 0.15);
+}
+
+.card-badge {
+  position: absolute;
+  top: -12rpx;
+  right: -12rpx;
+  background: linear-gradient(90deg, #FF9B6D, #FF672D);
+  color: #fff;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx 20rpx 0 20rpx;
+}
+
+.card-title {
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 12rpx;
+}
+
+.card-desc {
+  font-size: 26rpx;
+  color: #888;
+  margin-bottom: 40rpx;
+}
+
+.card-time {
+  font-size: 24rpx;
+  color: #aaa;
+}
+
+/* 引导 */
+.guide-text {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.guide-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 16rpx;
+}
+
+.guide-subtitle {
+  font-size: 28rpx;
+  color: #888;
+}
+
+.highlight {
+  color: #FF672D;
+  font-weight: bold;
+}
+
+/* 按钮 */
+.action-footer {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 80rpx;
+}
+
+.btn-share {
+  width: 200rpx;
+  height: 100rpx;
+  background-color: #fff;
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.05);
+}
+
+.btn-primary {
+  flex: 1;
+  height: 100rpx;
+  background: linear-gradient(135deg, #FF9B6D 0%, #FF672D 100%);
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+  box-shadow: 0 10rpx 25rpx rgba(255, 103, 45, 0.35);
+}
+
+/* 列表板块通用 */
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 40rpx;
+}
+
+.section-divider::before, .section-divider::after {
+  content: "";
+  flex: 1;
+  height: 2rpx;
+  background-color: #eee;
+  margin: 0 30rpx;
+}
+
+.benefits-section {
+  background-color: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 30rpx;
+  margin-bottom: 40rpx;
+}
+
+.benefits-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.benefit-item {
+  width: 33.33%;
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  font-size: 24rpx;
+  color: #333;
+}
+
+.benefit-item .dot {
+  margin-right: 12rpx;
+  color: #000;
+  font-weight: bold;
+}
+
+/* 付费须知 */
+.notice-section {
+  background-color: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 30rpx;
+}
+
+.notice-item {
+  display: flex;
+  margin-bottom: 30rpx;
+}
+
+.notice-item .index {
+  width: 36rpx;
+  height: 36rpx;
+  background-color: #E6F3FF;
+  color: #3B82F6;
+  font-size: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.notice-item .text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.bottom-spacer {
+  height: 100rpx;
+}
