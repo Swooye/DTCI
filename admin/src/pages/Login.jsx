@@ -11,12 +11,24 @@ function Login() {
   const onFinish = async (values) => {
     setLoading(true)
     try {
-      // 模拟登录
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      message.success('登录成功')
-      navigate('/dashboard')
+      const response = await fetch('http://127.0.0.1:3100/admins/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '登录失败');
+      }
+      
+      const admin = await response.json();
+      localStorage.setItem('admin_user', JSON.stringify(admin));
+      message.success('登录成功');
+      navigate('/dashboard');
     } catch (error) {
-      message.error('登录失败')
+      console.error('Login error:', error);
+      message.error(error.message || '登录失败');
     } finally {
       setLoading(false)
     }
@@ -27,7 +39,6 @@ function Login() {
       <div className="login-box">
         <div className="login-header">
           <h1>DTCI管理后台</h1>
-          <p>小刀 - 健康管理平台</p>
         </div>
         <Form
           name="login"
@@ -41,7 +52,7 @@ function Login() {
           >
             <Input
               prefix={<UserOutlined />}
-              placeholder="用户名: admin"
+              placeholder="用户名"
               size="large"
             />
           </Form.Item>
@@ -52,7 +63,7 @@ function Login() {
           >
             <Input.Password
               prefix={<LockOutlined />}
-              placeholder="密码: admin"
+              placeholder="密码"
               size="large"
             />
           </Form.Item>

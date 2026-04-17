@@ -1,18 +1,73 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, Button, Space, Card, Modal, Form, Input, Select, Tag, message } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, LockOutlined } from '@ant-design/icons'
 
 function SystemUser() {
   const [visible, setVisible] = useState(false)
   const [roleVisible, setRoleVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [dataSource, setDataSource] = useState([])
+  const [editingId, setEditingId] = useState(null)
   const [form] = Form.useForm()
 
-  const dataSource = [
-    { id: 1, username: 'admin', name: '超级管理员', role: 'super_admin', email: 'admin@dtci.com', status: true, lastLogin: '2024-05-20 10:30' },
-    { id: 2, username: 'editor', name: '内容编辑', role: 'editor', email: 'editor@dtci.com', status: true, lastLogin: '2024-05-19 14:20' },
-    { id: 3, username: 'operator', name: '运营人员', role: 'operator', email: 'operator@dtci.com', status: true, lastLogin: '2024-05-18 09:15' },
-    { id: 4, username: 'viewer', name: '查看者', role: 'viewer', email: 'viewer@dtci.com', status: false, lastLogin: '2024-05-15 16:40' }
-  ]
+  const fetchAdmins = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch('http://127.0.0.1:3100/admins')
+      const data = await response.json()
+      setDataSource(data)
+    } catch (error) {
+      message.error('加载列表失败')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchAdmins()
+  }, [])
+
+  const handleSave = async (values) => {
+    try {
+      const url = editingId 
+        ? `http://127.0.0.1:3100/admins/${editingId}`
+        : 'http://127.0.0.1:3100/admins'
+      
+      const response = await fetch(url, {
+        method: editingId ? 'PATCH' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+      })
+
+      if (!response.ok) throw new Error('提交失败')
+      
+      message.success(editingId ? '修改成功' : '添加成功')
+      setVisible(false)
+      fetchAdmins()
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: '删除确认',
+      content: '确定要删除该系统用户吗？',
+      onOk: async () => {
+        try {
+          const response = await fetch(`http://127.0.0.1:3100/admins/${id}`, { method: 'DELETE' })
+          if (!response.ok) {
+            const err = await response.json()
+            throw new Error(err.message || '删除失败')
+          }
+          message.success('删除成功')
+          fetchAdmins()
+        } catch (error) {
+          message.error(error.message)
+        }
+      }
+    })
+  }
 
   const roleData = [
     { id: 1, name: '超级管理员', description: '拥有所有权限', count: 1 },
@@ -36,7 +91,7 @@ function SystemUser() {
           operator: { label: '运营人员', color: 'green' },
           viewer: { label: '查看者', color: 'default' }
         }
-        return <Tag color={roleMap[role].color}>{roleMap[role].label}</Tag>
+        return <Tag color={roleMap[role]?.color || 'default'}>{roleMap[role]?.label || role}</Tag>
       }
     },
     { title: '邮箱', dataIndex: 'email', key: 'email' },
@@ -50,7 +105,12 @@ function SystemUser() {
         </Tag>
       )
     },
-    { title: '最后登录', dataIndex: 'lastLogin', key: 'lastLogin' },
+    { 
+      title: '最后登录', 
+      dataIndex: 'lastLogin', 
+      key: 'lastLogin',
+      render: (text) => text ? new Date(text).toLocaleString() : '从未登录'
+    },
     {
       title: '操作',
       key: 'action',
@@ -58,7 +118,7 @@ function SystemUser() {
         <Space>
           <Button type="link" icon={<LockOutlined />} onClick={() => handleResetPassword(record)}>重置密码</Button>
           <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>编辑</Button>
-          <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+          <Button type="link" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>删除</Button>
         </Space>
       )
     }
@@ -82,6 +142,7 @@ function SystemUser() {
   ]
 
   const handleEdit = (record) => {
+    setEditingId(record.id)
     form.setFieldsValue(record)
     setVisible(true)
   }
@@ -90,8 +151,18 @@ function SystemUser() {
     Modal.confirm({
       title: '重置密码',
       content: `确定要重置 ${record.name} 的密码吗？`,
-      onOk: () => {
-        message.success('密码已重置为: 123456')
+      onOk: async () => {
+        try {
+          const response = await fetch(`http://127.0.0.1:3100/admins/${record.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: '123456' })
+          })
+          if (!response.ok) throw new Error('重置失败')
+          message.success('密码已重置为: 123456')
+        } catch (error) {
+          message.error(error.message)
+        }
       }
     })
   }
@@ -102,21 +173,21 @@ function SystemUser() {
         <h1 className="page-title">系统用户</h1>
         <Space>
           <Button onClick={() => setRoleVisible(true)}>角色管理</Button>
-          <Button type="primary" icon={<PlusOutlined />} onClick={() => { form.resetFields(); setVisible(true); }}>添加用户</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => { setEditingId(null); form.resetFields(); setVisible(true); }}>添加用户</Button>
         </Space>
       </div>
 
       <Card>
-        <Table columns={columns} dataSource={dataSource} rowKey="id" />
+        <Table columns={columns} dataSource={dataSource} rowKey="id" loading={loading} />
       </Card>
 
       <Modal
-        title="添加用户"
+        title={editingId ? '编辑用户' : '添加用户'}
         open={visible}
         onCancel={() => setVisible(false)}
-        onOk={() => { setVisible(false); message.success('添加成功'); }}
+        onOk={() => form.submit()}
       >
-        <Form form={form} layout="vertical">
+        <Form form={form} layout="vertical" onFinish={handleSave}>
           <Form.Item label="用户名" name="username" rules={[{ required: true }]}>
             <Input placeholder="请输入用户名" />
           </Form.Item>
@@ -134,9 +205,11 @@ function SystemUser() {
           <Form.Item label="邮箱" name="email" rules={[{ required: true, type: 'email' }]}>
             <Input placeholder="请输入邮箱" />
           </Form.Item>
-          <Form.Item label="初始密码" name="password" initialValue="123456">
-            <Input.Password disabled />
-          </Form.Item>
+          {!editingId && (
+            <Form.Item label="初始密码" name="password" initialValue="123456">
+              <Input.Password placeholder="默认 123456" />
+            </Form.Item>
+          )}
         </Form>
       </Modal>
 

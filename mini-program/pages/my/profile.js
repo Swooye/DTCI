@@ -108,30 +108,52 @@ Page({
       return wx.showToast({ title: '请输入昵称', icon: 'none' });
     }
 
+    const userInfo = wx.getStorageSync('userInfo') || {};
+    if (!userInfo.id) {
+      return wx.showToast({ title: '登录信息失效，请重新登录', icon: 'none' });
+    }
+
     wx.showLoading({ title: '保存中...' });
 
-    // 构建用户信息
-    const userInfo = {
+    // 构建待更新信息
+    const updateData = {
       nickName: nickName,
       avatar: this.data.avatarUrl,
       gender: genderIndex >= 0 ? genderOptions[genderIndex] : '',
       city: city,
-      phoneCode: phoneCode,
-      phone: phoneDisplay
+      phone: phoneDisplay === '已绑定' ? undefined : phoneDisplay // 如果是已绑定则不覆盖
     };
 
-    // 保存到全局和存储
-    app.globalData.userInfo = userInfo;
-    wx.setStorageSync('userInfo', userInfo);
+    const baseUrl = 'http://172.13.18.23:3100'; // 替换为您的后端局域网地址
+    wx.request({
+      url: `${baseUrl}/users/${userInfo.id}`,
+      method: 'PATCH',
+      data: updateData,
+      success: (res) => {
+        if (res.statusCode === 200) {
+          // 更新本地缓存
+          const newUserInfo = { ...userInfo, ...updateData };
+          app.globalData.userInfo = newUserInfo;
+          wx.setStorageSync('userInfo', newUserInfo);
 
-    wx.hideLoading();
-    wx.showToast({
-      title: '保存成功',
-      icon: 'success',
-      success: () => {
-        setTimeout(() => {
-          wx.navigateBack();
-        }, 1500);
+          wx.showToast({
+            title: '保存成功',
+            icon: 'success',
+            success: () => {
+              setTimeout(() => {
+                wx.navigateBack();
+              }, 1500);
+            }
+          });
+        } else {
+          wx.showToast({ title: '保存失败: ' + res.statusCode, icon: 'none' });
+        }
+      },
+      fail: (err) => {
+        wx.showToast({ title: '网络请求失败', icon: 'none' });
+      },
+      complete: () => {
+        wx.hideLoading();
       }
     });
   }

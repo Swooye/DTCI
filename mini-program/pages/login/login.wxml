@@ -22,8 +22,13 @@
       <text class="link-text" bindtap="showPrivacy">《隐私政策》</text>
     </view>
 
-    <!-- 微信登录按钮 -->
-    <button class="wx-login-btn {{isAgreed ? 'active' : ''}}" bindtap="onWechatLogin">
+    <!-- 微信登录按钮 (未同意协议时) -->
+    <button wx:if="{{!isAgreed}}" class="wx-login-btn" bindtap="onWechatLogin">
+      <text>微信授权登录</text>
+    </button>
+    
+    <!-- 微信登录按钮 (已同意协议时，触发手机号授权) -->
+    <button wx:else class="wx-login-btn active" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">
       <text>微信授权登录</text>
     </button>
 

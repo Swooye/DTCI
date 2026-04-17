@@ -13,41 +13,59 @@ Page({
     });
   },
 
-  // 微信登录（静默登录，只获取code）
-  onWechatLogin() {
-    // 1. 协议校验
-    if (!this.data.isAgreed) {
-      return wx.showToast({ title: '请先阅读并同意用户协议', icon: 'none' });
+  // 手机号授权回调
+  onGetPhoneNumber(e) {
+    if (e.detail.errMsg !== 'getPhoneNumber:ok') {
+      if (e.detail.errMsg.indexOf('cancel') !== -1) {
+        wx.showToast({ title: '已取消授权', icon: 'none' });
+      } else {
+        wx.showToast({ title: '授权失败: ' + e.detail.errMsg, icon: 'none' });
+      }
+      return;
     }
 
-    // 2. 显示加载
+    const phoneCode = e.detail.code;
+    console.log('手机号授权Code:', phoneCode);
+
+    // 开始登录流程
     wx.showLoading({ title: '登录中...', mask: true });
 
-    // 3. 获取登录凭证
     wx.login({
       success: (loginRes) => {
         if (loginRes.code) {
-          console.log('登录code:', loginRes.code);
-          
-          // 4. 构建基础用户信息
-          const userInfo = {
-            nickName: '微信用户',
-            avatar: '/assets/images/default-avatar.png',
-            code: loginRes.code
-          };
-          
-          // 5. 保存登录状态
-          this.saveLoginData(userInfo);
-        } else {
-          wx.hideLoading();
-          wx.showToast({ title: '获取登录凭证失败', icon: 'none' });
+          // 调用后端登录接口 (带上 phoneCode)
+          const baseUrl = 'http://172.13.18.23:3100'; // 替换为您的后端局域网地址
+          wx.request({
+            url: `${baseUrl}/auth/login`,
+            method: 'POST',
+            data: {
+              code: loginRes.code,
+              phoneCode: phoneCode
+            },
+            success: (res) => {
+              if (res.statusCode === 201 || res.statusCode === 200) {
+                this.saveLoginData(res.data);
+              } else {
+                wx.hideLoading();
+                wx.showToast({ title: '登录失败: ' + (res.data.message || res.statusCode), icon: 'none' });
+              }
+            },
+            fail: (err) => {
+              wx.hideLoading();
+              wx.showToast({ title: '连接服务器失败', icon: 'none' });
+            }
+          });
         }
-      },
-      fail: () => {
-        wx.hideLoading();
-        wx.showToast({ title: '网络异常', icon: 'none' });
       }
     });
+  },
+
+  // 微信登录（仅做兜底/校验，主力由 onGetPhoneNumber 完成）
+  onWechatLogin() {
+    if (!this.data.isAgreed) {
+      return wx.showToast({ title: '请先阅读并同意用户协议', icon: 'none' });
+    }
+    // 注意：如果协议已勾选，wxml 会切换到 <button open-type="getPhoneNumber">，此处不会被触发
   },
 
   saveLoginData(userInfo) {

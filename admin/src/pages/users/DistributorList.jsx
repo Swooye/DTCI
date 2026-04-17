@@ -83,6 +83,20 @@ function DistributorList() {
     onChange: setSelectedRowKeys
   }
 
+  const teamColumns = [
+    { title: '用户', dataIndex: 'name', key: 'name' },
+    { title: '手机号', dataIndex: 'phone', key: 'phone' },
+    { title: '注册时间', dataIndex: 'createdAt', key: 'createdAt' }
+  ]
+
+  const orderColumns = [
+    { title: '订单号', dataIndex: 'orderId', key: 'orderId' },
+    { title: '用户', dataIndex: 'user', key: 'user' },
+    { title: '金额', dataIndex: 'amount', key: 'amount' },
+    { title: '佣金', dataIndex: 'commission', key: 'commission' },
+    { title: '时间', dataIndex: 'time', key: 'time' }
+  ]
+
   const items = [
     { key: 'info', label: '基本信息', children: currentDistributor && (
       <Descriptions column={1} bordered>
@@ -99,19 +113,6 @@ function DistributorList() {
     { key: 'order', label: '订单记录', children: <Table columns={orderColumns} dataSource={[]} rowKey="id" pagination={false} /> }
   ]
 
-  const teamColumns = [
-    { title: '用户', dataIndex: 'name', key: 'name' },
-    { title: '手机号', dataIndex: 'phone', key: 'phone' },
-    { title: '注册时间', dataIndex: 'createdAt', key: 'createdAt' }
-  ]
-
-  const orderColumns = [
-    { title: '订单号', dataIndex: 'orderId', key: 'orderId' },
-    { title: '用户', dataIndex: 'user', key: 'user' },
-    { title: '金额', dataIndex: 'amount', key: 'amount' },
-    { title: '佣金', dataIndex: 'commission', key: 'commission' },
-    { title: '时间', dataIndex: 'time', key: 'time' }
-  ]
 
   return (
     <div>

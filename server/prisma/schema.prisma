@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  openid        String   @unique
+  nickname      String?
+  avatarUrl     String?
+  phone         String?
+  gender        String?
+  age           Int?
+  profession    String?
+  education     String?
+  marriage      String?
+  city          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  assessments   Assessment[]
+  orders        Order[]
+
+  @@map("dtci_users")
+}
+
+model Assessment {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  type          String   // male or female
+  answers       String?  // SQLite 不支持 Json，暂时存为字符串
+  dScore        Float?
+  tScore        Float?
+  cScore        Float?
+  iScore        Float?
+  resultType    String?
+  status        String   @default("pending") // pending, completed
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  order         Order?
+
+  @@map("dtci_assessments")
+}
+
+model Order {
+  id            Int      @id @default(autoincrement())
+  orderNo       String   @unique
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  assessmentId  Int      @unique
+  assessment    Assessment @relation(fields: [assessmentId], references: [id])
+  amount        Float
+  status        String   @default("unpaid") // unpaid, paid, refunded
+  paymentTime   DateTime?
+  transactionId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("dtci_orders")
+}
+
+model AdminUser {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  password      String
+  name          String
+  role          String   @default("operator") // super_admin, editor, operator, viewer
+  email         String?
+  status        Boolean  @default(true)
+  lastLogin     DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("dtci_admin_users")
+}
