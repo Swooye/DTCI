@@ -1,4 +1,5 @@
 const app = getApp();
+const config = require('../../config');
 
 Page({
   data: {
@@ -34,9 +35,8 @@ Page({
       success: (loginRes) => {
         if (loginRes.code) {
           // 调用后端登录接口 (带上 phoneCode)
-          const baseUrl = 'http://172.13.18.23:3100'; // 替换为您的后端局域网地址
           wx.request({
-            url: `${baseUrl}/auth/login`,
+            url: `${config.BASE_URL}/auth/login`,
             method: 'POST',
             data: {
               code: loginRes.code,

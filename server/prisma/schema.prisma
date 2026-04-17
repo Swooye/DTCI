@@ -26,8 +26,27 @@ model User {
   updatedAt     DateTime @updatedAt
   assessments   Assessment[]
   orders        Order[]
+  cases         Case[]
 
   @@map("dtci_users")
+}
+
+model Case {
+  id            Int      @id @default(autoincrement())
+  title         String
+  content       String   @default("")
+  tag           String   // '事业', '亲子', '婚恋', '自我成长'
+  tagColor      String   @default("#FF6B35")
+  isRecommended Boolean  @default(false)
+  authorId      Int
+  author        User     @relation(fields: [authorId], references: [id])
+  images        String   @default("[]") // JSON string of images array
+  likes         Int      @default(0)
+  stars         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("dtci_cases")
 }
 
 model Assessment {

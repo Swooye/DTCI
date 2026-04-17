@@ -4,7 +4,7 @@
   <view class="detail-body">
     <!-- 用户信息 -->
     <view class="author-info">
-      <view class="avatar-ph"></view>
+      <image class="avatar" src="{{caseItem.avatar}}" mode="aspectFill"></image>
       <view class="author-text">
         <text class="author-name">{{caseItem.author}}</text>
         <text class="post-date">{{caseItem.date}}</text>
@@ -15,7 +15,7 @@
     <view class="detail-title">{{caseItem.title}}</view>
 
     <!-- 正文长文区 -->
-    <text class="detail-content">{{caseItem.content}}</text>
+    <rich-text nodes="{{caseItem.content}}" class="detail-content"></rich-text>
   </view>
 
   <!-- 吸底悬浮操作栏 -->

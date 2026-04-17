@@ -26,8 +26,7 @@
       <!-- 卡片头部头部: 头像 昵称 日期 -->
       <view class="card-header">
         <view class="author-info">
-          <!-- 默认占位底图 -->
-          <view class="avatar-ph"></view>
+          <image class="avatar" src="{{item.avatar}}" mode="aspectFill"></image>
           <text class="author-name">{{item.author}}</text>
         </view>
         <text class="post-date">{{item.date}}</text>
@@ -47,7 +46,7 @@
         <view class="img-grid">
           <block wx:for="{{item.images}}" wx:key="*this" wx:for-item="img" wx:for-index="imgIdx" wx:if="{{imgIdx < 3}}">
              <view class="img-wrap">
-               <view class="img-ph"></view> 
+               <image class="case-img" src="{{img}}" mode="aspectFill"></image> 
                <!-- 超过3张图的叠加蒙版 -->
                <view class="more-overlay" wx:if="{{imgIdx === 2 && item.images.length > 3}}">
                  +{{item.images.length - 3}}

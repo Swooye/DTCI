@@ -1,33 +1,79 @@
 const app = getApp()
+const config = require('../../config')
 
 Page({
   data: {
-    caseItem: null
+    caseItem: null,
+    loading: false
   },
 
   onLoad(options) {
-    const id = options.id || 1;
-    this.mockFetchDetail(id);
+    const id = options.id;
+    if (id) {
+      this.fetchCaseDetail(id);
+    } else {
+      wx.showToast({
+        title: '参数错误',
+        icon: 'none'
+      });
+    }
   },
 
-  mockFetchDetail(id) {
-    // 模拟拉取详情
-    const fullText = "我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年。\n\n我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年。\n\n我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年9年有幸接触到平台，让整个人生至少加速了10年。";
+  fetchCaseDetail(id) {
+    this.setData({ loading: true });
+    
+    wx.request({
+      url: `${config.BASE_URL}/cases/${id}`,
+      method: 'GET',
+      success: (res) => {
+        if (res.statusCode === 200 && res.data) {
+          const item = res.data;
+          
+          const formatUrl = (url) => {
+            if (!url) return '';
+            return url.startsWith('/') ? `${config.BASE_URL}${url}` : url;
+          };
 
-    this.setData({
-      caseItem: {
-        id: id,
-        author: "Mike Brewer",
-        avatar: "/assets/images/founder.jpg",
-        date: "2025/05/01",
-        title: "报名【奢侈品全案操盘】，定位青少年藤校教育规划和心力教练全年陪跑",
-        content: fullText,
-        tag: "🔥战略股东",
-        tagColor: "#FF6B35",
-        likes: 5,
-        stars: 13,
-        shares: 25,
-        isLiked: true
+          // 过滤富文本中的图片路径，加上 BASE_URL，并设置图片宽度自适应
+          const processedContent = item.content ? item.content.replace(/<img[^>]+src="([^">]+)"/g, (match, src) => {
+            let newMatch = match;
+            if (src && src.startsWith('/')) {
+              newMatch = match.replace(src, `${config.BASE_URL}${src}`);
+            }
+            // 注入 style 确保宽度自适应
+            if (!newMatch.includes('style=')) {
+              newMatch = newMatch.replace('<img', '<img style="max-width:100%;height:auto;display:block;margin:10px 0;"');
+            } else {
+              newMatch = newMatch.replace(/style=["']([^"']+)["']/, (s, style) => {
+                return `style="max-width:100%;height:auto;display:block;margin:10px 0;${style}"`;
+              });
+            }
+            return newMatch;
+          }) : '';
+
+          this.setData({
+            caseItem: {
+              id: item.id,
+              author: item.author?.nickname || '专家',
+              avatar: formatUrl(item.author?.avatarUrl) || '/assets/images/default-avatar.png',
+              date: item.createdAt.substring(0, 10).replace(/-/g, '/'),
+              title: item.title,
+              content: processedContent,
+              tag: item.tag,
+              tagColor: item.tagColor || '#FF6B35',
+              likes: item.likes || 0,
+              stars: item.stars || 0,
+              shares: item.shares || 0,
+              isLiked: false
+            }
+          });
+        }
+      },
+      fail: (err) => {
+        console.error('Fetch case detail failed:', err);
+      },
+      complete: () => {
+        this.setData({ loading: false });
       }
     });
   },
