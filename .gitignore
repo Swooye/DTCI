@@ -39,3 +39,11 @@ miniprogram_npm/
 node_modules/
 project.private.config.json
 unpackage/
+
+# Database
+server/prisma/*.db
+server/prisma/*.db-journal
+
+# Uploads
+server/public/uploads/*
+!server/public/uploads/.gitkeep

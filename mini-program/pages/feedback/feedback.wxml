@@ -1,7 +1,8 @@
 <view class="feedback-container">
-  <!-- 标题 -->
-  <view class="page-header">
-    <text class="page-title">意见反馈</text>
+  <!-- 右上角我的反馈入口 -->
+  <view class="history-entry-wrap" bindtap="onGoToHistory">
+    <text>我的反馈</text>
+    <view class="arrow-icon"></view>
   </view>
 
   <!-- 反馈类型选择 -->
@@ -41,7 +42,7 @@
         <view class="delete-btn" bindtap="onDeleteImage" data-index="{{index}}">×</view>
       </view>
       <view class="upload-btn" wx:if="{{images.length < 3}}" bindtap="onUploadImage">
-        <image src="/assets/images/camera.png" mode="aspectFit"></image>
+        <view class="plus-icon"></view>
         <text>添加图片</text>
       </view>
     </view>
@@ -63,24 +64,4 @@
     <button class="submit-btn" bindtap="onSubmit" disabled="{{!content}}">提交反馈</button>
   </view>
 
-  <!-- 反馈历史 -->
-  <view class="feedback-history">
-    <view class="history-header">
-      <text class="history-title">我的反馈</text>
-    </view>
-    <view class="history-list" wx:if="{{historyList.length > 0}}">
-      <view class="history-item" wx:for="{{historyList}}" wx:key="id" bindtap="onHistoryTap" data-id="{{item.id}}">
-        <view class="history-content">
-          <view class="history-type">{{item.type}}</view>
-          <view class="history-text">{{item.content}}</view>
-          <view class="history-time">{{item.time}}</view>
-        </view>
-        <view class="history-status {{item.status}}">{{item.statusText}}</view>
-      </view>
-    </view>
-    <view class="empty-state" wx:else>
-      <image src="/assets/images/empty-feedback.png" mode="aspectFit"></image>
-      <text>暂无反馈记录</text>
-    </view>
-  </view>
 </view>

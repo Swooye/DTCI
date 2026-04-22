@@ -95,12 +95,36 @@ export class AdminsService implements OnModuleInit {
     });
   }
 
-  async remove(id: number) {
-    // 禁止删除唯一的超级管理员（简单防呆）
+  async findOne(id: number) {
+    const admin = await this.prisma.adminUser.findUnique({
+      where: { id },
+    });
+    if (!admin) throw new UnauthorizedException('用户不存在');
+    const { password: _, ...result } = admin;
+    return result;
+  }
+
+  async changePassword(id: number, data: any) {
+    const { currentPassword, newPassword } = data;
     const admin = await this.prisma.adminUser.findUnique({ where: { id } });
-    if (admin?.username === 'admin') {
-      throw new UnauthorizedException('不能删除默认超级管理员账号');
+    
+    if (!admin) throw new UnauthorizedException('用户不存在');
+
+    const isPasswordValid = await bcrypt.compare(currentPassword, admin.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('当前密码错误');
     }
-    return this.prisma.adminUser.delete({ where: { id } });
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    return this.prisma.adminUser.update({
+      where: { id },
+      data: { password: hashedPassword },
+    });
+  }
+
+  async remove(id: number) {
+    return this.prisma.adminUser.delete({
+      where: { id },
+    });
   }
 }

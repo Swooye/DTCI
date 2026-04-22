@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="history-list" wx:if="{{list.length > 0}}">
+    <view class="history-item" wx:for="{{list}}" wx:key="id">
+      <view class="item-header">
+        <text class="type-tag">{{item.type}}</text>
+        <text class="time">{{item.createdAt}}</text>
+      </view>
+      <view class="content">{{item.content}}</view>
+      <view class="reply-box" wx:if="{{item.replyContent}}">
+        <view class="reply-header">
+          <text class="reply-title">官方回复：</text>
+          <text class="reply-time">{{item.replyTime}}</text>
+        </view>
+        <view class="reply-content">{{item.replyContent}}</view>
+      </view>
+      <view class="status-bar">
+        <text class="status {{item.status}}">{{item.status === 'pending' ? '预处理' : '已回复'}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="empty-state" wx:else>
+    <view class="empty-icon"></view>
+    <text>暂无反馈记录</text>
+  </view>
+</view>

@@ -23,7 +23,12 @@ function DistributorList() {
       key: 'name',
       render: (text, record) => (
         <Space>
-          <Avatar style={{ backgroundColor: '#722ed1' }}>{text[0]}</Avatar>
+          <Avatar 
+            src={record.avatar || 'https://www.dtci.com.cn/logo.png'} 
+            style={{ backgroundColor: '#722ed1' }}
+          >
+            {!record.avatar && text[0]}
+          </Avatar>
           <span>{text}</span>
         </Space>
       )

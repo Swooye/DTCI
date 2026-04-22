@@ -1,0 +1,37 @@
+/**
+ * 富文本通用样式
+ * 专门针对编辑器输出的 HTML 内容进行美化
+ */
+
+.rich-content {
+  font-size: 30rpx;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* 默认模式下的图片：支持行内对齐，支持多图并排，防止溢出 */
+.rich-content img {
+  max-width: 100%;
+}
+
+/**
+ * 变体模式：全屏 Banner 模式
+ * 用于“关于我们”等页面。默认尽量撑满，但允许 inline style 覆盖高度/宽度
+ */
+.rich-content--banner img {
+  display: block;
+  max-width: 100%;
+  margin: 30rpx auto !important; /* 强制水平居中 */
+  border-radius: 8rpx;
+}
+
+/* 处理 Quill 编辑器的文本对齐 */
+.ql-align-center { text-align: center; }
+.ql-align-right { text-align: right; }
+.ql-align-left { text-align: left; }
+.ql-align-justify { text-align: justify; }
+
+/* 列表缩进处理 */
+.rich-content .ql-indent-1 { padding-left: 3em; }
+.rich-content .ql-indent-2 { padding-left: 6em; }
+.rich-content .ql-indent-3 { padding-left: 9em; }

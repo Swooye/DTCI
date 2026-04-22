@@ -1,18 +1,74 @@
 const app = getApp()
+const config = require('../../config')
 
 Page({
   data: {
-    compareList: [
-      { label: '更精准', dtci: '精确锁定问题，直击关系与生命卡点', other: '模模糊糊，似是而非' },
-      { label: '更落地', dtci: '系统的刻意练习方法，明确的自我成长地图', other: '听了很多道理，但依然无从下手' },
-      { label: '更整体', dtci: '打通事业、婚恋、亲子内在逻辑，建立生命整体观', other: '头痛医头，脚痛医脚，缺乏生命整体观' },
-      { label: '更实证', dtci: '原创DTCI体系，融合西方心理学与东方修行智慧', other: '知识搬运，缺乏体悟和实证' },
-      { label: '更全面', dtci: '深度的解读、全面的咨询与长周期的陪伴', other: '简单的一次测评或贴标签' }
-    ]
+    companyIntro: '',
+    founderVideo: '',
+    serviceImage: '',
+    loading: true,
+    unreadCount: 0
+  },
+
+  onShow() {
+    this.refreshUnreadCount();
   },
 
   onLoad() {
     this.checkLogin()
+    this.fetchHomeSettings()
+  },
+
+  refreshUnreadCount() {
+    const isLogin = wx.getStorageSync('isLogin');
+    if (!isLogin) {
+      this.setData({ unreadCount: 0 });
+      return;
+    }
+    
+    const storedUserInfo = wx.getStorageSync('userInfo') || {};
+    const userId = storedUserInfo.id || 1;
+    
+    wx.request({
+      url: `${config.BASE_URL}/notifications/unread-count/${userId}`,
+      success: (res) => {
+        if (res.statusCode === 200) {
+          this.setData({ unreadCount: res.data });
+        }
+      }
+    });
+  },
+
+  fetchHomeSettings() {
+    wx.request({
+      url: `${config.BASE_URL}/settings/home_settings`,
+      method: 'GET',
+      success: (res) => {
+        if (res.statusCode === 200 && res.data) {
+          try {
+            // The backend sends back the parsed JSON object directly.
+            const settings = res.data.value ? JSON.parse(res.data.value) : (typeof res.data === 'string' ? JSON.parse(res.data) : res.data)
+            this.setData({
+              mission: settings.mission || '',
+              vision: settings.vision || '',
+              values: settings.values || '',
+              founderVideo: settings.founderVideo || '',
+              serviceImage: settings.serviceCompareImage || '',
+              loading: false
+            })
+          } catch (e) {
+            console.error('Parse settings error:', e)
+            this.setData({ loading: false })
+          }
+        } else {
+          this.setData({ loading: false })
+        }
+      },
+      fail: (err) => {
+        console.error('Fetch settings err:', err)
+        this.setData({ loading: false })
+      }
+    })
   },
 
   checkLogin() {
@@ -32,18 +88,18 @@ Page({
   },
 
   onCaseTap() {
-    wx.navigateTo({ url: '/pages/case/index' })
+    wx.reLaunch({ url: '/pages/case/index' })
   },
 
   onTestTap() {
-    wx.navigateTo({ url: '/pages/assessment/index' })
+    wx.reLaunch({ url: '/pages/assessment/index' })
   },
 
   onServiceTap() {
-    wx.navigateTo({ url: '/pages/service/index' })
+    wx.reLaunch({ url: '/pages/service/index' })
   },
 
   onMyTap() {
-    wx.navigateTo({ url: '/pages/my/index' })
+    wx.reLaunch({ url: '/pages/my/index' })
   }
 })

@@ -3,13 +3,18 @@
   <view class="profile-header">
     <view class="header-main" bindtap="onLoginTap">
       <view class="avatar-wrapper">
-        <image class="avatar" src="{{userInfo.avatar}}" mode="aspectFill" wx:if="{{userInfo.avatar && userInfo.avatar !== '/assets/images/default-avatar.png'}}"></image>
-        <view class="avatar-default" wx:else></view>
+        <image class="avatar" src="{{userInfo.avatar}}" mode="aspectFit"></image>
       </view>
       <text class="nickname">{{userInfo.nickName}}</text>
     </view>
-    <view class="settings-entry" bindtap="onSettingsTap">
-      <view class="icon-gear"></view>
+    <view class="header-right-actions">
+      <view class="notification-entry" bindtap="onNotificationsTap">
+        <view class="icon-bell"></view>
+        <view class="unread-badge" wx:if="{{unreadCount > 0}}">{{unreadCount}}</view>
+      </view>
+      <view class="settings-entry" bindtap="onSettingsTap">
+        <view class="icon-gear"></view>
+      </view>
     </view>
   </view>
 
@@ -28,33 +33,35 @@
 
     <!-- 统计区块 -->
     <view class="stats-card">
-      <view class="stat-item" wx:for="{{stats}}" wx:key="label">
+      <view class="stat-item" bindtap="onReportsTap">
         <view class="stat-main">
-          <text wx:if="{{item.icon}}" class="folder-icon">{{item.icon}}</text>
-          <text class="count-value">{{item.count}}</text>
+          <text class="count-value">{{stats.reports}}</text>
         </view>
-        <view class="stat-label">{{item.label}}</view>
+        <view class="stat-label">我的报告</view>
+      </view>
+      <view class="stat-item" bindtap="onLikedCasesTap">
+        <view class="stat-main">
+          <text class="count-value">{{stats.likes}}</text>
+        </view>
+        <view class="stat-label">点赞案例</view>
+      </view>
+      <view class="stat-item" bindtap="onStarredCasesTap">
+        <view class="stat-main">
+          <text class="count-value">{{stats.stars}}</text>
+        </view>
+        <view class="stat-label">收藏案例</view>
       </view>
     </view>
 
     <!-- 菜单列表 -->
     <view class="menu-group">
-      <view class="menu-item" bindtap="onProfileTap">
-        <view class="menu-item-left">
-          <text class="menu-icon-img">👤</text>
-          <text class="menu-title">编辑个人信息</text>
-        </view>
-        <view class="menu-item-right">
-          <text class="arrow-grey">›</text>
-        </view>
-      </view>
       <view class="menu-item" wx:for="{{menus}}" wx:key="id" bindtap="onMenuClick" data-id="{{item.id}}">
         <view class="menu-item-left">
-          <text class="menu-icon-img">{{item.icon}}</text>
+          <view class="menu-icon {{item.iconClass}}"></view>
           <text class="menu-title">{{item.name}}</text>
         </view>
         <view class="menu-item-right">
-          <text class="arrow-grey">›</text>
+          <view class="arrow-grey-icon"></view>
         </view>
       </view>
     </view>
@@ -90,7 +97,9 @@
       <text>服务</text>
     </view>
     <view class="tab-item-nav active">
-      <view class="tab-icon my-icon"></view>
+      <view class="tab-icon my-icon">
+        <view class="tab-dot" wx:if="{{unreadCount > 0}}"></view>
+      </view>
       <text>我的</text>
     </view>
   </view>

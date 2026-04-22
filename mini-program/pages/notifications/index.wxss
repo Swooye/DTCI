@@ -1,0 +1,113 @@
+.container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20rpx 0;
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-item {
+  background-color: #fff;
+  padding: 30rpx;
+  display: flex;
+  position: relative;
+  border-bottom: 2rpx solid #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+.notification-item:active {
+  background-color: #f9f9f9;
+}
+
+.notification-item.unread .title {
+  font-weight: bold;
+}
+
+.item-icon-wrapper {
+  margin-right: 24rpx;
+}
+
+.item-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-size: 40rpx;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.item-icon.system {
+  background-color: #e6f7ff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231890ff'%3E%3Cpath d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E");
+}
+
+.item-icon.feedback_reply {
+  background-color: #f6ffed;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2352c41a'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E");
+}
+
+.item-content {
+  flex: 1;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.title {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.body {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.unread-dot {
+  position: absolute;
+  top: 30rpx;
+  right: 30rpx;
+  width: 16rpx;
+  height: 16rpx;
+  background-color: #ff4d4f;
+  border-radius: 50%;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+.empty-icon {
+  width: 200rpx;
+  height: 200rpx;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23eee'%3E%3Cpath d='M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-bottom: 30rpx;
+}
+
+.empty-state text {
+  font-size: 28rpx;
+  color: #999;
+}

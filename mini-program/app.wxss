@@ -79,3 +79,27 @@ page {
   color: #999;
   font-size: 28rpx;
 }
+/* 底部导航红点样式 */
+.tab-bar {
+  position: relative;
+}
+
+.tab-item, .tab-item-nav {
+  position: relative;
+}
+
+.tab-icon {
+  position: relative; /* 为红点提供定位锚点 */
+}
+
+.tab-dot {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  width: 14rpx;
+  height: 14rpx;
+  background-color: #ff4d4f;
+  border-radius: 50%;
+  border: 2rpx solid #fff;
+  z-index: 10;
+}

@@ -1,58 +1,131 @@
-import React from 'react'
-import { Card, Form, Input, Button, message } from 'antd'
-
-const { TextArea } = Input
+import React, { useState, useEffect, useMemo, useRef } from 'react'
+import { Card, Form, Input, Button, message, Spin, Modal } from 'antd'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import request from '../../utils/request'
 
 function ServiceAgreement() {
   const [form] = Form.useForm()
+  const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const quillRef = useRef(null)
 
-  const onFinish = () => {
-    message.success('保存成功')
+  const quillModules = useMemo(() => ({
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'align': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      ['link', 'image'],
+      ['clean']
+    ],
+  }), [])
+
+  const fetchServiceAgreement = async () => {
+    setLoading(true)
+    try {
+      const data = await request.get('/settings/service_agreement')
+      if (data) {
+        form.setFieldsValue(data)
+      }
+    } catch (e) {
+      console.error('Failed to fetch service agreement:', e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchServiceAgreement()
+  }, [])
+
+  const handleImageDblClick = (e) => {
+    if (e.target.tagName === 'IMG') {
+      const img = e.target;
+      const currentWidth = img.getAttribute('width') || img.style.width || '100%';
+      Modal.confirm({
+        title: '调整图片尺寸',
+        content: (
+          <div style={{ marginTop: 10 }}>
+            <p>建议输入百分比（如 50%）或像素值（如 200px）</p>
+            <Input 
+              defaultValue={currentWidth} 
+              onChange={(ev) => img._newWidth = ev.target.value}
+              placeholder="例如: 50% 或 200px"
+            />
+          </div>
+        ),
+        onOk: () => {
+          const val = img._newWidth || currentWidth;
+          img.setAttribute('width', val);
+          img.style.width = val;
+          const quill = quillRef.current?.getEditor();
+          if (quill) {
+            form.setFieldsValue({ content: quill.root.innerHTML });
+          }
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    const attachListener = () => {
+      const quill = quillRef.current?.getEditor();
+      if (quill && quill.root) {
+        quill.root.removeEventListener('dblclick', handleImageDblClick);
+        quill.root.addEventListener('dblclick', handleImageDblClick);
+      }
+    };
+    const timer = setTimeout(attachListener, 500);
+    return () => {
+      clearTimeout(timer);
+      const quill = quillRef.current?.getEditor();
+      if (quill && quill.root) {
+        quill.root.removeEventListener('dblclick', handleImageDblClick);
+      }
+    };
+  }, [loading]);
+
+  const onFinish = async (values) => {
+    setSaving(true)
+    try {
+      await request.patch('/settings/service_agreement', { value: values })
+      message.success('保存成功')
+    } catch (e) {
+      message.error('保存失败')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
     <div>
-      <div className="page-header">
+      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <h1 className="page-title">服务协议</h1>
-        <Button type="primary" onClick={() => form.submit()}>保存</Button>
+        <Button type="primary" onClick={() => form.submit()} loading={saving}>保存</Button>
       </div>
 
       <Card>
-        <Form form={form} layout="vertical" onFinish={onFinish}>
-          <Form.Item label="协议标题" name="title" initialValue="了庸文化用户协议">
-            <Input placeholder="请输入协议标题" />
-          </Form.Item>
-          <Form.Item label="协议内容" name="content" initialValue={`一、服务条款的确认和接受
-欢迎使用DTCI了庸文化服务。本服务协议是用户与DTCI了庸文化之间关于使用本服务所订立的协议。
-
-二、服务内容
-1. DTCI了庸文化通过本服务向用户提供基因检测、健康咨询等健康管理服务。
-2. 服务的具体内容包括但不限于：基因样本采集、基因检测分析、检测报告生成、健康建议等。
-
-三、用户注册
-1. 用户承诺在使用本服务时遵守中华人民共和国相关法律法规。
-2. 用户应提供真实、准确、完整的注册信息。
-
-四、基因检测服务
-1. 用户同意并授权DTCI了庸文化采集、处理其基因样本用于检测服务。
-2. 检测结果仅供参考，不作为医疗诊断依据。
-
-五、隐私保护
-DTCI了庸文化承诺尊重并保护用户的个人隐私。
-
-六、知识产权
-本服务中包含的所有内容均受知识产权法律法规保护。
-
-七、免责声明
-1. 因不可抗力导致的服务中断，DTCI了庸文化不承担责任。
-2. 检测结果仅作为健康参考，不构成医疗建议或诊断。
-
-八、争议解决
-本协议的解释、执行及争议解决均适用中华人民共和国法律。`}>
-            <TextArea rows={20} placeholder="请输入协议内容" />
-          </Form.Item>
-        </Form>
+        <Spin spinning={loading}>
+          <Form form={form} layout="vertical" onFinish={onFinish}>
+            <Form.Item label="协议标题" name="title" rules={[{ required: true, message: '请输入标题' }]}>
+              <Input placeholder="请输入协议标题" />
+            </Form.Item>
+            <Form.Item label="协议内容" name="content" rules={[{ required: true, message: '请输入协议内容' }]}>
+              <ReactQuill 
+                ref={quillRef}
+                theme="snow"
+                modules={quillModules}
+                style={{ height: 600, marginBottom: 50 }}
+                placeholder="请输入详细的服务协议内容..."
+              />
+            </Form.Item>
+          </Form>
+        </Spin>
       </Card>
+      <div style={{ marginTop: 20, color: '#999', fontSize: 13 }}>
+        提示：小程序端将直接渲染此处编辑的内容。请点击“保存”以更新线上数据。
+      </div>
     </div>
   )
 }

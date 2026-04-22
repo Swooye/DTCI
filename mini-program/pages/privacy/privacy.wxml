@@ -1,133 +1,16 @@
-<view class="privacy-container">
-  <view class="page-header">
-    <text class="page-title">隐私政策</text>
-    <text class="update-time">更新日期：2024年1月1日</text>
-  </view>
+<view class="agreement-container">
+  <block wx:if="{{!loading}}">
+    <view class="page-header">
+      <text class="page-title">{{title}}</text>
+    </view>
 
-  <view class="privacy-content">
-    <text class="chapter-title">引言</text>
-    <text class="chapter-content">
-      DTCI了庸文化（以下简称"我们"）非常重视用户的隐私和个人信息安全。本隐私政策旨在向您说明我们如何收集、使用、存储和保护您的个人信息，以及您享有的相关权利。请您在使用我们的服务前，仔细阅读并了解本隐私政策。
-    </text>
-
-    <text class="chapter-title">一、信息收集</text>
-    <text class="chapter-content">
-      1. 个人基本信息：包括但不限于姓名、性别、年龄、联系方式等您在注册或使用服务时主动提供的信息。
-    </text>
-    <text class="chapter-content">
-      2. 基因数据：为提供基因检测服务，我们需要采集您的基因样本并进行检测分析。基因数据属于敏感个人信息，我们会在获得您明确同意后进行处理。
-    </text>
-    <text class="chapter-content">
-      3. 健康信息：包括您的病史、家族遗传史、生活习惯等与健康相关的信息。
-    </text>
-    <text class="chapter-content">
-      4. 设备信息：包括设备型号、操作系统、IP地址、浏览记录等通过设备自动收集的信息。
-    </text>
-
-    <text class="chapter-title">二、信息使用</text>
-    <text class="chapter-content">
-      1. 提供服务：使用收集的信息为您提供基因检测、健康咨询等服务。
-    </text>
-    <text class="chapter-content">
-      2. 报告生成：将基因检测结果整理成报告，提供给您或您授权的第三方。
-    </text>
-    <text class="chapter-content">
-      3. 服务优化：分析用户行为数据，持续优化我们的服务。
-    </text>
-    <text class="chapter-content">
-      4. 安全保障：用于安全监控、风险防范和投诉处理。
-    </text>
-    <text class="chapter-content">
-      5. 法律合规：在法律法规要求的情况下，配合相关部门提供信息。
-    </text>
-
-    <text class="chapter-title">三、信息共享</text>
-    <text class="chapter-content">
-      1. 未经您同意，我们不会与任何第三方共享您的个人信息，但以下情况除外：
-    </text>
-    <text class="chapter-content">
-      - 与为您提供服务所必需的合作伙伴共享
-    </text>
-    <text class="chapter-content">
-      - 根据法律法规、司法机关或行政机关的要求
-    </text>
-    <text class="chapter-content">
-      - 为保护我们的合法权益而必需
-    </text>
-    <text class="chapter-content">
-      2. 我们要求合作伙伴严格遵守数据保护义务。
-    </text>
-
-    <text class="chapter-title">四、信息存储</text>
-    <text class="chapter-content">
-      1. 存储地点：您的信息将存储在中华人民共和国境内。
-    </text>
-    <text class="chapter-content">
-      2. 存储期限：我们仅在为您提供服务所必需的期间内保留您的个人信息。基因原始数据将在检测完成后保存5年，检测报告将永久保存。
-    </text>
-
-    <text class="chapter-title">五、信息安全</text>
-    <text class="chapter-content">
-      我们采用业界领先的安全技术和程序来保护您的信息安全：
-    </text>
-    <text class="chapter-content">
-      - 数据传输加密（SSL/TLS）
-    </text>
-    <text class="chapter-content">
-      - 数据存储加密
-    </text>
-    <text class="chapter-content">
-      - 严格的访问控制
-    </text>
-    <text class="chapter-content">
-      - 定期安全审计
-    </text>
-
-    <text class="chapter-title">六、您的权利</text>
-    <text class="chapter-content">
-      您对您的个人信息享有以下权利：
-    </text>
-    <text class="chapter-content">
-      1. 知情权：了解我们如何收集和使用您的信息
-    </text>
-    <text class="chapter-content">
-      2. 访问权：访问您的个人信息
-    </text>
-    <text class="chapter-content">
-      3. 更正权：更正不准确的个人信息
-    </text>
-    <text class="chapter-content">
-      4. 删除权：在符合条件时删除您的个人信息
-    </text>
-    <text class="chapter-content">
-      5. 撤回同意：撤回您之前给予的同意
-    </text>
-    <text class="chapter-content">
-      6. 数据可携带权：获取您的个人信息副本
-    </text>
-
-    <text class="chapter-title">七、未成年人保护</text>
-    <text class="chapter-content">
-      我们非常重视对未成年人信息的保护。如果您是未满18周岁的未成年人，请在监护人的陪同下阅读本政策，并在取得监护人的同意后使用我们的服务。
-    </text>
-
-    <text class="chapter-title">八、隐私政策更新</text>
-    <text class="chapter-content">
-      我们可能会不时更新本隐私政策。更新后的政策将在本小程序内公布。如您继续使用我们的服务，即表示您同意更新后的隐私政策。
-    </text>
-
-    <text class="chapter-title">九、联系我们</text>
-    <text class="chapter-content">
-      如您对本隐私政策有任何疑问、意见或建议，请通过以下方式联系我们：
-    </text>
-    <text class="chapter-content">
-      联系电话：400-888-8888
-    </text>
-    <text class="chapter-content">
-      电子邮箱：privacy@dtci.com
-    </text>
-    <text class="chapter-content">
-      联系地址：北京市朝阳区XXX大厦
-    </text>
+    <view class="agreement-content rich-content">
+      <rich-text nodes="{{content}}"></rich-text>
+    </view>
+  </block>
+  
+  <view class="loading-box" wx:else>
+    <view class="loading-icon"></view>
+    <text>正在加载隐私政策...</text>
   </view>
 </view>

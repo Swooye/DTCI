@@ -1,21 +1,38 @@
+const config = require('../../config')
+const contentUtil = require('../../utils/content')
+
 Page({
   data: {
-    detail: null
+    detail: null,
+    BASE_URL: config.BASE_URL
   },
 
   onLoad(options) {
-    const id = options.id || 1;
-    this.fetchDetail(id);
+    const id = options.id;
+    if (id) {
+      this.fetchDetail(id);
+    }
   },
 
   fetchDetail(id) {
-    // 模拟根据 ID 获取详情
-    this.setData({
-      detail: {
-        id: id,
-        title: "帮您更深度地看清事业婚恋、亲子关系的卡点 | 自我疗愈",
-        content: "我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年我是小王子啊\n\n我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年我是小王子啊我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年我是小王子啊\n\n我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年我是小王子啊我是小王子，前泽宇团队成员，19年有幸接触到平台，跟着团队1年时间实现了年入百万，接着买房车，让整个人生至少加速了10年我是小王子啊",
-        heroImage: "/assets/images/founder.jpg"
+    wx.showLoading({ title: '加载中' });
+    wx.request({
+      url: `${config.BASE_URL}/services/${id}`,
+      method: 'GET',
+      success: (res) => {
+        if (res.statusCode === 200) {
+          let detail = res.data;
+          
+          // 使用统一工具处理富文本内容 (默认模式)
+          if (detail.content) {
+            detail.content = contentUtil.processRichText(detail.content);
+          }
+
+          this.setData({ detail });
+        }
+      },
+      complete: () => {
+        wx.hideLoading();
       }
     });
   },

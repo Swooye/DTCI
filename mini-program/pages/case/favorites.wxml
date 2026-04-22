@@ -1,0 +1,60 @@
+<view class="container">
+
+  <view class="feed-list" wx:if="{{caseList.length > 0}}">
+    <view class="card" wx:for="{{caseList}}" wx:key="id" data-id="{{item.id}}" bindtap="onCardTap">
+      <!-- 卡片头部 -->
+      <view class="card-header">
+        <view class="author-info">
+          <image class="avatar" src="{{item.avatar}}" mode="aspectFit"></image>
+          <text class="author-name">{{item.author}}</text>
+        </view>
+        <text class="post-date">{{item.date}}</text>
+      </view>
+
+      <!-- 文字内容区 -->
+      <view class="card-body">
+        <view class="card-title">{{item.title}}</view>
+        <view class="card-text">
+          {{item.content}}
+          <text class="expand-text">全文</text>
+        </view>
+      </view>
+
+      <!-- 多图 -->
+      <view class="card-images" wx:if="{{item.images.length > 0}}">
+        <view class="img-grid">
+          <block wx:for="{{item.images}}" wx:key="*this" wx:for-item="img" wx:for-index="imgIdx" wx:if="{{imgIdx < 3}}">
+            <view class="img-wrap">
+              <image class="case-img" src="{{img}}" mode="aspectFill"></image>
+              <view class="more-overlay" wx:if="{{imgIdx === 2 && item.images.length > 3}}">+{{item.images.length - 3}}</view>
+            </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 底部行为区 -->
+      <view class="card-footer">
+        <view class="theme-tag" style="color: {{item.tagColor}};">{{item.tag}}</view>
+        <view class="action-group">
+          <view class="action-item {{item.isLiked ? 'liked' : ''}}" catchtap="onLikeTap" data-id="{{item.id}}" data-index="{{index}}">
+            <text class="icon">{{item.isLiked ? '♥' : '♡'}}</text>
+            <text>{{item.likesText || ''}}</text>
+          </view>
+          <view class="action-item {{item.isStarred ? 'starred' : ''}}" catchtap="onStarTap" data-id="{{item.id}}" data-index="{{index}}">
+            <text class="icon">{{item.isStarred ? '★' : '☆'}}</text>
+            <text>{{item.starsText || ''}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <text class="empty-icon">{{mode === 'liked' ? '♡' : '☆'}}</text>
+    <text class="empty-text">暂无{{pageTitle}}</text>
+    <text class="empty-sub">去案例页面点{{mode === 'liked' ? '赞' : '收藏'}}感兴趣的内容吧</text>
+  </view>
+
+  <view class="safe-area-bottom"></view>
+</view>

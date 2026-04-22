@@ -1,0 +1,53 @@
+.profile-container {
+  padding: 0;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.profile-card {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-height: calc(100vh - 160px);
+}
+
+.card-info-tip {
+  margin-bottom: 40px;
+  padding-left: 10px;
+}
+
+.profile-form {
+  padding: 0 20px;
+}
+
+.profile-form .ant-form-item-label label {
+  font-weight: 500;
+  color: #333;
+}
+
+.form-divider {
+  height: 1px;
+  background-color: #f0f0f0;
+  margin: 30px 0;
+}
+
+.btn-save {
+  background-color: #3CB371 !important;
+  border-color: #3CB371 !important;
+  width: 120px;
+  height: 40px;
+}
+
+.btn-save:hover {
+  background-color: #2E8B57 !important;
+  border-color: #2E8B57 !important;
+}
+
+.header-user-role {
+  color: #666;
+  font-size: 14px;
+}

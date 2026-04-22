@@ -1,50 +1,63 @@
 .agreement-container {
   min-height: 100vh;
   background-color: #fff;
+  padding-bottom: 60rpx;
 }
 
 .page-header {
-  background-color: #fff;
-  padding: 32rpx;
-  border-bottom: 1px solid #e0e0e0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  padding: 40rpx 32rpx;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .page-title {
-  font-size: 34rpx;
-  font-weight: bold;
-  color: #333;
-  display: block;
-  text-align: center;
-  margin-bottom: 12rpx;
-}
-
-.update-time {
-  font-size: 24rpx;
-  color: #999;
-  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1a1a1a;
   text-align: center;
 }
 
 .agreement-content {
-  padding: 32rpx;
+  padding: 40rpx 32rpx;
 }
 
-.chapter-title {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #333;
-  display: block;
+.bottom-tips {
+  padding: 40rpx 32rpx;
   margin-top: 40rpx;
+  border-top: 1px dashed #eee;
+  text-align: center;
+}
+
+.bottom-tips text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 加载状态 */
+.loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+.loading-icon {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #07c160;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
   margin-bottom: 20rpx;
 }
 
-.chapter-content {
-  font-size: 28rpx;
-  color: #666;
-  line-height: 2;
-  display: block;
-  margin-bottom: 16rpx;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-box text {
+  font-size: 26rpx;
+  color: #999;
 }

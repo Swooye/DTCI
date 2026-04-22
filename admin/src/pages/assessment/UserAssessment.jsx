@@ -124,9 +124,11 @@ function UserAssessment() {
             </Select>
           </Form.Item>
 
-          <Button type="primary" icon={<FilterOutlined />} style={{ background: '#3BA38E' }}>
-            筛选
-          </Button>
+          <Form.Item style={{ margin: 0 }}>
+            <Button type="primary" icon={<FilterOutlined />}>
+              筛选
+            </Button>
+          </Form.Item>
         </Form>
       </Card>
 

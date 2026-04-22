@@ -1,43 +1,52 @@
 const app = getApp();
+const config = require('../../config');
 
 Page({
   data: {
     isLoggedIn: false,
     userInfo: {
       nickName: '点击登录',
-      avatar: '/assets/images/default-avatar.png'
+      avatar: '/assets/images/logo.png'
     },
-    stats: [
-      { label: '我的报告', count: 0, icon: '📁' },
-      { label: '点赞案例', count: 0 },
-      { label: '收藏案例', count: 0 }
-    ],
+    stats: {
+      reports: 0,
+      likes: 0,
+      stars: 0
+    },
     menus: [
-      { id: 'feedback', icon: '✉', name: '意见反馈' },
-      { id: 'about', icon: '🔖', name: '关于我们' },
-      { id: 'protocol', icon: '📄', name: '服务协议' },
-      { id: 'privacy', icon: '🛡', name: '隐私保护' }
-    ]
+      { id: 'feedback', iconClass: 'icon-feedback', name: '意见反馈' },
+      { id: 'about', iconClass: 'icon-about', name: '关于我们' },
+      { id: 'protocol', iconClass: 'icon-protocol', name: '服务协议' },
+      { id: 'privacy', iconClass: 'icon-privacy', name: '隐私保护' }
+    ],
+    unreadCount: 0
   },
 
   onShow() {
     this.refreshLoginState();
+    this.refreshStats();
+    this.refreshUnreadCount();
+  },
+
+  refreshStats() {
+    const likedCases = wx.getStorageSync('likedCases') || [];
+    const starredCases = wx.getStorageSync('starredCases') || [];
+    this.setData({
+      'stats.likes': likedCases.length,
+      'stats.stars': starredCases.length
+    });
   },
 
   refreshLoginState() {
-    // 从全局变量或本地存储获取登录状态和用户信息
     const isLogin = app.globalData.isLogin || wx.getStorageSync('isLogin');
     const storedUserInfo = app.globalData.userInfo || wx.getStorageSync('userInfo');
-    
-    console.log('refreshLoginState - isLogin:', isLogin);
-    console.log('refreshLoginState - userInfo:', storedUserInfo);
-    
+
     if (isLogin && storedUserInfo) {
       this.setData({
         isLoggedIn: true,
         userInfo: {
           nickName: storedUserInfo.nickName || storedUserInfo.nickname || '微信用户',
-          avatar: storedUserInfo.avatar || '/assets/images/default-avatar.png'
+          avatar: storedUserInfo.avatar || '/assets/images/logo.png'
         }
       });
     } else {
@@ -45,7 +54,7 @@ Page({
         isLoggedIn: false,
         userInfo: {
           nickName: '点击登录',
-          avatar: '/assets/images/default-avatar.png'
+          avatar: '/assets/images/logo.png'
         }
       });
     }
@@ -55,20 +64,48 @@ Page({
     wx.navigateTo({ url: '/pages/my/settings' });
   },
 
-  onProfileTap() {
-    if (this.data.isLoggedIn) {
-      wx.navigateTo({ url: '/pages/my/profile' });
-    } else {
-      wx.navigateTo({ url: '/pages/login/login' });
+  onNotificationsTap() {
+    wx.navigateTo({ url: '/pages/notifications/index' });
+  },
+
+  refreshUnreadCount() {
+    const isLogin = app.globalData.isLogin || wx.getStorageSync('isLogin');
+    if (!isLogin) {
+      this.setData({ unreadCount: 0 });
+      return;
     }
+    
+    const storedUserInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {};
+    const userId = storedUserInfo.id || 1;
+    
+    wx.request({
+      url: `${config.BASE_URL}/notifications/unread-count/${userId}`,
+      success: (res) => {
+        if (res.statusCode === 200) {
+          this.setData({ unreadCount: res.data });
+        }
+      }
+    });
   },
 
   onLoginTap() {
     if (!this.data.isLoggedIn) {
       wx.navigateTo({ url: '/pages/login/login' });
     } else {
-      this.onProfileTap();
+      wx.navigateTo({ url: '/pages/my/profile' });
     }
+  },
+
+  onReportsTap() {
+    // 跳转到我的报告列表（如有）
+  },
+
+  onLikedCasesTap() {
+    wx.navigateTo({ url: '/pages/case/favorites?mode=liked' });
+  },
+
+  onStarredCasesTap() {
+    wx.navigateTo({ url: '/pages/case/favorites?mode=starred' });
   },
 
   onMenuClick(e) {
@@ -85,7 +122,7 @@ Page({
   },
 
   onHomeTap() { wx.reLaunch({ url: '/pages/home/home' }) },
-  onCaseTap() { wx.navigateTo({ url: '/pages/case/index' }) },
-  onTestTap() { wx.navigateTo({ url: '/pages/assessment/index' }) },
-  onServiceTap() { wx.navigateTo({ url: '/pages/service/index' }) }
+  onCaseTap() { wx.reLaunch({ url: '/pages/case/index' }) },
+  onTestTap() { wx.reLaunch({ url: '/pages/assessment/index' }) },
+  onServiceTap() { wx.reLaunch({ url: '/pages/service/index' }) }
 })

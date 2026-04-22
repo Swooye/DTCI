@@ -1,3 +1,4 @@
+// Server entry - touched for reload
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -15,6 +16,7 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true, limit: '50mb' }));
   
   // 静态文件服务
+  app.useStaticAssets(join(process.cwd(), 'public'));
   app.useStaticAssets(join(process.cwd(), 'public/uploads'), {
     prefix: '/uploads/',
   });

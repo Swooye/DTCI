@@ -1,0 +1,34 @@
+/* favorites.wxss - 复用 case index 样式 */
+.container { background: #f5f5f5; min-height: 100vh; }
+.nav-header { display: flex; align-items: center; justify-content: space-between; padding: 24rpx 32rpx; background: #fff; border-bottom: 1rpx solid #f0f0f0; }
+.back-btn { font-size: 48rpx; color: #333; width: 60rpx; }
+.nav-title { font-size: 34rpx; font-weight: 600; color: #1a1a1a; }
+.nav-placeholder { width: 60rpx; }
+
+.feed-list { padding: 20rpx 24rpx; }
+.card { background: #fff; border-radius: 16rpx; padding: 28rpx; margin-bottom: 20rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20rpx; }
+.author-info { display: flex; align-items: center; gap: 16rpx; }
+.avatar { width: 64rpx; height: 64rpx; border-radius: 50%; background: #eee; }
+.author-name { font-size: 26rpx; font-weight: 500; color: #1a1a1a; }
+.post-date { font-size: 22rpx; color: #999; }
+.card-title { font-size: 30rpx; font-weight: 600; color: #1a1a1a; margin-bottom: 12rpx; line-height: 1.4; }
+.card-text { font-size: 26rpx; color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.expand-text { color: #FF6B35; font-size: 26rpx; }
+.card-images { margin: 16rpx 0; }
+.img-grid { display: flex; gap: 8rpx; }
+.img-wrap { position: relative; flex: 1; }
+.case-img { width: 100%; height: 160rpx; border-radius: 8rpx; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 20rpx; padding-top: 16rpx; border-top: 1rpx solid #f5f5f5; }
+.theme-tag { font-size: 22rpx; font-weight: 500; }
+.action-group { display: flex; align-items: center; gap: 32rpx; }
+.action-item { display: flex; align-items: center; gap: 8rpx; font-size: 24rpx; color: #999; }
+.action-item.liked .icon { color: #FF4757; }
+.action-item.starred .icon { color: #FFA500; }
+.icon { font-size: 30rpx; }
+
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120rpx 40rpx; }
+.empty-icon { font-size: 100rpx; color: #ccc; margin-bottom: 24rpx; }
+.empty-text { font-size: 32rpx; color: #666; font-weight: 500; margin-bottom: 12rpx; }
+.empty-sub { font-size: 26rpx; color: #999; text-align: center; line-height: 1.6; }
+.safe-area-bottom { height: 120rpx; }

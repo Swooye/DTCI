@@ -6,6 +6,7 @@ import {
 } from 'antd'
 import { SearchOutlined, EyeOutlined, DeleteOutlined, EditOutlined, FilterOutlined, UserOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
+import request from '../../utils/request'
 import './UserList.css'
 
 const { RangePicker } = AntDatePicker;
@@ -20,9 +21,7 @@ function UserList() {
   const fetchUsers = async (params = {}) => {
     setLoading(true);
     try {
-      const queryString = new URLSearchParams(params).toString();
-      const response = await fetch(`http://127.0.0.1:3100/users?${queryString}`);
-      const data = await response.json();
+      const data = await request.get('/users', { params });
       
       // 数据映射
       const mappedData = data.map(user => {
@@ -31,7 +30,8 @@ function UserList() {
         const isValidUrl = (avatarUrl.startsWith('http://') || avatarUrl.startsWith('https://')) && !avatarUrl.startsWith('http://tmp/');
         
         if (!isValidUrl) {
-          avatarUrl = null; // 设为 null 确保 AntD Avatar 触发 icon 降级
+          // 使用 baseURL 来构建完整的 logo 路径，或者直接使用通用路径
+          avatarUrl = 'http://localhost:3100/logo.png'; 
         }
 
         return {
@@ -71,7 +71,7 @@ function UserList() {
       key: 'name',
       render: (text, record) => (
         <Space style={{ whiteSpace: 'nowrap' }}>
-          <Avatar src={record.avatar} size="small" icon={<UserOutlined />} />
+          <Avatar src={record.avatar} size="small" />
           <span>{text}</span>
         </Space>
       )
@@ -103,6 +103,7 @@ function UserList() {
     {
       title: '操作',
       key: 'action',
+      width: 200,
       fixed: 'right',
       render: (_, record) => (
         <Space size="middle">
@@ -162,9 +163,11 @@ function UserList() {
             </Select>
           </Form.Item>
 
-          <Button type="primary" icon={<FilterOutlined />} htmlType="submit" style={{ background: '#3BA38E' }}>
-            筛选
-          </Button>
+          <Form.Item style={{ margin: 0 }}>
+            <Button type="primary" icon={<FilterOutlined />} htmlType="submit">
+              筛选
+            </Button>
+          </Form.Item>
 
           <div style={{ width: '100%', marginTop: 16 }}>
              <Space size="large">
@@ -197,7 +200,7 @@ function UserList() {
           dataSource={dataSource}
           rowKey="id"
           pagination={{ total: 100, showSizeChanger: true }}
-          scroll={{ x: 1200 }}
+          scroll={{ x: 1500 }}
         />
       </Card>
 
@@ -211,7 +214,7 @@ function UserList() {
         {currentUser && (
           <Descriptions column={2} bordered>
             <Descriptions.Item label="头像" span={2}>
-              <Avatar src={currentUser.avatar} size={64} icon={<UserOutlined />} />
+              <Avatar src={currentUser.avatar} size={64} />
             </Descriptions.Item>
             <Descriptions.Item label="用户ID">{currentUser.id}</Descriptions.Item>
             <Descriptions.Item label="用户名">{currentUser.name}</Descriptions.Item>

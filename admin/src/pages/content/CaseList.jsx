@@ -1,9 +1,32 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Table, Button, Space, Card, Modal, Form, Input, Select, Tag, Switch, Upload, message } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons'
-import ReactQuill from 'react-quill'
+import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import request from '../../utils/request'
+
+// 注册图片样式支持，允许保留 width 属性同步到小程序
+const ImageFormat = Quill.import('formats/image');
+class ResizableImage extends ImageFormat {
+  static formats(domNode) {
+    const formats = super.formats(domNode);
+    if (domNode.hasAttribute('width')) formats.width = domNode.getAttribute('width');
+    if (domNode.hasAttribute('style')) formats.style = domNode.getAttribute('style');
+    return formats;
+  }
+  format(name, value) {
+    if (name === 'width' || name === 'style') {
+      if (value) {
+        this.domNode.setAttribute(name, value);
+      } else {
+        this.domNode.removeAttribute(name);
+      }
+    } else {
+      super.format(name, value);
+    }
+  }
+}
+Quill.register(ResizableImage, true);
 
 function CaseList() {
   const [visible, setVisible] = useState(false)
@@ -16,14 +39,94 @@ function CaseList() {
 
   const tags = ['事业', '亲子', '婚恋', '自我成长']
 
+
+
+  const quillRef = useRef(null);
+
+  // 处理图片双击缩放的通用逻辑
+  const handleImageDblClick = (e) => {
+    if (e.target.tagName === 'IMG') {
+      const img = e.target;
+      const currentWidth = img.getAttribute('width') || img.style.width || '100%';
+      Modal.confirm({
+        title: '调整图片尺寸',
+        content: (
+          <div style={{ marginTop: 10 }}>
+            <p>建议输入百分比（如 50%）或像素值（如 200px）</p>
+            <Input 
+              defaultValue={currentWidth} 
+              onChange={(ev) => img._newWidth = ev.target.value}
+              placeholder="例如: 50% 或 200px"
+            />
+          </div>
+        ),
+        onOk: () => {
+          const val = img._newWidth || currentWidth;
+          img.setAttribute('width', val);
+          img.style.width = val;
+          const quill = quillRef.current?.getEditor();
+          if (quill) {
+            form.setFieldsValue({ content: quill.root.innerHTML });
+          }
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    const attachListener = () => {
+      const quill = quillRef.current?.getEditor();
+      if (quill && quill.root) {
+        quill.root.removeEventListener('dblclick', handleImageDblClick);
+        quill.root.addEventListener('dblclick', handleImageDblClick);
+      }
+    };
+    const timer = setTimeout(attachListener, 500);
+    return () => {
+      clearTimeout(timer);
+      const quill = quillRef.current?.getEditor();
+      if (quill && quill.root) {
+        quill.root.removeEventListener('dblclick', handleImageDblClick);
+      }
+    };
+  }, [visible]);
+
   const quillModules = useMemo(() => ({
-    toolbar: [
-      [{ 'header': [1, 2, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-      ['link', 'image'],
-      ['clean']
-    ],
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, false] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ 'align': [] }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+        ['link', 'image'],
+        ['clean']
+      ],
+      handlers: {
+        image: function() {
+          const input = document.createElement('input');
+          input.setAttribute('type', 'file');
+          input.setAttribute('accept', 'image/*');
+          input.click();
+          input.onchange = async () => {
+            const file = input.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            try {
+              const res = await request.post('/uploads', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+              });
+              const range = this.quill.getSelection();
+              // 插入完整 URL 确保编辑器内能预览
+              // 如果 res.url 已经是完整路径则直接使用，否则补全
+              const fullUrl = res.url.startsWith('http') ? res.url : `http://localhost:3100${res.url}`;
+              this.quill.insertEmbed(range.index, 'image', fullUrl);
+            } catch (err) {
+              message.error('图片上传失败');
+            }
+          };
+        }
+      }
+    },
   }), [])
 
   const fetchCases = async () => {
@@ -46,29 +149,37 @@ function CaseList() {
     fetchUsers()
   }, [])
 
-  const handleEdit = (record) => {
-    setEditingId(record.id)
-    form.setFieldsValue({
-      ...record,
-      authorId: record.author.id,
-      images: undefined // Upload uses fileList state
-    })
-    
-    // Convert JSON string to fileList format for Antd Upload
+  const handleEdit = async (record) => {
+    setLoading(true)
     try {
-      const imagesArray = JSON.parse(record.images || '[]')
-      setFileList(imagesArray.map((url, index) => ({
-        uid: index,
-        name: `image-${index}`,
-        status: 'done',
-        url: url.startsWith('/') ? `http://localhost:3100${url}` : url,
-        response: { url }
-      })))
-    } catch (e) {
-      setFileList([])
+      // 获取最新数据，防止被 stale 数据覆盖点赞/收藏数
+      const freshRecord = await request.get(`/cases/${record.id}`)
+      setEditingId(freshRecord.id)
+      form.setFieldsValue({
+        ...freshRecord,
+        authorId: freshRecord.author.id,
+        images: undefined
+      })
+      
+      try {
+        const imagesArray = JSON.parse(freshRecord.images || '[]')
+        setFileList(imagesArray.map((url, index) => ({
+          uid: index,
+          name: `image-${index}`,
+          status: 'done',
+          url: url.startsWith('/') ? `http://localhost:3100${url}` : url,
+          response: { url }
+        })))
+      } catch (e) {
+        setFileList([])
+      }
+      
+      setVisible(true)
+    } catch (error) {
+      message.error('获取最新数据失败')
+    } finally {
+      setLoading(false)
     }
-    
-    setVisible(true)
   }
 
   const handleDelete = async (id) => {
@@ -123,15 +234,31 @@ function CaseList() {
       dataIndex: 'images', 
       key: 'images', 
       width: 100,
-      render: (imgJson) => {
+      render: (imgData) => {
         try {
-          const imgs = JSON.parse(imgJson)
+          // Robust handling for both string JSON and already-parsed data
+          let imgs = []
+          if (typeof imgData === 'string') {
+            imgs = JSON.parse(imgData || '[]')
+          } else if (Array.isArray(imgData)) {
+            imgs = imgData
+          }
+          
           if (imgs.length > 0) {
             const src = imgs[0].startsWith('/') ? `http://localhost:3100${imgs[0]}` : imgs[0]
-            return <img src={src} style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 4 }} alt="case" />
+            return (
+              <img 
+                src={src} 
+                style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 4, backgroundColor: '#f5f5f5' }} 
+                alt="case" 
+                onError={(e) => { e.target.src = 'https://placehold.co/50?text=Error' }}
+              />
+            )
           }
-        } catch (e) { return null }
-        return null
+        } catch (e) { 
+          console.error('Image parse error:', e)
+        }
+        return <div style={{ width: 50, height: 50, backgroundColor: '#f5f5f5', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: '#999' }}>无图片</div>
       }
     },
     { title: '标题', dataIndex: 'title', key: 'title', ellipsis: true },
@@ -156,7 +283,7 @@ function CaseList() {
     { 
       title: '获赞/收藏', 
       key: 'stats',
-      render: (_, record) => `${record.likes}/${record.stars}`
+      render: (_, record) => `${(record.virtualLikes || 0) + (record.realLikes || 0)} / ${(record.virtualStars || 0) + (record.realStars || 0)}`
     },
     {
       title: '操作',
@@ -262,6 +389,7 @@ function CaseList() {
             rules={[{ required: true, message: '请输入案例内容' }]}
           >
             <ReactQuill 
+              ref={quillRef}
               theme="snow"
               modules={quillModules}
               placeholder="请输入详细案例内容..."
@@ -270,11 +398,17 @@ function CaseList() {
           </Form.Item>
           
           <Space size="large">
-            <Form.Item label="虚拟获赞数" name="likes" initialValue={0}>
+            <Form.Item label="虚拟获赞数" name="virtualLikes" initialValue={0}>
               <Input type="number" style={{ width: 120 }} />
             </Form.Item>
-            <Form.Item label="虚拟收藏数" name="stars" initialValue={0}>
+            <Form.Item label="真实获赞数 (只读)">
+               <Input value={form.getFieldValue('realLikes') || 0} disabled style={{ width: 120 }} />
+            </Form.Item>
+            <Form.Item label="虚拟收藏数" name="virtualStars" initialValue={0}>
               <Input type="number" style={{ width: 120 }} />
+            </Form.Item>
+            <Form.Item label="真实收藏数 (只读)">
+               <Input value={form.getFieldValue('realStars') || 0} disabled style={{ width: 120 }} />
             </Form.Item>
           </Space>
         </Form>

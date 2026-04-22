@@ -1,4 +1,5 @@
 const app = getApp()
+const config = require('../../config')
 
 Page({
   data: {
@@ -12,34 +13,15 @@ Page({
     selectedType: '',
     content: '',
     images: [],
-    contact: '',
-    historyList: [
-      {
-        id: 1,
-        type: '功能建议',
-        content: '希望增加预约提醒功能',
-        time: '2024-05-15 14:30',
-        status: 'resolved',
-        statusText: '已处理'
-      },
-      {
-        id: 2,
-        type: 'Bug反馈',
-        content: '首页加载速度较慢',
-        time: '2024-05-10 09:15',
-        status: 'pending',
-        statusText: '处理中'
-      }
-    ]
+    contact: ''
   },
 
   onLoad() {
-    this.loadHistory()
+    // 初始加载
   },
 
-  loadHistory() {
-    // 模拟加载反馈历史
-    console.log('加载反馈历史')
+  onGoToHistory() {
+    wx.navigateTo({ url: '/pages/feedback/list' })
   },
 
   onTypeSelect(e) {
@@ -80,7 +62,7 @@ Page({
     this.setData({ images })
   },
 
-  onSubmit() {
+  async onSubmit() {
     if (!this.data.selectedType) {
       wx.showToast({
         title: '请选择反馈类型',
@@ -98,23 +80,92 @@ Page({
     }
 
     wx.showLoading({ title: '提交中...' })
-    
-    setTimeout(() => {
+
+    try {
+      // 1. 上传图片到服务器
+      const imageUrls = []
+      for (const filePath of this.data.images) {
+        // 如果已经是服务器路径（虽然概率低），则跳过
+        if (filePath.startsWith('/uploads')) {
+          imageUrls.push(filePath)
+          continue
+        }
+        
+        const uploadRes = await this.uploadFilePromise(filePath)
+        if (uploadRes && uploadRes.url) {
+          imageUrls.push(uploadRes.url)
+        }
+      }
+
+      // 2. 提交反馈数据
+      const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {}
+      const userId = userInfo.id || 1
+
+      wx.request({
+        url: `${config.BASE_URL}/feedbacks`,
+        method: 'POST',
+        data: {
+          userId,
+          type: this.data.selectedType,
+          content: this.data.content,
+          images: imageUrls,
+          contact: this.data.contact
+        },
+        success: (res) => {
+          wx.hideLoading()
+          if (res.statusCode === 201) {
+            wx.showToast({
+              title: '提交成功',
+              icon: 'success',
+              duration: 2000
+            })
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 2000)
+          } else {
+            wx.showToast({
+              title: '提交失败，请重试',
+              icon: 'none'
+            })
+          }
+        },
+        fail: () => {
+          wx.hideLoading()
+          wx.showToast({
+            title: '网络错误',
+            icon: 'none'
+          })
+        }
+      })
+    } catch (err) {
       wx.hideLoading()
+      console.error('Upload Error:', err)
       wx.showToast({
-        title: '提交成功',
-        icon: 'success'
+        title: '图片上传失败',
+        icon: 'none'
       })
-      
-      this.setData({
-        selectedType: '',
-        content: '',
-        images: [],
-        contact: ''
+    }
+  },
+
+  // 上传文件 Promise 封装
+  uploadFilePromise(filePath) {
+    return new Promise((resolve, reject) => {
+      wx.uploadFile({
+        url: `${config.BASE_URL}/uploads`,
+        filePath: filePath,
+        name: 'file',
+        success: (res) => {
+          if (res.statusCode === 201 || res.statusCode === 200) {
+            resolve(JSON.parse(res.data))
+          } else {
+            reject(new Error('Upload failed with status ' + res.statusCode))
+          }
+        },
+        fail: (err) => {
+          reject(err)
+        }
       })
-      
-      this.loadHistory()
-    }, 1500)
+    })
   },
 
   onHistoryTap(e) {

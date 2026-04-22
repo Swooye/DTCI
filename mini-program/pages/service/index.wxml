@@ -1,51 +1,76 @@
 <view class="container">
-  <view class="header">
-    <text class="page-title">服务</text>
-  </view>
-
-  <!-- 胶囊式分类切换 -->
-  <view class="capsule-tab-container">
-    <view class="capsule-tab">
-      <view 
-        class="capsule-item {{currentCategory === 'personal' ? 'active' : ''}}" 
-        bindtap="onSwitchCategory" 
-        data-cat="personal"
-      >
-        个人服务
-      </view>
-      <view 
-        class="capsule-item {{currentCategory === 'corporate' ? 'active' : ''}}" 
-        bindtap="onSwitchCategory" 
-        data-cat="corporate"
-      >
-        企业服务
-      </view>
+  <view wx:if="{{!loading}}" class="content-view">
+    <view class="header">
+      <text class="page-title">服务</text>
     </view>
-  </view>
 
-  <!-- 服务列表内容区 -->
-  <scroll-view scroll-y class="service-scroll" show-scrollbar="{{false}}">
-    <view class="white-card">
-      <view 
-        class="service-item" 
-        wx:for="{{services[currentCategory]}}" 
-        wx:key="id"
-        bindtap="onServiceDetail"
-        data-id="{{item.id}}"
-      >
-        <!-- 左侧大图 -->
-        <image class="service-img" src="/assets/images/founder.jpg" mode="aspectFill"></image>
-        
-        <!-- 右侧内容 -->
-        <view class="service-info">
-          <view class="title-tag">{{item.title}}</view>
-          <view class="description">{{item.description}}</view>
+    <!-- 胶囊式分类切换 -->
+    <view class="capsule-tab-container">
+      <view class="capsule-tab">
+        <view 
+          class="capsule-item {{currentCategory === 'personal' ? 'active' : ''}}" 
+          bindtap="onSwitchCategory" 
+          data-cat="personal"
+        >
+          个人服务
+        </view>
+        <view 
+          class="capsule-item {{currentCategory === 'corporate' ? 'active' : ''}}" 
+          bindtap="onSwitchCategory" 
+          data-cat="corporate"
+        >
+          企业服务
         </view>
       </view>
     </view>
-    
-    <view class="footer-spacer"></view>
-  </scroll-view>
+
+    <!-- 服务列表内容区 -->
+    <scroll-view scroll-y class="service-scroll" show-scrollbar="{{false}}" bindrefresherrefresh="onPullDownRefresh" refresher-enabled refresher-triggered="{{loading}}">
+      <view class="white-card">
+        <view 
+          class="service-item" 
+          wx:for="{{services[currentCategory]}}" 
+          wx:key="id"
+          bindtap="onServiceDetail"
+          data-id="{{item.id}}"
+        >
+          <!-- 左侧大图: 仅对服务器上传图片补全 BASE_URL，否则使用本地路径 -->
+          <image class="service-img" src="{{item.image ? (item.image[0] === '/' && item.image.indexOf('/uploads/') === 0 ? BASE_URL + item.image : item.image) : '/assets/images/logo.png'}}" mode="aspectFill"></image>
+          
+          <!-- 右侧内容 -->
+          <view class="service-info">
+            <view class="title-tag">{{item.name}}</view>
+            <view class="description">{{item.description}}</view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="footer-spacer"></view>
+    </scroll-view>
+  </view>
+
+  <!-- 加载状态 skeletons -->
+  <view wx:if="{{loading}}" class="skeleton-view">
+    <view class="header">
+      <text class="page-title">服务</text>
+    </view>
+    <view class="capsule-tab-container">
+      <view class="capsule-tab" style="opacity: 0.5;">
+        <view class="capsule-item">个人服务</view>
+        <view class="capsule-item">企业服务</view>
+      </view>
+    </view>
+    <view class="white-card">
+      <view class="skeleton-service-item" wx:for="{{5}}" wx:key="index">
+        <view class="skeleton-img"></view>
+        <view class="skeleton-info">
+          <view class="skeleton-title-tag"></view>
+          <view class="skeleton-desc-line"></view>
+          <view class="skeleton-desc-line skeleton-desc-short"></view>
+        </view>
+      </view>
+    </view>
+  </view>
 
   <!-- 统一底部 TabBar -->
   <view class="tab-bar">
@@ -69,7 +94,9 @@
       <text>服务</text>
     </view>
     <view class="tab-item-nav" bindtap="onMyTap">
-      <view class="tab-icon my-icon"></view>
+      <view class="tab-icon my-icon">
+        <view class="tab-dot" wx:if="{{unreadCount > 0}}"></view>
+      </view>
       <text>我的</text>
     </view>
   </view>

@@ -27,7 +27,9 @@
     <view class="detail-header">
       <text class="detail-title">服务详情</text>
     </view>
-    <rich-text class="detail-content" nodes="{{service.description}}"></rich-text>
+    <view class="rich-content">
+      <rich-text nodes="{{service.description}}"></rich-text>
+    </view>
   </view>
 
   <!-- 注意事项 -->

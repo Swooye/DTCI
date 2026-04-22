@@ -1,43 +1,55 @@
 <view class="container">
-  
-  <!-- 页面主内容区 -->
-  <view class="detail-body">
-    <!-- 用户信息 -->
+  <view class="detail-body" wx:if="{{!loading && caseItem}}">
+    <!-- 作者信息 -->
     <view class="author-info">
-      <image class="avatar" src="{{caseItem.avatar}}" mode="aspectFill"></image>
+      <image class="avatar" src="{{caseItem.avatar}}" mode="aspectFit"></image>
       <view class="author-text">
         <text class="author-name">{{caseItem.author}}</text>
         <text class="post-date">{{caseItem.date}}</text>
       </view>
     </view>
 
-    <!-- 标题区 -->
-    <view class="detail-title">{{caseItem.title}}</view>
+    <!-- 标题与正文 -->
+    <view class="content-section">
+      <view class="detail-title">{{caseItem.title}}</view>
+      <rich-text class="detail-content" nodes="{{caseItem.content}}"></rich-text>
+    </view>
 
-    <!-- 正文长文区 -->
-    <rich-text nodes="{{caseItem.content}}" class="detail-content"></rich-text>
+    <view class="safe-area-bottom"></view>
   </view>
 
-  <!-- 吸底悬浮操作栏 -->
-  <view class="bottom-action-bar">
+  <!-- 底部固定操作栏 -->
+  <view class="bottom-action-bar" wx:if="{{!loading && caseItem}}">
     <view class="theme-tag" style="color: {{caseItem.tagColor}};">{{caseItem.tag}}</view>
     
     <view class="action-group">
-      <!-- 喜欢 -->
-      <view class="action-item {{caseItem.isLiked ? 'liked' : ''}}">
-        <text class="icon">♡</text> 
-        <text>{{caseItem.likes}}</text>
+      <!-- 点赞 -->
+      <view class="action-item {{caseItem.isLiked ? 'liked' : ''}}" bindtap="onLikeTap">
+        <text class="icon">{{caseItem.isLiked ? '♥' : '♡'}}</text>
+        <text class="count">{{caseItem.likesText || ''}}</text>
       </view>
       <!-- 收藏 -->
-      <view class="action-item {{caseItem.isLiked ? 'liked' : ''}}">
-        <text class="icon">☆</text>
-        <text>{{caseItem.stars}}</text>
+      <view class="action-item {{caseItem.isStarred ? 'starred' : ''}}" bindtap="onStarTap">
+        <text class="icon">{{caseItem.isStarred ? '★' : '☆'}}</text>
+        <text class="count">{{caseItem.starsText || ''}}</text>
       </view>
       <!-- 转发 -->
-      <view class="action-item">
+      <button class="action-item share-btn" open-type="share">
         <text class="icon">➦</text>
-        <text>{{caseItem.shares}}</text>
-      </view>
+      </button>
     </view>
+  </view>
+
+  <!-- Loading Skeleton -->
+  <view class="skeleton-detail" wx:if="{{loading}}">
+    <view class="skeleton-avatar-wrap">
+      <view class="skeleton-line skeleton-avatar"></view>
+      <view class="skeleton-line skeleton-name"></view>
+    </view>
+    <view class="skeleton-line skeleton-title"></view>
+    <view class="skeleton-line skeleton-content-line"></view>
+    <view class="skeleton-line skeleton-content-line"></view>
+    <view class="skeleton-line skeleton-content-line" style="width: 70%;"></view>
+    <view class="skeleton-line skeleton-image"></view>
   </view>
 </view>

@@ -1,4 +1,5 @@
 const app = getApp()
+const contentUtil = require('../../utils/content')
 
 Page({
   data: {
@@ -31,6 +32,11 @@ Page({
 
   onLoad(options) {
     const id = options.id
+    // 同步处理默认数据中的富文本
+    if (this.data.service.description) {
+      const description = contentUtil.processRichText(this.data.service.description);
+      this.setData({ 'service.description': description });
+    }
     this.loadServiceDetail(id)
   },
 

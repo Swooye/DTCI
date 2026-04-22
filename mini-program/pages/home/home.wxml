@@ -4,33 +4,35 @@
     <text class="header-title">了庸文化</text>
   </view>
 
-  <!-- 使命愿景理念卡片 -->
+  <!-- 公司简介 (MVV) -->
   <view class="mvv-card">
-    <view class="mvv-item">
-      <view class="mvv-label-wrap">
-        <view class="mvv-bar"></view>
-        <text class="mvv-label">使 命</text>
-      </view>
-      <text class="mvv-content">通过DTCI赋能个人、家庭和组织，成就个人、家庭和组织幸福，推动社会更加幸福、美好</text>
-    </view>
-    <view class="mvv-line"></view>
-    
-    <view class="mvv-item">
+    <view class="mvv-item" wx:if="{{vision}}">
       <view class="mvv-label-wrap">
         <view class="mvv-bar"></view>
         <text class="mvv-label">愿 景</text>
       </view>
-      <text class="mvv-content">助力2亿人更好地认识自己、进化自己、成就自己</text>
+      <text class="mvv-content">{{vision}}</text>
     </view>
-    <view class="mvv-line"></view>
+    <view class="mvv-line" wx:if="{{vision && (mission || values)}}"></view>
+
+    <view class="mvv-item" wx:if="{{mission}}">
+      <view class="mvv-label-wrap">
+        <view class="mvv-bar"></view>
+        <text class="mvv-label">使 命</text>
+      </view>
+      <text class="mvv-content">{{mission}}</text>
+    </view>
+    <view class="mvv-line" wx:if="{{mission && values}}"></view>
     
-    <view class="mvv-item">
+    <view class="mvv-item" wx:if="{{values}}">
       <view class="mvv-label-wrap">
         <view class="mvv-bar"></view>
         <text class="mvv-label">理 念</text>
       </view>
-      <text class="mvv-content">活好自己、照亮家人、照亮更多人</text>
+      <text class="mvv-content">{{values}}</text>
     </view>
+    
+    <view class="empty-state" wx:if="{{!mission && !vision && !values}}">暂无公司简介</view>
   </view>
 
   <!-- 创始人故事 -->
@@ -40,11 +42,20 @@
       <text>创始人故事</text>
       <text class="dot">·</text>
     </view>
-    <view class="founder-video" bindtap="onPlayVideo">
-      <!-- 若没有真实封面，可暂留空白灰底 -->
-      <image class="founder-image" src="/assets/images/founder.jpg" mode="aspectFill"></image>
-      <view class="play-btn">
-        <view class="play-icon"></view>
+    <view class="founder-video-container">
+      <video 
+        wx:if="{{founderVideo}}"
+        src="{{founderVideo}}" 
+        class="founder-real-video"
+        object-fit="cover"
+        controls
+      ></video>
+      <view class="founder-video" bindtap="onPlayVideo" wx:else>
+        <!-- 暂留空白灰底 -->
+        <image class="founder-image" src="/assets/images/founder.jpg" mode="aspectFill"></image>
+        <view class="play-btn">
+          <view class="play-icon"></view>
+        </view>
       </view>
     </view>
   </view>
@@ -56,19 +67,14 @@
       <text>服务对比</text>
       <text class="dot">·</text>
     </view>
-    <view class="compare-table">
-      <!-- 表头 -->
-      <view class="compare-header-row">
-        <view class="compare-col-left-header"></view>
-        <view class="compare-col-dtci-header">DTCI自我认知工具</view>
-        <view class="compare-col-other-header">其他自我认知工具</view>
-      </view>
-      <!-- 对比行 -->
-      <view class="compare-row" wx:for="{{compareList}}" wx:key="index">
-        <view class="compare-col-left">{{item.label}}</view>
-        <view class="compare-col-dtci">{{item.dtci}}</view>
-        <view class="compare-col-other">{{item.other}}</view>
-      </view>
+    <view class="compare-container">
+      <image 
+        wx:if="{{serviceImage}}"
+        src="{{serviceImage}}" 
+        mode="widthFix" 
+        class="service-compare-image"
+      ></image>
+      <view class="empty-state" wx:else>暂无服务对比</view>
     </view>
   </view>
 
@@ -98,7 +104,9 @@
       <text>服务</text>
     </view>
     <view class="tab-item" bindtap="onMyTap">
-      <view class="tab-icon my-icon"></view>
+      <view class="tab-icon my-icon">
+        <view class="tab-dot" wx:if="{{unreadCount > 0}}"></view>
+      </view>
       <text>我的</text>
     </view>
   </view>

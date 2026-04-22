@@ -24,6 +24,24 @@ const menuItems = [
     path: '/dashboard'
   },
   {
+    key: 'assessment',
+    icon: <HeartOutlined />,
+    label: '测评管理',
+    children: [
+      { key: 'user-assessment', label: '测评订单', path: '/assessment/user-assessment' }
+    ]
+  },
+  {
+    key: 'questionnaire_mgmt',
+    icon: <FolderOutlined />,
+    label: '问卷管理',
+    children: [
+      { key: 'questionnaire', label: '问卷管理', path: '/assessment/questionnaire' },
+      { key: 'question-bank', label: '题库管理', path: '/assessment/question-bank' },
+      { key: 'gene-type', label: '基因类型', path: '/assessment/gene-type' }
+    ]
+  },
+  {
     key: 'users',
     icon: <UserOutlined />,
     label: '用户管理',
@@ -33,44 +51,16 @@ const menuItems = [
     ]
   },
   {
-    key: 'assessment',
-    icon: <HeartOutlined />,
-    label: '测评管理',
-    children: [
-      { key: 'assessment-list', label: '测评管理', path: '/assessment/assessment-list' },
-      { key: 'user-assessment', label: '用户测评', path: '/assessment/user-assessment' },
-      { key: 'assessment-report', label: '测评报告', path: '/assessment/assessment-report' },
-      { key: 'questionnaire', label: '问卷管理', path: '/assessment/questionnaire' },
-      { key: 'question-bank', label: '题库管理', path: '/assessment/question-bank' }
-    ]
-  },
-  {
-    key: 'feedback',
-    icon: <MessageOutlined />,
-    label: '反馈管理',
-    children: [
-      { key: 'feedback-list', label: '反馈列表', path: '/feedback/feedback-list' },
-      { key: 'reply', label: '回复', path: '/feedback/reply' }
-    ]
-  },
-  {
-    key: 'finance',
-    icon: <DollarOutlined />,
-    label: '财务管理',
-    children: [
-      { key: 'commission', label: '佣金明细', path: '/finance/commission' },
-      { key: 'withdraw-list', label: '提现列表', path: '/finance/withdraw-list' }
-    ]
-  },
-  {
-    key: 'content',
+    key: 'case_mgmt',
     icon: <PictureOutlined />,
-    label: '内容管理',
-    children: [
-      { key: 'banner-list', label: '轮播图管理', path: '/content/banner-list' },
-      { key: 'case-list', label: '案例管理', path: '/content/case-list' },
-      { key: 'service-list', label: '服务管理', path: '/content/service-list' }
-    ]
+    label: '案例管理',
+    path: '/content/case-list'
+  },
+  {
+    key: 'service_mgmt',
+    icon: <MessageOutlined />,
+    label: '服务管理',
+    path: '/content/service-list'
   },
   {
     key: 'settings',

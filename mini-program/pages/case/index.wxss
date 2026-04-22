@@ -182,13 +182,44 @@
 }
 
 .action-item.liked {
-  color: #FF6B35;
+  color: #FF4757;
+}
+
+.action-item.starred {
+  color: #FFA500;
 }
 
 .action-item .icon {
   font-size: 32rpx;
   margin-right: 8rpx;
 }
+
+/* Skeleton Loading */
+@keyframes shimmer {
+  0% { background-position: -600rpx 0; }
+  100% { background-position: 600rpx 0; }
+}
+.skeleton-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+.skeleton-line {
+  border-radius: 8rpx;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 600rpx 100%;
+  animation: shimmer 1.4s infinite;
+}
+.skeleton-avatar { width: 64rpx; height: 64rpx; border-radius: 50%; }
+.skeleton-header { display: flex; align-items: center; gap: 16rpx; margin-bottom: 20rpx; }
+.skeleton-name { height: 28rpx; width: 120rpx; }
+.skeleton-title { height: 36rpx; width: 80%; margin-bottom: 16rpx; }
+.skeleton-text { height: 24rpx; width: 100%; margin-bottom: 10rpx; }
+.skeleton-text-short { height: 24rpx; width: 60%; margin-bottom: 20rpx; }
+.skeleton-img-row { display: flex; gap: 10rpx; margin-bottom: 20rpx; }
+.skeleton-img { height: 160rpx; flex: 1; border-radius: 8rpx; }
 
 /* 底部 TabBar */
 .safe-area-bottom { height: env(safe-area-inset-bottom); }

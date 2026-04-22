@@ -1,14 +1,14 @@
 <view class="container">
   <!-- 顶部沉浸式大图 -->
   <view class="hero-section">
-    <image class="hero-img" src="{{detail.heroImage}}" mode="aspectFill"></image>
+    <image class="hero-img" src="{{detail.image ? (detail.image[0] === '/' && detail.image.indexOf('/uploads/') === 0 ? BASE_URL + detail.image : detail.image) : '/assets/images/logo.png'}}" mode="aspectFill"></image>
   </view>
 
   <!-- 文章正文区 -->
   <view class="main-content">
-    <view class="detail-title">{{detail.title}}</view>
-    <view class="rich-text-content">
-      <text user-select="true">{{detail.content}}</text>
+    <view class="detail-title">{{detail.name}}</view>
+    <view class="rich-content">
+      <rich-text nodes="{{detail.content}}"></rich-text>
     </view>
   </view>
 

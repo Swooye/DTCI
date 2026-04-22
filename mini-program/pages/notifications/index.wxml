@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="notification-list" wx:if="{{list.length > 0}}">
+    <view 
+      class="notification-item {{item.isRead ? 'read' : 'unread'}}" 
+      wx:for="{{list}}" 
+      wx:key="id"
+      bindtap="onItemTap"
+      data-id="{{item.id}}"
+      data-index="{{index}}">
+      <view class="item-icon-wrapper">
+        <view class="item-icon {{item.type}}"></view>
+      </view>
+      <view class="item-content">
+        <view class="item-header">
+          <text class="title">{{item.title}}</text>
+          <text class="time">{{item.createdAt}}</text>
+        </view>
+        <view class="body">{{item.content}}</view>
+      </view>
+      <view class="unread-dot" wx:if="{{!item.isRead}}"></view>
+    </view>
+  </view>
+  <view class="empty-state" wx:else>
+    <view class="empty-icon"></view>
+    <text>暂无消息</text>
+  </view>
+</view>

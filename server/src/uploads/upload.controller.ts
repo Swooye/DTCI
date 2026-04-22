@@ -17,13 +17,13 @@ export class UploadController {
         },
       }),
       fileFilter: (req: any, file: any, callback: any) => {
-        if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-          return callback(new BadRequestException('Only image files are allowed!'), false);
+        if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp|mp4|avi)$/i)) {
+          return callback(new BadRequestException('Only image and video (mp4/avi) files are allowed!'), false);
         }
         callback(null, true);
       },
       limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB
+        fileSize: 500 * 1024 * 1024, // 500MB
       },
     }),
   )

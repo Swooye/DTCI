@@ -49,12 +49,13 @@
 .notification-icon {
   font-size: 20px;
   color: #fff !important;
+  opacity: 0.9;
 }
 
 .notification-badge {
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 2px;
+  right: 2px;
   background-color: #ff4d4f;
   color: #fff;
   font-size: 10px;
@@ -68,8 +69,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translate(30%, -30%); /* 精确微调：向右上角偏移图标宽度的30% */
-  border: 1px solid #3BA38E; /* 添加与背景一致的描边，增加立体感 */
+  transform: translate(25%, -25%);
+  border: 1px solid #3BA38E;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .header-user {

@@ -61,6 +61,10 @@
   margin: 20rpx 0;
 }
 
+.content-section {
+  margin-top: 40rpx;
+}
+
 /* 底部操作栏 */
 .bottom-action-bar {
   position: fixed;
@@ -99,10 +103,51 @@
 }
 
 .action-item.liked {
-  color: #FF6B35;
+  color: #FF4757;
+}
+
+.action-item.starred {
+  color: #FFA500;
 }
 
 .action-item .icon {
   font-size: 40rpx;
   margin-right: 12rpx;
 }
+
+.share-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  width: auto !important;
+}
+.share-btn::after {
+  border: none;
+}
+
+/* Skeleton Loading */
+@keyframes shimmer {
+  0% { background-position: -600rpx 0; }
+  100% { background-position: 600rpx 0; }
+}
+.skeleton-detail {
+  padding: 40rpx;
+}
+.skeleton-line {
+  border-radius: 8rpx;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 600rpx 100%;
+  animation: shimmer 1.4s infinite;
+}
+.skeleton-avatar-wrap { display: flex; align-items: center; gap: 20rpx; margin-bottom: 40rpx; }
+.skeleton-avatar { width: 80rpx; height: 80rpx; border-radius: 50%; }
+.skeleton-name { height: 32rpx; width: 140rpx; }
+.skeleton-title { height: 48rpx; width: 90%; margin-bottom: 30rpx; }
+.skeleton-content-line { height: 28rpx; width: 100%; margin-bottom: 20rpx; }
+.skeleton-image { height: 360rpx; width: 100%; border-radius: 16rpx; margin-top: 30rpx; }

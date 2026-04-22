@@ -2,10 +2,10 @@
   <!-- 顶部标题与版标 -->
   <view class="header">
     <view class="title">DTCI 人格测评</view>
-    <view class="gender-badge">{{gender === 'male' ? '男生版' : '女生版'}}</view>
+    <view class="gender-badge">{{name || '测评'}}</view>
   </view>
 
-  <scroll-view scroll-y class="main-scroll" show-scrollbar="{{false}}">
+  <scroll-view scroll-y class="main-scroll" show-scrollbar="{{false}}" wx:if="{{!loading}}">
     <!-- 答题卡片 -->
     <view class="question-card">
       <view class="progress-wrap">
@@ -19,13 +19,13 @@
 
       <view class="options-list">
         <view 
-          class="option-item {{selectedId === item.id ? 'active' : ''}}" 
+          class="option-item {{selectedId === item.label ? 'active' : ''}}" 
           wx:for="{{options}}" 
-          wx:key="id"
+          wx:key="label"
           bindtap="onSelectOption"
-          data-id="{{item.id}}"
+          data-id="{{item.label}}"
         >
-          <text class="option-label">{{item.id}}：</text>
+          <text class="option-label">{{item.label}}：</text>
           <text class="option-text">{{item.text}}</text>
         </view>
       </view>

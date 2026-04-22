@@ -11,38 +11,73 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  openid        String   @unique
-  nickname      String?
-  avatarUrl     String?
-  phone         String?
-  gender        String?
-  age           Int?
-  profession    String?
-  education     String?
-  marriage      String?
-  city          String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  assessments   Assessment[]
-  orders        Order[]
-  cases         Case[]
+  id          Int          @id @default(autoincrement())
+  openid      String       @unique
+  nickname    String?
+  avatarUrl   String?
+  phone       String?
+  gender      String?
+  age         Int?
+  profession  String?
+  education   String?
+  marriage    String?
+  city        String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  assessments Assessment[]
+  orders      Order[]
+  cases       Case[]
+  notifications Notification[]
+  feedbacks     Feedback[]
 
   @@map("dtci_users")
+}
+
+model Feedback {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id])
+  type         String // suggestion, bug, experience, content, other
+  content      String
+  images       String    @default("[]") // JSON array of image URLs
+  contact      String?
+  status       String    @default("pending") // pending, replied, resolved
+  replyContent String?
+  replyTime    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("dtci_feedbacks")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int? // null if it's a global notification for everyone
+  user      User?    @relation(fields: [userId], references: [id])
+  title     String
+  content   String
+  isRead    Boolean  @default(false)
+  type      String   @default("system") // system, feedback_reply
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("dtci_notifications")
 }
 
 model Case {
   id            Int      @id @default(autoincrement())
   title         String
   content       String   @default("")
-  tag           String   // '事业', '亲子', '婚恋', '自我成长'
+  tag           String // '事业', '亲子', '婚恋', '自我成长'
   tagColor      String   @default("#FF6B35")
   isRecommended Boolean  @default(false)
   authorId      Int
   author        User     @relation(fields: [authorId], references: [id])
   images        String   @default("[]") // JSON string of images array
-  likes         Int      @default(0)
-  stars         Int      @default(0)
+  virtualLikes  Int      @default(0)
+  realLikes     Int      @default(0)
+  virtualStars  Int      @default(0)
+  realStars     Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -50,52 +85,128 @@ model Case {
 }
 
 model Assessment {
-  id            Int      @id @default(autoincrement())
-  userId        Int
-  user          User     @relation(fields: [userId], references: [id])
-  type          String   // male or female
-  answers       String?  // SQLite 不支持 Json，暂时存为字符串
-  dScore        Float?
-  tScore        Float?
-  cScore        Float?
-  iScore        Float?
-  resultType    String?
-  status        String   @default("pending") // pending, completed
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  order         Order?
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  type       String // male or female
+  answers    String? // SQLite 不支持 Json，暂时存为字符串
+  dScore     Float?
+  tScore     Float?
+  cScore     Float?
+  iScore     Float?
+  resultType String?
+  status     String   @default("pending") // pending, completed
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  order      Order?
 
   @@map("dtci_assessments")
 }
 
 model Order {
-  id            Int      @id @default(autoincrement())
-  orderNo       String   @unique
+  id            Int        @id @default(autoincrement())
+  orderNo       String     @unique
   userId        Int
-  user          User     @relation(fields: [userId], references: [id])
-  assessmentId  Int      @unique
+  user          User       @relation(fields: [userId], references: [id])
+  assessmentId  Int        @unique
   assessment    Assessment @relation(fields: [assessmentId], references: [id])
   amount        Float
-  status        String   @default("unpaid") // unpaid, paid, refunded
+  status        String     @default("unpaid") // unpaid, paid, refunded
   paymentTime   DateTime?
   transactionId String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 
   @@map("dtci_orders")
 }
 
 model AdminUser {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  password  String
+  name      String
+  phone     String?
+  role      String    @default("operator") // super_admin, editor, operator, viewer
+  email     String?
+  status    Boolean   @default(true)
+  lastLogin DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("dtci_admin_users")
+}
+
+model Service {
   id            Int      @id @default(autoincrement())
-  username      String   @unique
-  password      String
   name          String
-  role          String   @default("operator") // super_admin, editor, operator, viewer
-  email         String?
+  image         String?
+  price         Float
+  originalPrice Float?
+  description   String?
+  content       String?  @default("") // Rich text content for detail page
+  category      String   @default("personal") // 'personal' or 'corporate'
+  sales         Int      @default(0)
   status        Boolean  @default(true)
-  lastLogin     DateTime?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  @@map("dtci_admin_users")
+  @@map("dtci_services")
+}
+
+model Setting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String // Will store JSON strings for complex objects
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("dtci_settings")
+}
+
+model Question {
+  id        Int      @id @default(autoincrement())
+  title     String
+  image     String?
+  type      String // 'single', 'multiple', 'judgment', 'qa'
+  status    Boolean  @default(true)
+  geneType  String // 'D', 'T', 'C', 'I', 'i-O', 'L', 'U'
+  options   String // JSON string: [{ label: 'A', text: '...', score: 5 }]
+  operator  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("dtci_questions")
+}
+
+model Questionnaire {
+  id           Int        @id @default(autoincrement())
+  name         String
+  description  String?
+  questions    String // JSON string: [{ id: 1, sequence: 1, scoreOverride: null }]
+  settings     String? // JSON string: { instructions: '...', buttonText: '...', duration: 30, expiry: 7, randomization: {}, dimensions: [] }
+  status       String     @default("draft") // 'draft', 'published'
+  wechatConfig String? // JSON string: { title: '...', desc: '...', icon: '...' }
+  sortOrder    Int        @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  geneTypes    GeneType[]
+
+  @@map("dtci_questionnaires")
+}
+
+model GeneType {
+  id              Int           @id @default(autoincrement())
+  questionnaireId Int
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+  name            String
+  description     String?
+  meaning         String?
+  image           String?
+  categories      String        @default("[]") // JSON string for categories and subcategories
+  status          Boolean       @default(true)
+  operator        String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("dtci_gene_types")
 }

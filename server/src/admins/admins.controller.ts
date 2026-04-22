@@ -10,6 +10,17 @@ export class AdminsController {
     return this.adminsService.login(loginDto);
   }
 
+  @Get('health')
+  async health() {
+    return { status: 'ok', msg: 'AdminsController is active' };
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    console.log(`[AdminsController] findOne called with id: ${id}`);
+    return this.adminsService.findOne(Number(id));
+  }
+
   @Get()
   async findAll() {
     return this.adminsService.findAll();
@@ -23,6 +34,11 @@ export class AdminsController {
   @Patch(':id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() updateDto: any) {
     return this.adminsService.update(id, updateDto);
+  }
+
+  @Post(':id/change-password')
+  async changePassword(@Param('id', ParseIntPipe) id: number, @Body() body: any) {
+    return this.adminsService.changePassword(id, body);
   }
 
   @Delete(':id')

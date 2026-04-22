@@ -13,12 +13,15 @@
     "pages/assessment/result",
     "pages/case/index",
     "pages/case/detail",
+    "pages/case/favorites",
     "pages/service/index",
     "pages/service/detail",
     "pages/my/index",
     "pages/my/profile",
     "pages/my/settings",
-    "pages/report/full"
+    "pages/report/full",
+    "pages/notifications/index",
+    "pages/feedback/list"
   ],
   "window": {
     "backgroundTextStyle": "light",
