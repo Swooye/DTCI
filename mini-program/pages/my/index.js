@@ -19,7 +19,11 @@ Page({
       { id: 'protocol', iconClass: 'icon-protocol', name: '服务协议' },
       { id: 'privacy', iconClass: 'icon-privacy', name: '隐私保护' }
     ],
-    unreadCount: 0
+    unreadCount: 0,
+    distributor: {
+      isDistributor: false,
+      totalCommission: '0.00'
+    }
   },
 
   onShow() {
@@ -49,14 +53,37 @@ Page({
           avatar: storedUserInfo.avatar || '/assets/images/logo.png'
         }
       });
+      // Fetch distributor status
+      const userId = storedUserInfo.id || 1;
+      wx.request({
+        url: `${config.BASE_URL}/distributors/user/${userId}`,
+        success: (res) => {
+          if (res.statusCode === 200 && res.data) {
+            this.setData({ distributor: res.data });
+          }
+        }
+      });
     } else {
       this.setData({
         isLoggedIn: false,
         userInfo: {
           nickName: '点击登录',
           avatar: '/assets/images/logo.png'
-        }
+        },
+        distributor: { isDistributor: false, totalCommission: '0.00' }
       });
+    }
+  },
+
+  onDistributorTap() {
+    if (!this.data.isLoggedIn) {
+      wx.navigateTo({ url: '/pages/login/login' });
+      return;
+    }
+    if (this.data.distributor.isDistributor) {
+      wx.navigateTo({ url: '/pages/distributor/index/index' });
+    } else {
+      wx.navigateTo({ url: '/pages/distributor/apply/index' });
     }
   },
 

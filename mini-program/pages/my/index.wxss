@@ -131,15 +131,23 @@
   align-items: center;
 }
 
-.promo-text {
-  color: #E6B562;
+.btn-become-distributor {
+  background: linear-gradient(135deg, #DFB568 0%, #B88531 100%);
+  color: #fff;
   font-size: 26rpx;
-  margin-right: 12rpx;
+  padding: 10rpx 30rpx;
+  border-radius: 30rpx;
+  font-weight: 500;
 }
 
-.arrow-gold {
-  color: #E6B562;
-  font-size: 36rpx;
+.commission-text {
+  color: #D4A857;
+  font-size: 24rpx;
+}
+
+.commission-amount {
+  font-size: 32rpx;
+  font-weight: 500;
 }
 
 /* 统计区域 */

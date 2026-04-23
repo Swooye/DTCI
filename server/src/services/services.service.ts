@@ -15,11 +15,26 @@ export class ServicesService {
     });
   }
 
-  async findAll(category?: string) {
+  async findAll(category?: string, search?: string, status?: boolean, dateStart?: string, dateEnd?: string) {
     const where: Prisma.ServiceWhereInput = {};
     if (category) {
       where.category = category;
     }
+    if (status !== undefined) {
+      where.status = status;
+    }
+    if (search) {
+      where.OR = [
+        { name: { contains: search } },
+        { description: { contains: search } }
+      ];
+    }
+    if (dateStart || dateEnd) {
+      where.createdAt = {};
+      if (dateStart) where.createdAt.gte = new Date(dateStart);
+      if (dateEnd) where.createdAt.lte = new Date(dateEnd);
+    }
+
     return this.prisma.service.findMany({
       where,
       orderBy: {

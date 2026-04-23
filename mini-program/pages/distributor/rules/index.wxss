@@ -1,0 +1,255 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E2F2FF 0%, #FFFFFF 100%);
+}
+
+/* 导航栏背景透明以适应背景 */
+.custom-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.nav-back {
+  position: absolute;
+  left: 30rpx;
+  width: 80rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 10;
+}
+
+.back-icon {
+  font-size: 56rpx;
+  color: #333;
+  margin-top: -6rpx;
+}
+
+.nav-title {
+  width: 100%;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.content-scroll {
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 顶部标题插画区 */
+.header-section {
+  padding: 40rpx 50rpx 100rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title-wrap {
+  flex: 1;
+}
+
+.title-wrap .row1 {
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.title-wrap .highlight {
+  color: #FF5A36;
+}
+
+.title-wrap .row2 {
+  font-size: 52rpx;
+  font-weight: 900;
+  color: #2B3D55;
+  margin-bottom: 24rpx;
+  letter-spacing: 2rpx;
+}
+
+.promo-tag {
+  background: linear-gradient(90deg, #FF704E 0%, #FF442F 100%);
+  color: #fff;
+  font-size: 24rpx;
+  padding: 8rpx 30rpx;
+  border-radius: 40rpx;
+  display: inline-block;
+  box-shadow: 0 4rpx 12rpx rgba(255, 68, 47, 0.2);
+}
+
+/* 插画占位 */
+.illustration {
+  width: 200rpx;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.puzzle-wrapper {
+  position: relative;
+  width: 140rpx;
+  height: 140rpx;
+}
+
+.puzzle {
+  position: absolute;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 28rpx;
+  box-shadow: 4rpx 4rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.p1 { background-color: #B283FF; top: 0; left: 0; }
+.p2 { background-color: #FFD459; top: 0; right: 0; }
+.p3 { background-color: #8ADE94; bottom: 0; left: 0; }
+.p4 { background-color: #4D96FF; bottom: 0; right: 0; }
+
+/* 主体内容卡片 */
+.main-card {
+  margin: -60rpx 30rpx 60rpx;
+  background-color: #fff;
+  border-radius: 30rpx;
+  padding: 60rpx 40rpx;
+  box-shadow: 0 10rpx 40rpx rgba(162, 192, 218, 0.2);
+}
+
+.rule-block {
+  display: flex;
+  margin-bottom: 60rpx;
+}
+
+.block-num {
+  width: 44rpx;
+  height: 44rpx;
+  background-color: #E8F3FF;
+  color: #4D96FF;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  font-weight: bold;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.main-text {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: 30rpx;
+}
+
+.example-item {
+  display: flex;
+  margin-bottom: 24rpx;
+  padding: 24rpx;
+  background-color: #F9FAFB;
+  border-radius: 16rpx;
+}
+
+.example-item .dot {
+  width: 10rpx;
+  height: 10rpx;
+  background-color: #D1D5DB;
+  border-radius: 50%;
+  margin-top: 14rpx;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.example-item .desc {
+  font-size: 26rpx;
+  color: #6B7280;
+  line-height: 1.6;
+}
+
+.orange {
+  color: #FF704E;
+  font-weight: 600;
+}
+
+.calculation {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: bold;
+  margin-top: 20rpx;
+  line-height: 1.5;
+}
+
+/* 表格样式 */
+.table-container {
+  margin: 60rpx 0;
+  border: 1rpx solid #F3F4F6;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.tr {
+  display: flex;
+  border-bottom: 1rpx solid #F3F4F6;
+}
+
+.tr:last-child {
+  border-bottom: none;
+}
+
+.tr.head {
+  background-color: #FFF9F7;
+}
+
+.th {
+  padding: 24rpx 10rpx;
+  font-size: 24rpx;
+  color: #D6A07F;
+  text-align: center;
+  font-weight: 500;
+}
+
+.td {
+  padding: 30rpx 10rpx;
+  font-size: 28rpx;
+  color: #666;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.td.bronze { color: #CD7F32; font-weight: bold; }
+.td.silver { color: #9A9A9A; font-weight: bold; }
+.td.gold { color: #D4AF37; font-weight: bold; }
+
+.flex1 { flex: 1; }
+.flex2 { flex: 2; }
+
+.footer-remark {
+  font-size: 24rpx;
+  color: #9CA3AF;
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 50rpx;
+}

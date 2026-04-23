@@ -1,10 +1,10 @@
 .sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  height: 100vh;
   background: #001529;
   z-index: 100;
+  transition: all 0.2s;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .logo {
@@ -16,38 +16,45 @@
   font-size: 18px;
   font-weight: bold;
   background: #3BA38E; /* 对齐 Header */
+  overflow: hidden;
+  transition: all 0.2s;
 }
 
 .logo .anticon {
   margin-right: 8px;
   font-size: 24px;
+  flex-shrink: 0;
+}
+
+.ant-layout-sider-collapsed .logo .anticon {
+  margin-right: 0;
 }
 
 .sidebar-menu {
-  background: transparent;
   border-right: none;
   margin-top: 16px;
+  padding-bottom: 48px; /* 预留底部折叠按钮高度，防止遮挡 */
 }
 
-.sidebar-menu .ant-menu-item,
-.sidebar-menu .ant-menu-submenu-title {
-  color: rgba(255, 255, 255, 0.65);
+/* 核心修复：悬停颜色 */
+.sidebar-menu.ant-menu-dark .ant-menu-item:hover,
+.sidebar-menu.ant-menu-dark .ant-menu-submenu-title:hover {
+  color: #fff !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-.sidebar-menu .ant-menu-item:hover,
-.sidebar-menu .ant-menu-submenu-title:hover {
-  color: #fff;
-}
-
-.sidebar-menu .ant-menu-item-selected {
-  background-color: #3BA38E !important; /* 青绿主题选中色 */
+/* 选中项样式 */
+.sidebar-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: #3BA38E !important;
   color: #fff !important;
 }
 
-.sidebar-menu .ant-menu-submenu-selected > .ant-menu-submenu-title {
+.sidebar-menu.ant-menu-dark .ant-menu-submenu-selected > .ant-menu-submenu-title {
   color: #fff;
 }
 
-.sidebar-menu .ant-menu-item-group-title {
-  color: rgba(255, 255, 255, 0.45);
+/* 折叠按钮样式优化 */
+.ant-layout-sider-trigger {
+  background: #001529;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }

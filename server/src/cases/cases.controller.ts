@@ -17,9 +17,12 @@ export class CasesController {
   findAll(
     @Query('tag') tag?: string,
     @Query('isRecommended') isRecommended?: string,
+    @Query('search') search?: string,
+    @Query('dateStart') dateStart?: string,
+    @Query('dateEnd') dateEnd?: string,
   ) {
     const recommended = isRecommended === 'true' ? true : isRecommended === 'false' ? false : undefined;
-    return this.casesService.findAll(tag, recommended);
+    return this.casesService.findAll(tag, recommended, search, dateStart, dateEnd);
   }
 
   @Get(':id')

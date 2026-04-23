@@ -1,0 +1,94 @@
+<view class="container">
+  <!-- 自定义导航栏 -->
+  <view class="custom-nav" style="height: {{navHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px; margin-top: {{statusBarHeight}}px;">
+      <view class="nav-back" bindtap="onBackTap">
+        <text class="back-icon">‹</text>
+      </view>
+      <view class="nav-title">分销规则</view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="content-scroll" style="padding-top: {{navHeight}}px;">
+    <!-- 顶部插画标题区 -->
+    <view class="header-section">
+      <view class="title-wrap">
+        <view class="row1"><text class="highlight">邀好友</text> 测一测</view>
+        <view class="row2">DTCI 135型人格</view>
+        <view class="promo-tag">可享专属佣金</view>
+      </view>
+      <view class="illustration">
+        <!-- 拼图插画占位 -->
+        <view class="puzzle-wrapper">
+          <view class="puzzle p1">T</view>
+          <view class="puzzle p2">D</view>
+          <view class="puzzle p3">C</view>
+          <view class="puzzle p4">i</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 主体内容卡片 -->
+    <view class="main-card">
+      <!-- 规则1 -->
+      <view class="rule-block">
+        <view class="block-num">1</view>
+        <view class="block-content">
+          <view class="main-text">如果您邀请用户注册并付费测评，您将获得相应比例的佣金，举个例子：</view>
+          
+          <view class="example-item">
+            <view class="dot"></view>
+            <view class="desc">假定您累计邀请测评人数<text class="orange">≤50人</text>，您每邀请一个，获得的佣金收入即为：<text class="orange">30% * 68元 = 20.4元</text>；</view>
+          </view>
+          
+          <view class="example-item">
+            <view class="dot"></view>
+            <view class="desc">假定您累计邀请人数<text class="orange">>50人</text>，且在200人以内，您每邀请一个，获得的佣金收入为：<text class="orange">40% * 68 = 27.2元</text>；</view>
+          </view>
+
+          <view class="example-item">
+            <view class="dot"></view>
+            <view class="desc">假定您累计邀请人数<text class="orange">>200人</text>，那么您每邀请一个，获得的佣金收入为：<text class="orange">50 * 68 = 34元</text>；</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 规则2 -->
+      <view class="rule-block">
+        <view class="block-num">2</view>
+        <view class="block-content">
+          <view class="main-text">再举一个例子，假如您邀请了500人付费测评，那么您将获得的佣金收入为：</view>
+          <view class="calculation">68 * 50 * 30% + 68 * 150 * 40% + 68 * 300 * 50% = 15300元</view>
+        </view>
+      </view>
+
+      <!-- 表格区域 -->
+      <view class="table-container">
+        <view class="tr head">
+          <view class="th flex1">等级</view>
+          <view class="th flex2">累计邀请付费测评人数</view>
+          <view class="th flex1">佣金比例</view>
+        </view>
+        <view class="tr">
+          <view class="td flex1 bronze">铜</view>
+          <view class="td flex2">≤50</view>
+          <view class="td flex1">30%</view>
+        </view>
+        <view class="tr">
+          <view class="td flex1 silver">银</view>
+          <view class="td flex2">≤200</view>
+          <view class="td flex1">40%</view>
+        </view>
+        <view class="tr">
+          <view class="td flex1 gold">金</view>
+          <view class="td flex2">>200</view>
+          <view class="td flex1">50%</view>
+        </view>
+      </view>
+
+      <view class="footer-remark">
+        备注：当月的佣金收入将于下一个月10号之前完成结算，结算方式为微信或支付宝。
+      </view>
+    </view>
+  </scroll-view>
+</view>

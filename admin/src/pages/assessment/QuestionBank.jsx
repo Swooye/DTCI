@@ -11,6 +11,7 @@ function QuestionBank() {
   const [form] = Form.useForm()
   const [filterForm] = Form.useForm()
   const [uploading, setUploading] = useState(false)
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const getImageUrl = (url) => {
     if (!url || typeof url !== 'string') return ''
@@ -70,10 +71,26 @@ function QuestionBank() {
     }
   }
 
-  const handleDelete = async (id) => {
-    await request.delete(`/questions/${id}`)
-    message.success('删除成功')
-    fetchQuestions()
+  const handleBatchDelete = () => {
+    if (selectedRowKeys.length === 0) return
+
+    Modal.confirm({
+      title: '确认删除',
+      content: `确定要删除选中的 ${selectedRowKeys.length} 个题目吗？此操作无法恢复。`,
+      okText: '确认',
+      cancelText: '取消',
+      okType: 'danger',
+      onOk: async () => {
+        try {
+          await Promise.all(selectedRowKeys.map(id => request.delete(`/questions/${id}`)))
+          message.success('批量删除成功')
+          setSelectedRowKeys([])
+          fetchQuestions()
+        } catch (error) {
+          message.error('删除失败，请稍后重试')
+        }
+      }
+    })
   }
 
   const handleEdit = (record) => {
@@ -127,14 +144,9 @@ function QuestionBank() {
     {
       title: '操作',
       key: 'action',
-      width: 160,
+      width: 100,
       render: (_, record) => (
-        <Space size={0}>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>编辑</Button>
-          <Popconfirm title="确定删除吗？" onConfirm={() => handleDelete(record.id)}>
-            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
-          </Popconfirm>
-        </Space>
+        <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>编辑</Button>
       )
     }
   ]
@@ -205,16 +217,28 @@ function QuestionBank() {
         style={{ borderRadius: 8 }}
         title={<span style={{ fontWeight: 'bold' }}>题目列表</span>}
         extra={
-          <Button 
-            type="primary" 
-            onClick={() => {
-              setEditingId(null)
-              form.resetFields()
-              setVisible(true)
-            }}
-          >
-            添加题目
-          </Button>
+          <Space>
+            {selectedRowKeys.length > 0 && (
+              <Button 
+                danger 
+                icon={<DeleteOutlined />}
+                onClick={handleBatchDelete}
+              >
+                批量删除 ({selectedRowKeys.length})
+              </Button>
+            )}
+            <Button 
+              type="primary" 
+              icon={<PlusOutlined />}
+              onClick={() => {
+                setEditingId(null)
+                form.resetFields()
+                setVisible(true)
+              }}
+            >
+              添加题目
+            </Button>
+          </Space>
         }
       >
         <Table 
@@ -222,6 +246,10 @@ function QuestionBank() {
           dataSource={data} 
           rowKey="id" 
           loading={loading}
+          rowSelection={{
+            selectedRowKeys,
+            onChange: (keys) => setSelectedRowKeys(keys)
+          }}
           pagination={{ showSizeChanger: true, showTotal: total => `共 ${total} 条` }}
         />
       </Card>

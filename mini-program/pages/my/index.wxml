@@ -20,14 +20,14 @@
 
   <view class="content-body">
     <!-- 分销卡片 (深色) -->
-    <view class="distributor-card">
+    <view class="distributor-card" bindtap="onDistributorTap">
       <view class="card-left">
-        <text class="icon-user-plus">👤+</text>
-        <text class="card-text">成为了庸分销商</text>
+        <text class="icon-user-plus">👤</text>
+        <text class="card-text">分销中心</text>
       </view>
       <view class="card-right">
-        <text class="promo-text">可享额外提成</text>
-        <text class="arrow-gold">›</text>
+        <view wx:if="{{!distributor.isDistributor}}" class="btn-become-distributor">成为分销员</view>
+        <text wx:else class="commission-text">累计提成：<text class="commission-amount">{{distributor.totalCommission || '0.00'}}</text></text>
       </view>
     </view>
 

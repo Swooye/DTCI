@@ -76,7 +76,7 @@ const menuItems = [
   }
 ]
 
-function Sidebar() {
+function Sidebar({ collapsed, setCollapsed }) {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -102,13 +102,20 @@ function Sidebar() {
   const openKeys = getOpenKeys(location.pathname)
 
   return (
-    <Sider className="sidebar" width={200}>
+    <Sider 
+      className="sidebar" 
+      width={200} 
+      collapsible 
+      collapsed={collapsed} 
+      onCollapse={(value) => setCollapsed(value)}
+    >
       <div className="logo">
         <AppstoreOutlined />
-        <span>DTCI管理后台</span>
+        {!collapsed && <span>DTCI管理后台</span>}
       </div>
       <Menu
         mode="inline"
+        theme="dark"
         selectedKeys={[selectedKey]}
         defaultOpenKeys={openKeys}
         items={menuItems}

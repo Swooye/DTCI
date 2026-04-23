@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Table, Tag, Button, Input, Space, Card, Form, Select,
-  message, Popconfirm, Upload, DatePicker, Row, Col, Divider
+  message, Popconfirm, Upload, DatePicker, Row, Col, Divider, Modal
 } from 'antd';
 import {
   PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined, ArrowLeftOutlined
@@ -76,6 +76,7 @@ export default function GeneTypeManagement() {
   const [loading, setLoading] = useState(false);
   const [questionnaires, setQuestionnaires] = useState([]);
   const [editingItem, setEditingItem] = useState(null);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const [filterForm] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -83,7 +84,8 @@ export default function GeneTypeManagement() {
   const loadQuestionnaires = async () => {
     try {
       const res = await request.get('/questionnaires');
-      setQuestionnaires(Array.isArray(res.data) ? res.data : []);
+      // The backend returns the array directly, which is mapped to 'res' by the interceptor
+      setQuestionnaires(Array.isArray(res) ? res : (res?.data || []));
     } catch (e) {
       console.error('Failed to load questionnaires', e);
     }
@@ -102,7 +104,8 @@ export default function GeneTypeManagement() {
         params.dateEnd = values.dateRange[1].format('YYYY-MM-DD');
       }
       const res = await request.get('/gene-types', { params });
-      setData(Array.isArray(res.data) ? res.data : []);
+      // The backend returns the array directly
+      setData(Array.isArray(res) ? res : (res?.data || []));
     } catch (e) {
       message.error('加载列表失败');
     } finally {
@@ -125,12 +128,38 @@ export default function GeneTypeManagement() {
   const openEdit = (record) => {
     setEditingItem(record);
     editForm.resetFields();
+    
+    // Parse categories
     let categories = DEFAULT_CATEGORIES;
     try {
-      const parsed = JSON.parse(record.categories || '[]');
-      if (parsed.length > 0) categories = parsed;
-    } catch (e) {}
-    editForm.setFieldsValue({ ...record, categories });
+      if (record.categories) {
+        const parsed = typeof record.categories === 'string' ? JSON.parse(record.categories) : record.categories;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          categories = parsed;
+        }
+      }
+    } catch (e) {
+      console.error('Failed to parse categories', e);
+    }
+
+    // Format image for Upload component (fileList)
+    let imageList = [];
+    if (record.image) {
+      imageList = [
+        {
+          uid: '-1',
+          name: 'image.png',
+          status: 'done',
+          url: record.image.startsWith('http') ? record.image : `http://localhost:3100${record.image}`,
+        },
+      ];
+    }
+
+    editForm.setFieldsValue({ 
+      ...record, 
+      categories, 
+      image: imageList 
+    });
     setViewMode('edit');
   };
 
@@ -190,6 +219,27 @@ export default function GeneTypeManagement() {
     }
   };
 
+  const handleBatchDelete = () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning('请先选择要删除的项目');
+      return;
+    }
+    Modal.confirm({
+      title: '删除确认',
+      content: `确定要删除选中的 ${selectedRowKeys.length} 个基因类型吗？`,
+      onOk: async () => {
+        try {
+          await Promise.all(selectedRowKeys.map(id => request.delete(`/gene-types/${id}`)));
+          message.success('批量删除成功');
+          setSelectedRowKeys([]);
+          loadData();
+        } catch {
+          // message.error handles it
+        }
+      }
+    });
+  };
+
   const handleStatusToggle = async (record) => {
     try {
       await request.patch(`/gene-types/${record.id}/status`, { status: !record.status });
@@ -225,9 +275,6 @@ export default function GeneTypeManagement() {
         <Space>
           <a onClick={() => openEdit(record)}>查看 编辑</a>
           <a onClick={() => handleStatusToggle(record)}>{record.status ? '下架' : '上架'}</a>
-          <Popconfirm title="确定删除吗？" onConfirm={() => handleDelete(record.id)}>
-            <a style={{ color: '#ff4d4f' }}>删除</a>
-          </Popconfirm>
         </Space>
       ),
     },
@@ -452,9 +499,16 @@ export default function GeneTypeManagement() {
         bordered={false}
         title="基因类型列表"
         extra={
-          <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>
-            新建基因类型
-          </Button>
+          <Space>
+            {selectedRowKeys.length > 0 && (
+              <Button danger icon={<DeleteOutlined />} onClick={handleBatchDelete}>
+                批量删除 ({selectedRowKeys.length})
+              </Button>
+            )}
+            <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>
+              新建基因类型
+            </Button>
+          </Space>
         }
       >
         <Table
@@ -462,6 +516,10 @@ export default function GeneTypeManagement() {
           dataSource={data}
           rowKey="id"
           loading={loading}
+          rowSelection={{
+            selectedRowKeys,
+            onChange: (keys) => setSelectedRowKeys(keys)
+          }}
           pagination={{ pageSize: 10 }}
         />
       </Card>

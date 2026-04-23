@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Layout } from 'antd'
 import Sidebar from './components/Sidebar'
@@ -32,13 +32,18 @@ import './styles/index.css'
 const { Content } = Layout
 
 function App() {
+  const [collapsed, setCollapsed] = useState(false)
+
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/*" element={
-          <Layout className="app-layout">
-            <Sidebar />
+          <Layout 
+            className="app-layout"
+            style={{ '--sidebar-width': collapsed ? '80px' : '200px' }}
+          >
+            <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
             <Layout>
               <Header />
               <Content className="main-content">

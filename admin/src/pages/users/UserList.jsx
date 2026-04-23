@@ -4,7 +4,7 @@ import {
   Modal, Descriptions, Avatar, Form, Select, 
   DatePicker, Switch, Row, Col, Radio, DatePicker as AntDatePicker
 } from 'antd'
-import { SearchOutlined, EyeOutlined, DeleteOutlined, EditOutlined, FilterOutlined, UserOutlined } from '@ant-design/icons'
+import { SearchOutlined, EyeOutlined, EditOutlined, FilterOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import request from '../../utils/request'
 import './UserList.css'
@@ -25,12 +25,19 @@ function UserList() {
       
       // 数据映射
       const mappedData = data.map(user => {
-        // 严格处理头像：只允许正常的 http/https 完整路径且排除微信临时路径
+        // 严格处理头像：只允许正常的 http/https 完整路径或以 / 开头的相对路径，且排除微信临时路径
         let avatarUrl = user.avatarUrl || '';
-        const isValidUrl = (avatarUrl.startsWith('http://') || avatarUrl.startsWith('https://')) && !avatarUrl.startsWith('http://tmp/');
+        const isAbsolute = avatarUrl.startsWith('http://') || avatarUrl.startsWith('https://');
+        const isRelative = avatarUrl.startsWith('/');
+        const isTemp = avatarUrl.startsWith('http://tmp/');
         
-        if (!isValidUrl) {
-          // 使用 baseURL 来构建完整的 logo 路径，或者直接使用通用路径
+        if ((isAbsolute && !isTemp) || isRelative) {
+          if (isRelative) {
+            // 对相对路径补全域名
+            avatarUrl = `http://localhost:3100${avatarUrl}`;
+          }
+        } else {
+          // 兜底图
           avatarUrl = 'http://localhost:3100/logo.png'; 
         }
 
@@ -40,9 +47,9 @@ function UserList() {
           avatar: avatarUrl,
           name: user.nickname || '未授权用户',
           phone: user.phone || '未绑定',
-          gender: user.gender === 'male' || user.gender === '男' ? '男' : (user.gender === 'female' || user.gender === '女' ? '女' : '未知'),
+          gender: user.gender === 'male' || user.gender === '男' ? '男' : (user.gender === 'female' || user.gender === '女' ? '女' : '未填写'),
           city: user.city || '未填写',
-          age: user.age || '?',
+          age: user.age || '未填写',
           profession: user.profession || '未填写',
           totalPaid: user.totalPaid || 0,
           orderCount: user._count?.orders || 0,
@@ -82,9 +89,9 @@ function UserList() {
       key: 'phone',
       render: (text) => <span style={{ whiteSpace: 'nowrap' }}>{text}</span>
     },
-    { title: '性别', dataIndex: 'gender', key: 'gender', width: 60 },
+    { title: '性别', dataIndex: 'gender', key: 'gender', width: 100 },
     { title: '城市', dataIndex: 'city', key: 'city', width: 100 },
-    { title: '年龄', dataIndex: 'age', key: 'age', width: 60 },
+    { title: '年龄', dataIndex: 'age', key: 'age', width: 100 },
     { title: '职业', dataIndex: 'profession', key: 'profession' },
     { 
       title: '付费总额', 
@@ -109,7 +116,6 @@ function UserList() {
         <Space size="middle">
           <Button type="link" size="small" icon={<EyeOutlined />} onClick={() => showDetail(record)}>查看</Button>
           <Button type="link" size="small" icon={<EditOutlined />}>编辑</Button>
-          <Button type="link" size="small" danger icon={<DeleteOutlined />}>删除</Button>
         </Space>
       )
     }
@@ -134,7 +140,7 @@ function UserList() {
     <div className="user-list-container">
       {/* 复杂的筛选栏 */}
       <Card className="filter-card">
-        <Form form={form} layout="inline" onFinish={onSearch}>
+        <Form form={form} layout="inline" onFinish={onSearch} style={{ alignItems: 'center' }}>
           <Form.Item name="source" label="默认筛选方">
             <Select defaultValue="all" style={{ width: 120 }}>
               <Select.Option value="all">全部</Select.Option>
@@ -163,7 +169,7 @@ function UserList() {
             </Select>
           </Form.Item>
 
-          <Form.Item style={{ margin: 0 }}>
+          <Form.Item>
             <Button type="primary" icon={<FilterOutlined />} htmlType="submit">
               筛选
             </Button>
@@ -199,7 +205,7 @@ function UserList() {
           columns={columns}
           dataSource={dataSource}
           rowKey="id"
-          pagination={{ total: 100, showSizeChanger: true }}
+          pagination={{ showSizeChanger: true, showTotal: (total) => `共 ${total} 条` }}
           scroll={{ x: 1500 }}
         />
       </Card>
@@ -220,6 +226,7 @@ function UserList() {
             <Descriptions.Item label="用户名">{currentUser.name}</Descriptions.Item>
             <Descriptions.Item label="手机号">{currentUser.phone}</Descriptions.Item>
             <Descriptions.Item label="性别">{currentUser.gender}</Descriptions.Item>
+            <Descriptions.Item label="年龄">{currentUser.age}</Descriptions.Item>
             <Descriptions.Item label="城市">{currentUser.city}</Descriptions.Item>
             <Descriptions.Item label="职业">{currentUser.profession}</Descriptions.Item>
             <Descriptions.Item label="付费总额">¥{currentUser.totalPaid}</Descriptions.Item>

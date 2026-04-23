@@ -1,0 +1,493 @@
+.container {
+  min-height: 100vh;
+  background-color: #F8F9FA;
+}
+
+/* 导航栏 */
+.custom-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #fff;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.nav-back {
+  position: absolute;
+  left: 30rpx;
+  width: 80rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 10;
+}
+
+.back-icon {
+  font-size: 56rpx;
+  color: #333;
+  margin-top: -6rpx;
+}
+
+.nav-title {
+  width: 100%;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.content-scroll {
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 等级卡片 */
+.level-card {
+  margin: 20rpx 30rpx;
+  height: 240rpx;
+  border-radius: 24rpx;
+  position: relative;
+  overflow: hidden;
+  padding: 40rpx 30rpx;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+/* 等级色彩配置 */
+.level-bronze { 
+  background: linear-gradient(135deg, #C5C6FF 0%, #E3E4FF 100%); 
+  color: #2B2D7C; /* 深蓝紫 */
+}
+.level-silver { 
+  background: linear-gradient(135deg, #A8D4FF 0%, #D4EBFF 100%); 
+  color: #1A3D68; /* 深蓝 */
+}
+.level-gold { 
+  background: linear-gradient(135deg, #E8D294 0%, #F5E6BD 100%); 
+  color: #5C441E; /* 深咖啡/焦糖 */
+}
+
+.card-top {
+  display: flex;
+  position: relative;
+  z-index: 5;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255,255,255,0.6);
+  margin-right: 24rpx;
+}
+
+.user-meta {
+  flex: 1;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.nickname {
+  font-size: 38rpx;
+  font-weight: bold;
+  margin-right: 16rpx;
+  color: inherit; /* 继承等级专用色 */
+}
+
+.level-tag {
+  background-color: rgba(255, 255, 255, 0.4);
+  font-size: 20rpx;
+  color: inherit; /* 继承等级专用色 */
+  padding: 4rpx 16rpx;
+  border-radius: 4rpx; /* 截图显示是近乎矩形的微圆角 */
+  font-weight: 500;
+}
+
+.ratio-row {
+  font-size: 22rpx;
+  opacity: 0.8;
+  margin-bottom: 20rpx;
+  color: inherit;
+}
+
+.progress-section {
+  width: 280rpx;
+  display: flex;
+  align-items: center;
+}
+
+.progress-section progress {
+  flex: 1;
+  margin-right: 16rpx;
+}
+
+.progress-val {
+  font-size: 20rpx;
+  color: inherit;
+}
+
+.customer-badge {
+  position: absolute;
+  top: -40rpx;
+  right: -30rpx;
+  background-color: #2B2B2B;
+  color: #fff;
+  padding: 12rpx 30rpx 12rpx 45rpx;
+  border-bottom-left-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  font-size: 22rpx;
+  z-index: 10;
+}
+
+.customer-badge .arrow {
+  margin-left: 8rpx;
+  font-size: 32rpx;
+  margin-top: -4rpx;
+}
+
+.watermark-icon {
+  position: absolute;
+  right: -20rpx;
+  bottom: -40rpx;
+  width: 200rpx;
+  height: 200rpx;
+  opacity: 0.12;
+  background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4.5 9h15L12 2zM4.5 11L12 21l7.5-10h-15z"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* 结算统计卡片 */
+.commission-card {
+  background-color: #fff;
+  margin: 0 30rpx 40rpx;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.02);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.rules-link {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #B2B2B2;
+}
+
+.rules-link .arrow {
+  margin-left: 4rpx;
+  font-size: 28rpx;
+}
+
+.main-amount {
+  font-size: 64rpx;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.amount-sub {
+  display: flex;
+  justify-content: space-between;
+  font-size: 22rpx;
+  color: #B2B2B2;
+  margin-bottom: 40rpx;
+}
+
+.monthly .highlight {
+  color: #333;
+  font-weight: bold;
+  margin-left: 8rpx;
+}
+
+.split-line {
+  height: 1rpx;
+  background-color: #F5F5F5;
+  margin-bottom: 30rpx;
+}
+
+.stats-row {
+  display: flex;
+  align-items: center;
+}
+
+.stats-item {
+  flex: 1;
+}
+
+.stats-item .val {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.stats-item .lab {
+  font-size: 22rpx;
+  color: #B2B2B2;
+}
+
+.stats-divider {
+  width: 1rpx;
+  height: 40rpx;
+  background-color: #F5F5F5;
+  margin: 0 40rpx;
+}
+
+/* 邀请按钮 */
+.btn-wrap {
+  padding: 0 30rpx 40rpx;
+}
+
+.primary-orange-btn {
+  width: 100% !important;
+  height: 100rpx;
+  background: linear-gradient(135deg, #FF9B71 0%, #FF5A36 100%);
+  color: #fff;
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  box-shadow: 0 10rpx 30rpx rgba(255, 90, 54, 0.3);
+  border: none;
+}
+
+/* 明细列表 */
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40rpx 24rpx;
+}
+
+.detail-header .title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.filter-trigger {
+  font-size: 24rpx;
+  color: #B2B2B2;
+  display: flex;
+  align-items: center;
+}
+
+.filter-icon-fallback {
+  margin-left: 8rpx;
+  font-size: 20rpx;
+}
+
+.detail-list {
+  background-color: #fff;
+  margin: 0 30rpx 60rpx;
+  border-radius: 24rpx;
+  padding: 0 30rpx;
+  min-height: 400rpx;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #F8F8F8;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.buyer-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
+}
+
+.record-info {
+  flex: 1;
+}
+
+.buyer-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.record-time {
+  font-size: 22rpx;
+  color: #B2B2B2;
+}
+
+.record-price {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.empty-box {
+  padding: 100rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-img {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 24rpx;
+  color: #B2B2B2;
+}
+
+/* 筛选弹窗 */
+.filter-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.filter-mask.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.filter-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 1200;
+  border-top-left-radius: 32rpx;
+  border-top-right-radius: 32rpx;
+  transform: translateY(100%);
+  transition: all 0.3s;
+}
+
+.filter-panel.show {
+  transform: translateY(0);
+}
+
+.panel-header {
+  height: 110rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  position: relative;
+  border-bottom: 1rpx solid #F5F5F5;
+}
+
+.close-btn {
+  position: absolute;
+  right: 30rpx;
+  font-size: 48rpx;
+  color: #999;
+}
+
+.panel-body {
+  padding: 40rpx;
+}
+
+.filter-group {
+  margin-bottom: 40rpx;
+}
+
+.group-label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 24rpx;
+  display: block;
+}
+
+.filter-input {
+  width: 100%;
+  height: 88rpx;
+  background-color: #F8F9FA;
+  border-radius: 12rpx;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+}
+
+.chip-group {
+  display: flex;
+  gap: 20rpx;
+}
+
+.chip {
+  padding: 16rpx 40rpx;
+  background-color: #F8F9FA;
+  border-radius: 40rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.chip.active {
+  background-color: #FFF2EF;
+  color: #FF5A36;
+  font-weight: bold;
+}
+
+.panel-footer {
+  padding: 30rpx 40rpx;
+  padding-bottom: calc(30rpx + env(safe-area-inset-bottom));
+}
+
+.confirm-btn {
+  width: 100% !important;
+  height: 88rpx;
+  background-color: #FF5A36;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

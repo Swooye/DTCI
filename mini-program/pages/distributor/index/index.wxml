@@ -1,0 +1,124 @@
+<view class="container">
+  <!-- 自定义导航栏 -->
+  <view class="custom-nav" style="height: {{navHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px; margin-top: {{statusBarHeight}}px;">
+      <view class="nav-back" bindtap="onBackTap">
+        <text class="back-icon">‹</text>
+      </view>
+      <view class="nav-title">分销中心</view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="content-scroll" style="padding-top: {{navHeight}}px;">
+    <!-- 头部会员卡 (根据等级切换 class: level-bronze, level-silver, level-gold) -->
+    <view class="level-card {{levelClass}}">
+      <view class="card-top">
+        <image class="avatar" src="{{userInfo.avatar || '/assets/images/logo.png'}}"></image>
+        <view class="user-meta">
+          <view class="name-row">
+            <text class="nickname">{{userInfo.nickName || '包子的饭碗'}}</text>
+            <view class="level-tag">等级 {{userInfo.levelName || '铜'}}</view>
+          </view>
+          <view class="ratio-row">佣金比例：新测10%  复测0%</view>
+          <view class="progress-section">
+            <progress percent="10" stroke-width="4" activeColor="#fff" backgroundColor="rgba(255,255,255,0.3)" />
+            <text class="progress-val">1/11</text>
+          </view>
+        </view>
+        <!-- 我的客户 角标 -->
+        <view class="customer-badge" bindtap="goToCustomers">
+          <text>我的客户</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+      <!-- 水印图标 -->
+      <view class="watermark-icon"></view>
+    </view>
+
+    <!-- 收益统计卡片 -->
+    <view class="commission-card">
+      <view class="card-header">
+        <text class="card-title">累计提成 (元)</text>
+        <view class="rules-link" bindtap="onRulesTap">
+          <text>分销规则</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+      <view class="main-amount">{{distributor.totalCommission || '0.00'}}</view>
+      <view class="amount-sub">
+        <text>累计提成 (元)</text>
+        <text class="monthly">含本月提成 <text class="highlight">0</text></text>
+      </view>
+      <view class="split-line"></view>
+      <view class="stats-row">
+        <view class="stats-item">
+          <text class="val">{{distributor.settledCommission || '0.00'}}</text>
+          <text class="lab">已分账 (元)</text>
+        </view>
+        <view class="stats-divider"></view>
+        <view class="stats-item">
+          <text class="val">{{distributor.pendingCommission || '0.00'}}</text>
+          <text class="lab">待分账 (元)</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 邀请按钮 -->
+    <view class="btn-wrap">
+      <button class="primary-orange-btn" bindtap="onInviteTap">邀请海报</button>
+    </view>
+
+    <!-- 明细标题 -->
+    <view class="detail-header">
+      <text class="title">分账明细</text>
+      <view class="filter-trigger" bindtap="toggleFilter">
+        <text>筛选</text>
+        <image class="filter-icon" src="/assets/images/filter-icon.png" wx:if="{{hasFilterIcon}}"></image>
+        <text wx:else class="filter-icon-fallback">▽</text>
+      </view>
+    </view>
+
+    <!-- 列表内容 -->
+    <view class="detail-list">
+      <view wx:if="{{commissions.length === 0}}" class="empty-box">
+        <image class="empty-img" src="/assets/images/empty-records.png" mode="aspectFit"></image>
+        <text class="empty-text">暂无分账明细</text>
+      </view>
+      
+      <view class="record-item" wx:for="{{commissions}}" wx:key="id">
+        <image class="buyer-avatar" src="{{item.buyerAvatar || '/assets/images/logo.png'}}"></image>
+        <view class="record-info">
+          <text class="buyer-name">{{item.buyerName || '用户'}}</text>
+          <text class="record-time">{{item.createdAtStr}}</text>
+        </view>
+        <view class="record-price">+{{item.amount}}</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 筛选半屏弹窗 -->
+  <view class="filter-mask {{showFilter ? 'show' : ''}}" bindtap="toggleFilter"></view>
+  <view class="filter-panel {{showFilter ? 'show' : ''}}">
+    <view class="panel-header">
+      <text>筛选</text>
+      <view class="close-btn" bindtap="toggleFilter">×</view>
+    </view>
+    <view class="panel-body">
+      <view class="filter-group">
+        <text class="group-label">客户</text>
+        <input class="filter-input" placeholder="请输入客户姓名" placeholder-class="ph" />
+      </view>
+      <view class="filter-group">
+        <text class="group-label">分销状态</text>
+        <view class="chip-group">
+          <view class="chip active">不限</view>
+          <view class="chip">待分账</view>
+          <view class="chip">已分账</view>
+        </view>
+      </view>
+    </view>
+    <view class="panel-footer">
+      <button class="confirm-btn">确定</button>
+    </view>
+  </view>
+</view>

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
 import { AdminsService } from './admins.service';
 
 @Controller('admins')
@@ -22,8 +22,15 @@ export class AdminsController {
   }
 
   @Get()
-  async findAll() {
-    return this.adminsService.findAll();
+  async findAll(
+    @Query('search') search?: string,
+    @Query('role') role?: string,
+    @Query('status') status?: string,
+    @Query('dateStart') dateStart?: string,
+    @Query('dateEnd') dateEnd?: string,
+  ) {
+    const isStatus = status === 'true' ? true : status === 'false' ? false : undefined;
+    return this.adminsService.findAll(search, role, isStatus, dateStart, dateEnd);
   }
 
   @Post()

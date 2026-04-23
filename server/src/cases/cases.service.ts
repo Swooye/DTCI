@@ -18,10 +18,24 @@ export class CasesService {
     });
   }
 
-  async findAll(tag?: string, isRecommended?: boolean) {
+  async findAll(tag?: string, isRecommended?: boolean, search?: string, dateStart?: string, dateEnd?: string) {
     const where: Prisma.CaseWhereInput = {};
     if (tag) where.tag = tag;
     if (isRecommended !== undefined) where.isRecommended = isRecommended;
+    
+    if (search) {
+      where.OR = [
+        { title: { contains: search } },
+        { content: { contains: search } },
+        { author: { nickname: { contains: search } } }
+      ];
+    }
+
+    if (dateStart || dateEnd) {
+      where.createdAt = {};
+      if (dateStart) where.createdAt.gte = new Date(dateStart);
+      if (dateEnd) where.createdAt.lte = new Date(dateEnd);
+    }
 
     return this.prisma.case.findMany({
       where,

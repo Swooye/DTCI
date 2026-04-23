@@ -12,8 +12,15 @@ export class ServicesController {
   }
 
   @Get()
-  findAll(@Query('category') category?: string) {
-    return this.servicesService.findAll(category);
+  findAll(
+    @Query('category') category?: string,
+    @Query('search') search?: string,
+    @Query('status') status?: string,
+    @Query('dateStart') dateStart?: string,
+    @Query('dateEnd') dateEnd?: string,
+  ) {
+    const isStatus = status === 'true' ? true : status === 'false' ? false : undefined;
+    return this.servicesService.findAll(category, search, isStatus, dateStart, dateEnd);
   }
 
   @Get(':id')

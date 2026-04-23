@@ -58,8 +58,28 @@ export class AdminsService implements OnModuleInit {
     return result;
   }
 
-  async findAll() {
+  async findAll(search?: string, role?: string, status?: boolean, dateStart?: string, dateEnd?: string) {
+    const where: any = {};
+    if (search) {
+      where.OR = [
+        { username: { contains: search } },
+        { name: { contains: search } },
+      ];
+    }
+    if (role) {
+      where.role = role;
+    }
+    if (status !== undefined) {
+      where.status = status;
+    }
+    if (dateStart || dateEnd) {
+      where.createdAt = {};
+      if (dateStart) where.createdAt.gte = new Date(dateStart);
+      if (dateEnd) where.createdAt.lte = new Date(dateEnd);
+    }
+
     return this.prisma.adminUser.findMany({
+      where,
       select: {
         id: true,
         username: true,

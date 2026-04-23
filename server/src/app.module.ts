@@ -12,6 +12,7 @@ import { SettingsModule } from './settings/settings.module';
 import { AssessmentsModule } from './assessments/assessments.module';
 import { FeedbacksModule } from './feedbacks/feedbacks.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { DistributorsModule } from './distributors/distributors.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     AssessmentsModule,
     FeedbacksModule,
     NotificationsModule,
+    DistributorsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

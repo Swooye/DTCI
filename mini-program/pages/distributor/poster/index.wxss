@@ -1,0 +1,132 @@
+.container {
+  min-height: 100vh;
+  background-color: #F1F5F9;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 导航栏统一结构 */
+.custom-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background-color: #fff;
+}
+.nav-content { display: flex; align-items: center; position: relative; width: 100%; }
+.nav-back {
+  position: absolute; left: 30rpx; width: 80rpx; height: 100%;
+  display: flex; align-items: center; justify-content: flex-start; z-index: 10;
+}
+.back-icon { font-size: 56rpx; color: #333; margin-top: -6rpx; }
+.nav-title { width: 100%; text-align: center; font-size: 34rpx; font-weight: bold; color: #333; }
+
+.poster-page {
+  flex: 1;
+  box-sizing: border-box;
+  padding-bottom: 280rpx; /* 为底栏腾出空间 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 海报预览：消除多余白边 */
+.poster-preview-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+}
+
+.poster-card-wrapper {
+  width: 620rpx;
+  height: 1100rpx;
+  background-color: transparent; /* 改为透明 */
+  transition: all 0.4s ease;
+  transform: translateY(20rpx);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.poster-card-wrapper.loaded {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.poster-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 40rpx;
+  box-shadow: 0 40rpx 80rpx rgba(0,0,0,0.12); /* 阴影直接给图片 */
+}
+
+/* 优雅的一键式分享面板 */
+.share-panel {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background-color: #fff;
+  border-radius: 60rpx 60rpx 0 0;
+  padding: 40rpx 60rpx calc(40rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -20rpx 60rpx rgba(0,0,0,0.05);
+  z-index: 1001;
+}
+
+.share-tip {
+  font-size: 24rpx; color: #94A3B8;
+  text-align: center; margin-bottom: 40rpx;
+  letter-spacing: 2rpx;
+}
+
+.share-actions {
+  display: flex;
+  justify-content: center; /* 核心：整体居中 */
+  align-items: center;
+}
+
+.share-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none !important;
+  padding: 0 !important;
+  margin: 0 45rpx !important; /* 核心：按钮间的精准间距 */
+  border: none !important;
+  width: 140rpx; /* 固定宽度确保文字对齐 */
+}
+
+.share-btn::after { display: none; }
+
+.icon-circle {
+  width: 116rpx;
+  height: 116rpx;
+  background-color: #F8FAFC;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.share-btn:active .icon-circle {
+  transform: scale(0.85);
+  background-color: #EFF6FF;
+}
+
+.icon-circle::after {
+  content: '';
+  width: 58rpx; height: 58rpx;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.ic-wechat::after { background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="%2307C160" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 13.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.03 2 11c0 2.803 1.442 5.27 3.708 6.845L4.5 21l3.5-1.5c1.238.33 2.58.5 4 .5 5.523 0 10-4.03 10-9s-4.477-9-10-9z" clip-rule="evenodd"/></svg>'); }
+.ic-save::after { background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="%234D96FF" xmlns="http://www.w3.org/2000/svg"><path d="M12 16l-4-4h3V4h2v8h3l-4 4zm-8 2h16v2H4v-2z"/></svg>'); }
+.ic-link::after { background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="%23FF9560" xmlns="http://www.w3.org/2000/svg"><path d="M10.59 13.41c.41.39.41 1.03 0 1.42-.39.39-1.03.39-1.42 0a5.003 5.003 0 0 1 0-7.07l3.54-3.54a5.003 5.003 0 0 1 7.07 0 5.003 5.003 0 0 1 0 7.07l-1.49 1.49c.01-.82-.12-1.64-.4-2.42l.47-.48a3.003 3.003 0 0 0 0-4.24 3.003 3.003 0 0 0-4.24 0l-3.53 3.53a3.003 3.003 0 0 0 0 4.24zm2.82-4.24c.39-.39 1.03-.39 1.42 0a5.003 5.003 0 0 1 0 7.07l-3.54 3.54a5.003 5.003 0 0 1-7.07 0 5.003 5.003 0 0 1 0-7.07l1.49-1.49c-.01.82.12 1.64.4 2.42l-.47.48a3.003 3.003 0 0 0 0 4.24 3.003 3.003 0 0 0 4.24 0l3.53-3.53a3.003 3.003 0 0 0 0-4.24z"/></svg>'); }
+
+.share-btn text { font-size: 26rpx; color: #334155; font-weight: 500; }
+
+.offscreen-canvas {
+  position: fixed; left: 9999px; top: 0;
+  width: 750px; height: 1334px;
+}

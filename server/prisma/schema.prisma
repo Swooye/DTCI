@@ -29,6 +29,9 @@ model User {
   cases       Case[]
   notifications Notification[]
   feedbacks     Feedback[]
+  
+  distributor   Distributor?
+  sourceCommissions CommissionRecord[]
 
   @@map("dtci_users")
 }
@@ -209,4 +212,46 @@ model GeneType {
   updatedAt       DateTime      @updatedAt
 
   @@map("dtci_gene_types")
+}
+
+model Distributor {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique
+  user            User     @relation(fields: [userId], references: [id])
+  
+  realName        String
+  phone           String
+  birthday        String?
+  address         String?
+  alipayAccount   String
+  
+  level           String   @default("Bronze") // 铜牌 等
+  totalCommission Float    @default(0.0) // 累计提成
+  separatedAmount Float    @default(0.0) // 已分账
+  pendingAmount   Float    @default(0.0) // 待分账
+  status          String   @default("approved") // pending, approved
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  records         CommissionRecord[]
+
+  @@map("dtci_distributors")
+}
+
+model CommissionRecord {
+  id              Int         @id @default(autoincrement())
+  distributorId   Int
+  distributor     Distributor @relation(fields: [distributorId], references: [id])
+  sourceUserId    Int?        // 谁的订单/推广来源
+  sourceUser      User?       @relation(fields: [sourceUserId], references: [id])
+  amount          Float
+  type            String      @default("new") // new (新测), repeat (复测)
+  description     String?
+  status          String      @default("settled") // pending, settled
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@map("dtci_commission_records")
 }

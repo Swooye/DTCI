@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import { Table, Button, Space, Card, Modal, Form, Input, Select, Tag, Switch, Upload, message } from 'antd'
+import { Table, Button, Space, Card, Modal, Form, Input, Select, Tag, Switch, Upload, message, DatePicker } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons'
 import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -36,6 +36,8 @@ function CaseList() {
   const [editingId, setEditingId] = useState(null)
   const [fileList, setFileList] = useState([])
   const [form] = Form.useForm()
+  const [filterForm] = Form.useForm()
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const tags = ['事业', '亲子', '婚恋', '自我成长']
 
@@ -132,7 +134,18 @@ function CaseList() {
   const fetchCases = async () => {
     setLoading(true)
     try {
-      const data = await request.get('/cases')
+      const values = filterForm.getFieldsValue()
+      const params = {
+        search: values.search,
+        tag: values.tag,
+        isRecommended: values.isRecommended,
+      }
+      if (values.dateRange && values.dateRange.length === 2) {
+        params.dateStart = values.dateRange[0].startOf('day').toISOString()
+        params.dateEnd = values.dateRange[1].endOf('day').toISOString()
+      }
+      
+      const data = await request.get('/cases', { params })
       setCases(data)
     } finally {
       setLoading(false)
@@ -182,14 +195,24 @@ function CaseList() {
     }
   }
 
-  const handleDelete = async (id) => {
+  const handleBatchDelete = () => {
+    if (selectedRowKeys.length === 0) return
+
     Modal.confirm({
-      title: '删除案例',
-      content: '确定要删除这个案例吗？',
+      title: '确认删除',
+      content: `确定要删除选中的 ${selectedRowKeys.length} 个案例吗？此操作无法恢复。`,
+      okText: '确认',
+      cancelText: '取消',
+      okType: 'danger',
       onOk: async () => {
-        await request.delete(`/cases/${id}`)
-        message.success('删除成功')
-        fetchCases()
+        try {
+          await Promise.all(selectedRowKeys.map(id => request.delete(`/cases/${id}`)))
+          message.success('批量删除成功')
+          setSelectedRowKeys([])
+          fetchCases()
+        } catch (error) {
+          message.error('删除失败，请稍后重试')
+        }
       }
     })
   }
@@ -289,30 +312,68 @@ function CaseList() {
       title: '操作',
       key: 'action',
       render: (_, record) => (
-        <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>编辑</Button>
-          <Button type="link" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>删除</Button>
-        </Space>
+        <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>编辑</Button>
       )
     }
   ]
 
   return (
     <div>
+      <Card style={{ marginBottom: 24, borderRadius: 8 }}>
+        <Form form={filterForm} layout="inline">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center' }}>
+              <Form.Item name="search" style={{ margin: 0 }}>
+                <Input placeholder="输入编号、名称或关键字..." style={{ width: 220 }} allowClear />
+              </Form.Item>
+              <Form.Item label="分类" name="tag" style={{ margin: 0 }}>
+                <Select placeholder="请选择分类" style={{ width: 150 }} allowClear>
+                  {tags.map(t => <Select.Option key={t} value={t}>{t}</Select.Option>)}
+                </Select>
+              </Form.Item>
+              <Form.Item label="推荐" name="isRecommended" style={{ margin: 0 }}>
+                <Select placeholder="请选择状态" style={{ width: 120 }} allowClear>
+                  <Select.Option value="true">生效</Select.Option>
+                  <Select.Option value="false">失效</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item label="时间" name="dateRange" style={{ margin: 0 }}>
+                <DatePicker.RangePicker style={{ width: 250 }} />
+              </Form.Item>
+              <Form.Item style={{ margin: 0 }}>
+                <Button type="primary" onClick={fetchCases}>
+                  筛选
+                </Button>
+              </Form.Item>
+            </div>
+          </div>
+        </Form>
+      </Card>
       <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <h1 className="page-title">案例管理</h1>
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          onClick={() => { 
-            setEditingId(null); 
-            form.resetFields(); 
-            setFileList([]);
-            setVisible(true); 
-          }}
-        >
-          添加案例
-        </Button>
+        <Space>
+          {selectedRowKeys.length > 0 && (
+            <Button 
+              danger 
+              icon={<DeleteOutlined />}
+              onClick={handleBatchDelete}
+            >
+              批量删除 ({selectedRowKeys.length})
+            </Button>
+          )}
+          <Button 
+            type="primary" 
+            icon={<PlusOutlined />} 
+            onClick={() => { 
+              setEditingId(null); 
+              form.resetFields(); 
+              setFileList([]);
+              setVisible(true); 
+            }}
+          >
+            添加案例
+          </Button>
+        </Space>
       </div>
 
       <Card>
@@ -321,6 +382,10 @@ function CaseList() {
           dataSource={cases} 
           rowKey="id" 
           loading={loading}
+          rowSelection={{
+            selectedRowKeys,
+            onChange: (keys) => setSelectedRowKeys(keys)
+          }}
           pagination={{ pageSize: 10 }}
         />
       </Card>

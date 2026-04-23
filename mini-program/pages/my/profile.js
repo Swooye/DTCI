@@ -1,4 +1,5 @@
 const app = getApp();
+const config = require('../../config');
 
 Page({
   data: {
@@ -26,9 +27,19 @@ Page({
       if (idx !== -1) genderIndex = idx;
     }
 
+    const avatar = userInfo.avatarUrl || userInfo.avatar || '';
+    let displayAvatar = '/assets/images/default-avatar.png';
+    if (avatar) {
+      if (avatar.startsWith('http')) {
+        displayAvatar = avatar;
+      } else if (avatar.startsWith('/')) {
+        displayAvatar = `${config.BASE_URL}${avatar}`;
+      }
+    }
+
     this.setData({
-      avatarUrl: userInfo.avatar || '/assets/images/default-avatar.png',
-      nickName: userInfo.nickName || '',
+      avatarUrl: displayAvatar,
+      nickName: userInfo.nickname || userInfo.nickName || '',
       genderIndex: genderIndex,
       city: userInfo.city || '',
       phoneCode: userInfo.phoneCode || '',
@@ -39,10 +50,56 @@ Page({
 
   // 选择头像
   onChooseAvatar(e) {
-    console.log('选择头像:', e.detail);
     const { avatarUrl } = e.detail;
-    if (avatarUrl) {
-      this.setData({ avatarUrl });
+    if (!avatarUrl) return;
+
+    // 立即上传头像到服务器
+    wx.showLoading({ title: '上传中...' });
+    
+    // 使用 base64 方式上传，避免 wx.uploadFile 的各种环境限制
+    try {
+      const fs = wx.getFileSystemManager();
+      const base64 = fs.readFileSync(avatarUrl, 'base64');
+      
+      // 提取扩展名
+      let ext = '.jpg';
+      const match = avatarUrl.match(/\.([^.]+)$/);
+      if (match) ext = '.' + match[1];
+
+      wx.request({
+        url: `${config.BASE_URL}/uploads/base64`,
+        method: 'POST',
+        data: {
+          image: base64,
+          extension: ext
+        },
+        success: (res) => {
+          if (res.statusCode === 201 || res.statusCode === 200) {
+            const data = res.data;
+            if (data.url) {
+              const fullUrl = data.url.startsWith('http') ? data.url : `${config.BASE_URL}${data.url}`;
+              this.setData({
+                avatarUrl: fullUrl
+              });
+              wx.showToast({ title: '上传成功', icon: 'success' });
+            }
+          } else {
+            console.error('上传头像响应错误:', res);
+            wx.showToast({ title: '上传失败', icon: 'none' });
+          }
+        },
+        fail: (err) => {
+          console.error('上传头像请求失败:', err);
+          wx.showToast({ title: '网络错误', icon: 'none' });
+        },
+        complete: () => {
+          wx.hideLoading();
+        }
+      });
+    } catch (err) {
+      console.error('读取头像文件失败:', err);
+      wx.hideLoading();
+      wx.showToast({ title: '读取文件失败', icon: 'none' });
     }
   },
 
@@ -124,9 +181,8 @@ Page({
       phone: phoneDisplay === '已绑定' ? undefined : phoneDisplay // 如果是已绑定则不覆盖
     };
 
-    const baseUrl = 'http://172.13.18.23:3100'; // 替换为您的后端局域网地址
     wx.request({
-      url: `${baseUrl}/users/${userInfo.id}`,
+      url: `${config.BASE_URL}/users/${userInfo.id}`,
       method: 'PATCH',
       data: updateData,
       success: (res) => {

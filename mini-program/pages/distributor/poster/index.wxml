@@ -1,0 +1,45 @@
+<view class="container">
+  <!-- 自定义导航栏 - 统一结构 -->
+  <view class="custom-nav" style="height: {{navHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px; margin-top: {{statusBarHeight}}px;">
+      <view class="nav-back" bindtap="onBackTap">
+        <text class="back-icon">‹</text>
+      </view>
+      <view class="nav-title">邀请海报</view>
+    </view>
+  </view>
+
+  <view class="poster-page" style="padding-top: {{navHeight}}px;">
+    <view class="poster-preview-area">
+      <view class="poster-card-wrapper {{posterUrl ? 'loaded' : ''}}">
+        <image wx:if="{{posterUrl}}" src="{{posterUrl}}" mode="aspectFit" class="poster-image"></image>
+        <view wx:else class="poster-loading">
+          <view class="loading-spin"></view>
+          <text>正在生成个人专属勋章...</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 离屏绘图 -->
+    <canvas type="2d" id="posterCanvas" class="offscreen-canvas"></canvas>
+
+    <!-- 高级感分享底栏 -->
+    <view class="share-panel">
+      <view class="share-tip">分享到：</view>
+      <view class="share-actions">
+        <button class="share-btn" open-type="share" bindtap="onShareTap">
+          <view class="icon-circle ic-wechat"></view>
+          <text>微信好友</text>
+        </button>
+        <view class="share-btn" bindtap="savePosterToAlbum">
+          <view class="icon-circle ic-save"></view>
+          <text>保存海报</text>
+        </view>
+        <view class="share-btn" bindtap="copyInviteLink">
+          <view class="icon-circle ic-link"></view>
+          <text>复制链接</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,23 +1,23 @@
-* {
+html,
+body,
+#root {
+  height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
 }
 
 .app-layout {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .main-content {
-  margin-left: 200px;
-  margin-top: 64px;
+  flex: 1;
   padding: 24px;
   background-color: #f0f2f5;
-  min-height: calc(100vh - 64px);
+  overflow-y: auto;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .page-header {

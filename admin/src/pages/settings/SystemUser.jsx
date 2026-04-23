@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Button, Space, Card, Modal, Form, Input, Select, Tag, message } from 'antd'
+import { Table, Button, Space, Card, Modal, Form, Input, Select, Tag, message, DatePicker } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, LockOutlined } from '@ant-design/icons'
+import request from '../../utils/request'
 
 function SystemUser() {
   const [visible, setVisible] = useState(false)
@@ -8,16 +9,25 @@ function SystemUser() {
   const [loading, setLoading] = useState(false)
   const [dataSource, setDataSource] = useState([])
   const [editingId, setEditingId] = useState(null)
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [form] = Form.useForm()
+  const [filterForm] = Form.useForm()
 
   const fetchAdmins = async () => {
     setLoading(true)
     try {
-      const response = await fetch('http://127.0.0.1:3100/admins')
-      const data = await response.json()
+      const values = filterForm.getFieldsValue()
+      const params = {
+        search: values.search,
+        role: values.role,
+        status: values.status,
+      }
+      if (values.dateRange && values.dateRange.length === 2) {
+        params.dateStart = values.dateRange[0].startOf('day').toISOString()
+        params.dateEnd = values.dateRange[1].endOf('day').toISOString()
+      }
+      const data = await request.get('/admins', { params })
       setDataSource(data)
-    } catch (error) {
-      message.error('加载列表失败')
     } finally {
       setLoading(false)
     }
@@ -29,41 +39,36 @@ function SystemUser() {
 
   const handleSave = async (values) => {
     try {
-      const url = editingId 
-        ? `http://127.0.0.1:3100/admins/${editingId}`
-        : 'http://127.0.0.1:3100/admins'
-      
-      const response = await fetch(url, {
-        method: editingId ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values)
-      })
-
-      if (!response.ok) throw new Error('提交失败')
+      if (editingId) {
+        await request.patch(`/admins/${editingId}`, values)
+      } else {
+        await request.post('/admins', values)
+      }
       
       message.success(editingId ? '修改成功' : '添加成功')
       setVisible(false)
       fetchAdmins()
     } catch (error) {
-      message.error(error.message)
+      // request helper handles error message
     }
   }
 
-  const handleDelete = (id) => {
+  const handleBatchDelete = () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning('请先选择要删除的用户')
+      return
+    }
     Modal.confirm({
       title: '删除确认',
-      content: '确定要删除该系统用户吗？',
+      content: `确定要删除选中的 ${selectedRowKeys.length} 个用户吗？`,
       onOk: async () => {
         try {
-          const response = await fetch(`http://127.0.0.1:3100/admins/${id}`, { method: 'DELETE' })
-          if (!response.ok) {
-            const err = await response.json()
-            throw new Error(err.message || '删除失败')
-          }
-          message.success('删除成功')
+          await Promise.all(selectedRowKeys.map(id => request.delete(`/admins/${id}`)))
+          message.success('操作成功')
+          setSelectedRowKeys([])
           fetchAdmins()
         } catch (error) {
-          message.error(error.message)
+          // Error handled by request helper
         }
       }
     })
@@ -118,7 +123,6 @@ function SystemUser() {
         <Space>
           <Button type="link" icon={<LockOutlined />} onClick={() => handleResetPassword(record)}>重置密码</Button>
           <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>编辑</Button>
-          <Button type="link" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>删除</Button>
         </Space>
       )
     }
@@ -153,15 +157,10 @@ function SystemUser() {
       content: `确定要重置 ${record.name} 的密码吗？`,
       onOk: async () => {
         try {
-          const response = await fetch(`http://127.0.0.1:3100/admins/${record.id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: '123456' })
-          })
-          if (!response.ok) throw new Error('重置失败')
+          await request.patch(`/admins/${record.id}`, { password: '123456' })
           message.success('密码已重置为: 123456')
         } catch (error) {
-          message.error(error.message)
+          // Error handled by request helper
         }
       }
     })
@@ -169,16 +168,63 @@ function SystemUser() {
 
   return (
     <div>
-      <div className="page-header">
+      <Card style={{ marginBottom: 24, borderRadius: 8 }}>
+        <Form form={filterForm} layout="inline">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center' }}>
+              <Form.Item name="search" style={{ margin: 0 }}>
+                <Input placeholder="输入用户名、姓名..." style={{ width: 200 }} allowClear />
+              </Form.Item>
+              <Form.Item label="角色" name="role" style={{ margin: 0 }}>
+                <Select placeholder="请选择角色" style={{ width: 150 }} allowClear>
+                  <Select.Option value="super_admin">超级管理员</Select.Option>
+                  <Select.Option value="editor">内容编辑</Select.Option>
+                  <Select.Option value="operator">运营人员</Select.Option>
+                  <Select.Option value="viewer">查看者</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item label="状态" name="status" style={{ margin: 0 }}>
+                <Select placeholder="状态" style={{ width: 100 }} allowClear>
+                  <Select.Option value="true">启用</Select.Option>
+                  <Select.Option value="false">禁用</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item label="创建时间" name="dateRange" style={{ margin: 0 }}>
+                <DatePicker.RangePicker style={{ width: 250 }} />
+              </Form.Item>
+              <Form.Item style={{ margin: 0 }}>
+                <Button type="primary" onClick={fetchAdmins}>
+                  筛选
+                </Button>
+              </Form.Item>
+            </div>
+          </div>
+        </Form>
+      </Card>
+      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <h1 className="page-title">系统用户</h1>
         <Space>
+          {selectedRowKeys.length > 0 && (
+            <Button danger icon={<DeleteOutlined />} onClick={handleBatchDelete}>
+              批量删除 ({selectedRowKeys.length})
+            </Button>
+          )}
           <Button onClick={() => setRoleVisible(true)}>角色管理</Button>
           <Button type="primary" icon={<PlusOutlined />} onClick={() => { setEditingId(null); form.resetFields(); setVisible(true); }}>添加用户</Button>
         </Space>
       </div>
 
       <Card>
-        <Table columns={columns} dataSource={dataSource} rowKey="id" loading={loading} />
+        <Table 
+          columns={columns} 
+          dataSource={dataSource} 
+          rowKey="id" 
+          loading={loading}
+          rowSelection={{
+            selectedRowKeys,
+            onChange: (keys) => setSelectedRowKeys(keys)
+          }}
+        />
       </Card>
 
       <Modal
